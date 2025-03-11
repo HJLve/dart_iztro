@@ -1,5 +1,5 @@
 name: dart_iztro
-description: "一个支持多平台的紫微斗数和八字计算Flutter插件。提供紫微斗数星盘和八字计算功能，支持农历阳历转换，可用于命理、占卜和星盘分析应用。"
+description: "一个支持多平台的紫微斗数和八字计算Flutter插件，支持农历阳历转换。"
 version: 0.0.1
 homepage: https://github.com/yourusername/dart_iztro
 repository: https://github.com/yourusername/dart_iztro
