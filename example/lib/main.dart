@@ -1,11 +1,64 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:dart_iztro/dart_iztro.dart';
+import 'package:dart_iztro/crape_myrtle/astro/astro.dart';
+import 'package:get/get.dart';
 
 void main() {
+  // 初始化翻译服务
+  IztroTranslationService.init(initialLocale: 'zh_CN');
+
+  // 添加应用自己的翻译
+  IztroTranslationService.addAppTranslations({
+    'zh_CN': {
+      'app_title': '紫微斗数示例应用',
+      'birth_info': '出生信息',
+      'year': '年',
+      'month': '月',
+      'day': '日',
+      'hour': '时',
+      'minute': '分',
+      'gender': '性别',
+      'male': '男',
+      'female': '女',
+      'date_type': '日期类型:',
+      'solar': '阳历',
+      'lunar': '农历',
+      'calculate_bazi': '计算八字',
+      'calculate_chart': '计算紫微星盘',
+      'bazi_result': '八字结果',
+      'chart_result': '紫微星盘结果',
+      'detail_info': '详细信息:',
+      'platform': '运行平台',
+    },
+    'en_US': {
+      'app_title': 'ZiWei Dou Shu Demo',
+      'birth_info': 'Birth Information',
+      'year': 'Year',
+      'month': 'Month',
+      'day': 'Day',
+      'hour': 'Hour',
+      'minute': 'Minute',
+      'gender': 'Gender',
+      'male': 'Male',
+      'female': 'Female',
+      'date_type': 'Date Type:',
+      'solar': 'Solar',
+      'lunar': 'Lunar',
+      'calculate_bazi': 'Calculate BaZi',
+      'calculate_chart': 'Calculate ZiWei Chart',
+      'bazi_result': 'BaZi Result',
+      'chart_result': 'ZiWei Chart Result',
+      'detail_info': 'Details:',
+      'platform': 'Platform',
+    },
+  });
+
   runApp(const MyApp());
 }
 
@@ -20,7 +73,7 @@ class _MyAppState extends State<MyApp> {
   final _dartIztroPlugin = DartIztro();
   String _platformVersion = 'Unknown';
   Map<String, dynamic>? _baziResult;
-  Map<String, dynamic>? _chartResult;
+  FunctionalAstrolabe? _chartResult;
   bool _isLoading = false;
 
   // 日期时间控制器
@@ -105,52 +158,65 @@ class _MyAppState extends State<MyApp> {
   }
 
   // 计算紫微星盘
-  Future<void> _calculateChart() async {
+  _calculateChart() {
     setState(() {
       _isLoading = true;
     });
-
-    try {
-      final result = await _dartIztroPlugin.calculateChart(
-        year: int.parse(_yearController.text),
-        month: int.parse(_monthController.text),
-        day: int.parse(_dayController.text),
-        hour: int.parse(_hourController.text),
-        minute: int.parse(_minuteController.text),
-        isLunar: _isLunar,
-        gender: _gender,
-      );
-
+    print('计算紫微斗数');
+    if (_isLunar) {
+      final result = byLunar('1990-02-05', 3, GenderName.female, true);
+      print('result  $result');
       setState(() {
-        _chartResult = result;
+        // _chartResult = result;
         _isLoading = false;
       });
-    } catch (e) {
+    } else {
+      final result = bySolar('1990-02-05', 3, GenderName.female, true);
+      print('result  $result');
       setState(() {
+        // _chartResult = result;
         _isLoading = false;
       });
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('计算出错: ${e.toString()}')));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
+      // 使用合并了应用翻译的翻译服务
+      translations: IztroTranslationService.withAppTranslations(),
+      locale: IztroTranslationService.currentLocale,
+      fallbackLocale: const Locale('zh', 'CN'),
       home: Scaffold(
-        appBar: AppBar(title: const Text('紫微斗数演示')),
+        appBar: AppBar(
+          title: Text('app_title'.tr),
+          actions: [
+            // 添加语言切换按钮
+            IconButton(
+              icon: Icon(Icons.language),
+              onPressed: () {
+                // 这里可以添加语言切换功能
+                // 例如：切换语言 - 演示目的（实际中可能需要更多语言支持）
+                if (IztroTranslationService.currentLanguageCode == 'zh') {
+                  IztroTranslationService.changeLocale('en_US');
+                } else {
+                  IztroTranslationService.changeLocale('zh_CN');
+                }
+              },
+            ),
+          ],
+        ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('运行平台: $_platformVersion'),
+              Text('${'platform'.tr}: $_platformVersion'),
               const SizedBox(height: 20),
 
               // 输入表单
-              const Text(
-                '出生信息',
+              Text(
+                'birth_info'.tr,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
@@ -160,7 +226,7 @@ class _MyAppState extends State<MyApp> {
                   Expanded(
                     child: TextField(
                       controller: _yearController,
-                      decoration: const InputDecoration(labelText: '年'),
+                      decoration: InputDecoration(labelText: 'year'.tr),
                       keyboardType: TextInputType.number,
                     ),
                   ),
@@ -168,7 +234,7 @@ class _MyAppState extends State<MyApp> {
                   Expanded(
                     child: TextField(
                       controller: _monthController,
-                      decoration: const InputDecoration(labelText: '月'),
+                      decoration: InputDecoration(labelText: 'month'.tr),
                       keyboardType: TextInputType.number,
                     ),
                   ),
@@ -176,7 +242,7 @@ class _MyAppState extends State<MyApp> {
                   Expanded(
                     child: TextField(
                       controller: _dayController,
-                      decoration: const InputDecoration(labelText: '日'),
+                      decoration: InputDecoration(labelText: 'day'.tr),
                       keyboardType: TextInputType.number,
                     ),
                   ),
@@ -188,7 +254,7 @@ class _MyAppState extends State<MyApp> {
                   Expanded(
                     child: TextField(
                       controller: _hourController,
-                      decoration: const InputDecoration(labelText: '时'),
+                      decoration: InputDecoration(labelText: 'hour'.tr),
                       keyboardType: TextInputType.number,
                     ),
                   ),
@@ -196,7 +262,7 @@ class _MyAppState extends State<MyApp> {
                   Expanded(
                     child: TextField(
                       controller: _minuteController,
-                      decoration: const InputDecoration(labelText: '分'),
+                      decoration: InputDecoration(labelText: 'minute'.tr),
                       keyboardType: TextInputType.number,
                     ),
                   ),
@@ -204,15 +270,18 @@ class _MyAppState extends State<MyApp> {
                   Expanded(
                     child: DropdownButtonFormField<String>(
                       value: _gender,
-                      decoration: const InputDecoration(labelText: '性别'),
+                      decoration: InputDecoration(labelText: 'gender'.tr),
                       onChanged: (value) {
                         setState(() {
                           _gender = value!;
                         });
                       },
-                      items: const [
-                        DropdownMenuItem(value: 'male', child: Text('男')),
-                        DropdownMenuItem(value: 'female', child: Text('女')),
+                      items: [
+                        DropdownMenuItem(value: 'male', child: Text('male'.tr)),
+                        DropdownMenuItem(
+                          value: 'female',
+                          child: Text('female'.tr),
+                        ),
                       ],
                     ),
                   ),
@@ -222,7 +291,7 @@ class _MyAppState extends State<MyApp> {
               // 日期类型
               Row(
                 children: [
-                  const Text('日期类型:'),
+                  Text('date_type'.tr),
                   Radio<bool>(
                     value: false,
                     groupValue: _isLunar,
@@ -232,7 +301,7 @@ class _MyAppState extends State<MyApp> {
                       });
                     },
                   ),
-                  const Text('阳历'),
+                  Text('solar'.tr),
                   Radio<bool>(
                     value: true,
                     groupValue: _isLunar,
@@ -242,7 +311,7 @@ class _MyAppState extends State<MyApp> {
                       });
                     },
                   ),
-                  const Text('农历'),
+                  Text('lunar'.tr),
                 ],
               ),
 
@@ -254,11 +323,11 @@ class _MyAppState extends State<MyApp> {
                 children: [
                   ElevatedButton(
                     onPressed: _isLoading ? null : _calculateBaZi,
-                    child: const Text('计算八字'),
+                    child: Text('calculate_bazi'.tr),
                   ),
                   ElevatedButton(
                     onPressed: _isLoading ? null : _calculateChart,
-                    child: const Text('计算紫微星盘'),
+                    child: Text('calculate_chart'.tr),
                   ),
                 ],
               ),
@@ -274,8 +343,8 @@ class _MyAppState extends State<MyApp> {
               // 八字结果
               if (_baziResult != null) ...[
                 const SizedBox(height: 20),
-                const Text(
-                  '八字结果',
+                Text(
+                  'bazi_result'.tr,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
@@ -293,8 +362,8 @@ class _MyAppState extends State<MyApp> {
               // 紫微星盘结果
               if (_chartResult != null) ...[
                 const SizedBox(height: 20),
-                const Text(
-                  '紫微星盘结果',
+                Text(
+                  'chart_result'.tr,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
@@ -304,21 +373,21 @@ class _MyAppState extends State<MyApp> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          '宫位数量: ${(_chartResult!['palaces'] as List).length}',
-                        ),
+                        // Text(
+                        //   '宫位数量: ${(_chartResult!['palaces'] as List).length}',
+                        // ),
                         const SizedBox(height: 10),
-                        const Text(
-                          '详细信息:',
+                        Text(
+                          'detail_info'.tr,
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 5),
-                        Text(
-                          const JsonEncoder.withIndent(
-                            '  ',
-                          ).convert(_chartResult!['info']),
-                          style: const TextStyle(fontFamily: 'monospace'),
-                        ),
+                        // Text(
+                        //   const JsonEncoder.withIndent(
+                        //     '  ',
+                        //   ).convert(_chartResult!['info']),
+                        //   style: const TextStyle(fontFamily: 'monospace'),
+                        // ),
                       ],
                     ),
                   ),

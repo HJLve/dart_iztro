@@ -82,3 +82,111 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
+## 多语言支持
+
+本库使用GetX框架管理多语言翻译。以下是使用多语言功能的步骤：
+
+### 1. 初始化翻译服务
+
+在应用启动时初始化翻译服务：
+
+```dart
+void main() {
+  // 初始化翻译服务，设置初始语言为中文
+  IztroTranslationService.init(initialLocale: 'zh_CN');
+  
+  runApp(MyApp());
+}
+```
+
+### 2. 使用GetMaterialApp
+
+确保在应用中使用GetMaterialApp而不是MaterialApp：
+
+```dart
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      // 应用配置
+    );
+  }
+}
+```
+
+### 3. 切换语言
+
+可以随时切换应用的语言：
+
+```dart
+// 切换到英文
+IztroTranslationService.changeLocale('en_US');
+
+// 切换到中文
+IztroTranslationService.changeLocale('zh_CN');
+```
+
+### 4. 获取当前语言信息
+
+```dart
+// 获取当前语言的Locale对象
+Locale? locale = IztroTranslationService.currentLocale;
+
+// 获取当前语言代码
+String languageCode = IztroTranslationService.currentLanguageCode;
+
+// 获取当前国家代码
+String countryCode = IztroTranslationService.currentCountryCode;
+```
+
+### 5. 支持的语言
+
+目前支持的语言列表：
+
+```dart
+List<Map<String, dynamic>> supportedLocales = IztroTranslationService.supportedLocales;
+```
+
+### 6. 集成应用层的多语言支持
+
+如果您的应用也需要多语言支持，可以将应用的翻译与库的翻译集成在一起：
+
+```dart
+void main() {
+  // 初始化翻译服务
+  IztroTranslationService.init(initialLocale: 'zh_CN');
+  
+  // 添加应用层的翻译
+  IztroTranslationService.addAppTranslations({
+    'zh_CN': {
+      'app_name': '我的紫微应用',
+      'welcome': '欢迎使用',
+      // 其他应用翻译...
+    },
+    'en_US': {
+      'app_name': 'My Zi Wei App',
+      'welcome': 'Welcome',
+      // 其他应用翻译...
+    },
+  });
+  
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      // 使用合并了应用翻译的翻译服务
+      translations: IztroTranslationService.withAppTranslations(),
+      locale: IztroTranslationService.currentLocale,
+      fallbackLocale: const Locale('zh', 'CN'),
+      title: 'app_name'.tr, // 应用层翻译
+      home: HomePage(),
+    );
+  }
+}
+```
+
+这样您就可以在应用中同时使用库的翻译和自己的翻译。
+

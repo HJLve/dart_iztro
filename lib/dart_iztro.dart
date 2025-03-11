@@ -39,6 +39,7 @@ export 'crape_myrtle/translations/types/heavenly_stem.dart';
 export 'crape_myrtle/translations/types/star_name.dart';
 export 'crape_myrtle/translations/types/five_element_class.dart';
 export 'crape_myrtle/translations/types/palace.dart';
+export 'crape_myrtle/translations/translation_service.dart';
 
 export 'lunar_lite/utils/convertor.dart';
 export 'lunar_lite/utils/ganzhi.dart';
