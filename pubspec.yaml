@@ -1,9 +1,9 @@
 name: dart_iztro
-description: "一个支持多平台的紫微斗数和八字计算Flutter插件，支持农历阳历转换。"
-version: 0.0.2+2
-homepage: https://github.com/yourusername/dart_iztro
-repository: https://github.com/yourusername/dart_iztro
-issue_tracker: https://github.com/yourusername/dart_iztro/issues
+description: "一个支持多平台的紫微斗数和八字计算 Flutter 插件，支持农历阳历转换。"
+version: 0.0.3
+homepage: https://github.com/EdwinXiang/dart_iztro
+repository: https://github.com/EdwinXiang/dart_iztro
+issue_tracker: https://github.com/EdwinXiang/dart_iztro/issues
 
 environment:
   sdk: ^3.7.0
