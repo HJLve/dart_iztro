@@ -1,6 +1,8 @@
 # dart_iztro
 
-一个紫微斗数计算的Flutter插件，支持多平台（Android、iOS、macOS、Windows和Web）。
+一个支持多平台的紫微斗数和八字计算Flutter插件。提供紫微斗数星盘和八字计算功能，支持农历阳历转换，可用于命理、占卜和星盘分析应用。
+
+> **声明**：本项目代码源自 [@SylarLong/iztro](https://github.com/SylarLong/iztro)，感谢原作者的开源贡献。
 
 ## 功能特点
 
@@ -66,6 +68,8 @@ print(chart.palaces);
 ## 许可证
 
 本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件
+
+本项目遵循与原项目 [@SylarLong/iztro](https://github.com/SylarLong/iztro) 相同的开源许可证。如有任何版权问题，请联系我们立即处理。
 
 ## Getting Started
 
