@@ -27,6 +27,18 @@ dependencies:
 flutter pub get
 ```
 
+## 备选安装方式
+
+如果从pub.dev安装遇到问题，可以使用Git依赖方式安装:
+
+```yaml
+dependencies:
+  dart_iztro:
+    git:
+      url: https://github.com/yourusername/dart_iztro.git
+      ref: v0.0.2
+```
+
 ## 使用方法
 
 ```dart
