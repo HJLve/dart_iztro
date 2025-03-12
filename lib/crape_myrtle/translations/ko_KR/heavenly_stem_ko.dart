@@ -1,12 +1,14 @@
+import 'package:dart_iztro/crape_myrtle/tools/strings.dart';
+
 const Map<String, String> heavenlyStemKOs = {
-  'jia': '갑',
-  'yi': '을',
-  'bing': '병',
-  'ding': '정',
-  'wu': '무',
-  'ji': '기',
-  'geng': '경',
-  'xin': '신',
-  'ren': '임',
-  'gui': '계',
+  jiaHeavenly: '갑',
+  yiHeavenly: '을',
+  bingHeavenly: '병',
+  dingHeavenly: '정',
+  wuHeavenly: '무',
+  jiHeavenly: '기',
+  gengHeavenly: '경',
+  xinHeavenly: '신',
+  renHeavenly: '임',
+  guiHeavenly: '계',
 };

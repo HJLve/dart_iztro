@@ -161,10 +161,4 @@ const Map<String, String> starsLocalsJA = {
   shiYang: '時羊',
   shiTuo: '時陀',
   shiMa: '時馬',
-
-  // 四化
-  siHuaLu: '四化禄',
-  siHuaQuan: '四化権',
-  siHuaKe: '四化科',
-  siHuaJi: '四化忌',
 };

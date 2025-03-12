@@ -161,10 +161,4 @@ const Map<String, String> starsLocalsKO = {
   shiYang: '시양',
   shiTuo: '시타',
   shiMa: '시마',
-
-  // 四化
-  siHuaLu: '사화록',
-  siHuaQuan: '사화권',
-  siHuaKe: '사화과',
-  siHuaJi: '사화기',
 };

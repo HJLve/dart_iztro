@@ -1,14 +1,14 @@
 import 'package:dart_iztro/crape_myrtle/tools/strings.dart';
 
 const Map<String, String> heavenlyStemTH = {
-  'jia': 'เจีย',
-  'yi': 'อี้',
-  'bing': 'ปิง',
-  'ding': 'ติง',
-  'wu': 'อู่',
-  'ji': 'จี้',
-  'geng': 'เกิง',
-  'xin': 'ซิน',
-  'ren': 'เริ่น',
-  'gui': 'กุ้ย',
+  jiaHeavenly: 'เจีย',
+  yiHeavenly: 'อี้',
+  bingHeavenly: 'ปิง',
+  dingHeavenly: 'ติง',
+  wuHeavenly: 'อู่',
+  jiHeavenly: 'จี้',
+  gengHeavenly: 'เกิง',
+  xinHeavenly: 'ซิน',
+  renHeavenly: 'เริ่น',
+  guiHeavenly: 'กุ้ย',
 };

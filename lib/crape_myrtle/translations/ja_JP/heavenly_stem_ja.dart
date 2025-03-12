@@ -1,12 +1,14 @@
+import 'package:dart_iztro/crape_myrtle/tools/strings.dart';
+
 const Map<String, String> heavenlyStemJAs = {
-  'jia': '甲',
-  'yi': '乙',
-  'bing': '丙',
-  'ding': '丁',
-  'wu': '戊',
-  'ji': '己',
-  'geng': '庚',
-  'xin': '辛',
-  'ren': '壬',
-  'gui': '癸',
+  jiaHeavenly: '甲',
+  yiHeavenly: '乙',
+  bingHeavenly: '丙',
+  dingHeavenly: '丁',
+  wuHeavenly: '戊',
+  jiHeavenly: '己',
+  gengHeavenly: '庚',
+  xinHeavenly: '辛',
+  renHeavenly: '壬',
+  guiHeavenly: '癸',
 };

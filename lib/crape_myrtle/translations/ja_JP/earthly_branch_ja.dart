@@ -1,14 +1,16 @@
+import 'package:dart_iztro/crape_myrtle/tools/strings.dart';
+
 const Map<String, String> earthlyBranchJA = {
-  'zi': '子',
-  'chou': '丑',
-  'yin': '寅',
-  'mao': '卯',
-  'chen': '辰',
-  'si': '巳',
-  'wu': '午',
-  'wei': '未',
-  'shen': '申',
-  'you': '酉',
-  'xu': '戌',
-  'hai': '亥',
+  ziEarthly: '子',
+  chouEarthly: '丑',
+  yinEarthly: '寅',
+  maoEarthly: '卯',
+  chenEarthly: '辰',
+  siEarthly: '巳',
+  wuEarthly: '午',
+  weiEarthly: '未',
+  shenEarthly: '申',
+  youEarthly: '酉',
+  xuEarthly: '戌',
+  haiEarthly: '亥',
 };

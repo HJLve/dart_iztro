@@ -1,14 +1,16 @@
+import 'package:dart_iztro/crape_myrtle/tools/strings.dart';
+
 const Map<String, String> earthlyBranchKO = {
-  'zi': '자',
-  'chou': '축',
-  'yin': '인',
-  'mao': '묘',
-  'chen': '진',
-  'si': '사',
-  'wu': '오',
-  'wei': '미',
-  'shen': '신',
-  'you': '유',
-  'xu': '술',
-  'hai': '해',
+  ziEarthly: '자',
+  chouEarthly: '축',
+  yinEarthly: '인',
+  maoEarthly: '묘',
+  chenEarthly: '진',
+  siEarthly: '사',
+  wuEarthly: '오',
+  weiEarthly: '미',
+  shenEarthly: '신',
+  youEarthly: '유',
+  xuEarthly: '술',
+  haiEarthly: '해',
 };

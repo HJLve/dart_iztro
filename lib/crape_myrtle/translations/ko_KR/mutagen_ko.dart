@@ -1,6 +1,8 @@
+import 'package:dart_iztro/crape_myrtle/tools/strings.dart';
+
 const Map<String, String> mutagenKOs = {
-  'hua_ji': '화기',
-  'hua_quan': '화권',
-  'hua_ke': '화과',
-  'hua_lu': '화록',
+  siHuaLu: '화록',
+  siHuaQuan: '화권',
+  siHuaKe: '화과',
+  siHuaJi: '화기',
 };

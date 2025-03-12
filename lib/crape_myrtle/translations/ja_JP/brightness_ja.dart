@@ -1,6 +1,11 @@
+import 'package:dart_iztro/crape_myrtle/tools/strings.dart';
+
 const Map<String, String> brightnessJA = {
-  'bright': '明',
-  'dim': '暗',
-  'faint': '微',
-  'hidden': '隠',
+  miao: '廟',
+  wang: '旺',
+  de: '得',
+  li: '利',
+  ping: '平',
+  bu: '不',
+  xian: '陥',
 };
