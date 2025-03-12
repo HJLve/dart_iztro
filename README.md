@@ -2,6 +2,8 @@
 
 一个支持多平台的紫微斗数和八字计算Flutter插件。提供紫微斗数星盘和八字计算功能，支持农历阳历转换，可用于命理、占卜和星盘分析应用。
 
+![Banner](https://github.com/SylarLong/iztro/assets/6510425/b432e468-26d0-4d03-a0dd-469c228ef9a2)
+
 > **声明**：本项目代码源自 [@SylarLong/iztro](https://github.com/SylarLong/iztro)，感谢原作者的开源贡献。
 
 ## 功能特点
@@ -89,23 +91,6 @@ print(chart.palaces);
 ## 更多示例
 
 更多使用示例请查看 example 文件夹中的示例应用。
-
-## 许可证
-
-本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件
-
-本项目遵循与原项目 [@SylarLong/iztro](https://github.com/SylarLong/iztro) 相同的开源许可证。如有任何版权问题，请联系我们立即处理。
-
-## Getting Started
-
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/to/develop-plugins),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
 
 ## 多语言支持
 
@@ -214,4 +199,49 @@ class MyApp extends StatelessWidget {
 ```
 
 这样您就可以在应用中同时使用库的翻译和自己的翻译。
+
+## 贡献指南
+
+如果你对`dart_iztro`有兴趣，也想加入贡献队伍，我们非常欢迎，你可以用以下方式进行：
+
+* 如果你对程序功能有什么建议，请在GitHub创建一个`功能需求`。
+* 如果你发现程序有BUG，请在GitHub创建一个`BUG报告`。
+* 你也可以将本仓库`fork`到你自己的仓库进行编辑，然后提交PR到本仓库。
+* 假如你擅长外语，我们也欢迎你对国际化文件的翻译做出你的贡献。
+
+> **重要提示**: 如果你觉得代码对你有用，请点⭐支持，你的⭐是我持续更新的动力！
+
+> **注意**: 请合理使用本开源代码，禁止用于非法目的。
+
+## 赞助支持
+
+如果你觉得本项目对你有所帮助，可以考虑赞助我一杯咖啡 ☕️
+
+<div style="display: flex; justify-content: space-around; margin: 20px 0;">
+  <div style="text-align: center;">
+    <img src="./alipay.jpg" width="300" alt="支付宝收款码" />
+    <p>支付宝</p>
+  </div>
+  <div style="text-align: center;">
+    <img src="./wechat_pay.jpg" width="300" alt="微信收款码" />
+    <p>微信支付</p>
+  </div>
+</div>
+
+## 许可证
+
+本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件
+
+本项目遵循与原项目 [@SylarLong/iztro](https://github.com/SylarLong/iztro) 相同的开源许可证。如有任何版权问题，请联系我们立即处理。
+
+## Getting Started
+
+This project is a starting point for a Flutter
+[plug-in package](https://flutter.dev/to/develop-plugins),
+a specialized package that includes platform-specific implementation code for
+Android and/or iOS.
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
 
