@@ -11,12 +11,13 @@
 - 计算紫微斗数星盘信息
 - 提供星盘各宫位的详细信息
 - 支持多平台：Android、iOS、macOS、Windows和Web
+- 多语言支持：简体中文、繁体中文、英语、日语、韩语、泰语、越南语
 
 ## 安装
 
 ```yaml
 dependencies:
-  dart_iztro: ^0.0.3+3
+  dart_iztro: ^0.0.5
 ```
 
 ## 备选安装方式
@@ -28,7 +29,7 @@ dependencies:
   dart_iztro:
     git:
       url: https://github.com/EdwinXiang/dart_iztro.git
-      ref: v0.0.3
+      ref: v0.0.5
 ```
 
 ## 使用方法
@@ -62,6 +63,15 @@ final chart = await iztro.calculateChart(
   isLeap: true,   // 如果是农历，是否调整闰月（默认为true）
   gender: Gender.male,
 );
+
+// 设置语言（新增）
+// 支持多种语言，默认为简体中文（zh_CN）
+await iztro.setLanguage('en_US'); // 英语
+await iztro.setLanguage('zh_TW'); // 繁体中文
+await iztro.setLanguage('ja_JP'); // 日语
+await iztro.setLanguage('ko_KR'); // 韩语
+await iztro.setLanguage('th_TH'); // 泰语
+await iztro.setLanguage('vi_VN'); // 越南语
 
 // 打印宫位信息
 print(chart.palaces);
