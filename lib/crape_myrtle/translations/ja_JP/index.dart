@@ -1,0 +1,9 @@
+export 'brightness_ja.dart';
+export 'common_ja.dart';
+export 'earthly_branch_ja.dart';
+export 'five_element_class_ja.dart';
+export 'gender_ja.dart';
+export 'heavenly_stem_ja.dart';
+export 'mutagen_ja.dart';
+export 'palace_ja.dart';
+export 'stars_ja.dart';

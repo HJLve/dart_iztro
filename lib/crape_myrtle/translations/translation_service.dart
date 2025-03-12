@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+// 中文简体
 import 'zh_CN/brightness_cn.dart';
 import 'zh_CN/common_cn.dart';
 import 'zh_CN/earthly_branch_cn.dart';
@@ -10,6 +11,72 @@ import 'zh_CN/heavenly_stem_cn.dart';
 import 'zh_CN/mutagen_cn.dart';
 import 'zh_CN/palace_cn.dart';
 import 'zh_CN/stars_cn.dart';
+
+// 英文
+import 'en_US/brightness_en.dart';
+import 'en_US/common_en.dart';
+import 'en_US/earthly_branch_en.dart';
+import 'en_US/five_element_class_en.dart';
+import 'en_US/gender_en.dart';
+import 'en_US/heavenly_stem_en.dart';
+import 'en_US/mutagen_en.dart';
+import 'en_US/palace_en.dart';
+import 'en_US/stars_en.dart';
+
+// 日文
+import 'ja_JP/brightness_ja.dart';
+import 'ja_JP/common_ja.dart';
+import 'ja_JP/earthly_branch_ja.dart';
+import 'ja_JP/five_element_class_ja.dart';
+import 'ja_JP/gender_ja.dart';
+import 'ja_JP/heavenly_stem_ja.dart';
+import 'ja_JP/mutagen_ja.dart';
+import 'ja_JP/palace_ja.dart';
+import 'ja_JP/stars_ja.dart';
+
+// 韩文
+import 'ko_KR/brightness_ko.dart';
+import 'ko_KR/common_ko.dart';
+import 'ko_KR/earthly_branch_ko.dart';
+import 'ko_KR/five_element_class_ko.dart';
+import 'ko_KR/gender_ko.dart';
+import 'ko_KR/heavenly_stem_ko.dart';
+import 'ko_KR/mutagen_ko.dart';
+import 'ko_KR/palace_ko.dart';
+import 'ko_KR/stars_ko.dart';
+
+// 繁体中文
+import 'zh_TW/brightness_tw.dart';
+import 'zh_TW/common_tw.dart';
+import 'zh_TW/earthly_branch_tw.dart';
+import 'zh_TW/five_element_class_tw.dart';
+import 'zh_TW/gender_tw.dart';
+import 'zh_TW/heavenly_stem_tw.dart';
+import 'zh_TW/mutagen_tw.dart';
+import 'zh_TW/palace_tw.dart';
+import 'zh_TW/stars_tw.dart';
+
+// 泰语
+import 'th_TH/brightness_th.dart';
+import 'th_TH/common_th.dart';
+import 'th_TH/earthly_branch_th.dart';
+import 'th_TH/five_element_class_th.dart';
+import 'th_TH/gender_th.dart';
+import 'th_TH/heavenly_stem_th.dart';
+import 'th_TH/mutagen_th.dart';
+import 'th_TH/palace_th.dart';
+import 'th_TH/stars_th.dart';
+
+// 越南语
+import 'vi_VN/brightness_vi.dart';
+import 'vi_VN/common_vi.dart';
+import 'vi_VN/earthly_branch_vi.dart';
+import 'vi_VN/five_element_class_vi.dart';
+import 'vi_VN/gender_vi.dart';
+import 'vi_VN/heavenly_stem_vi.dart';
+import 'vi_VN/mutagen_vi.dart';
+import 'vi_VN/palace_vi.dart';
+import 'vi_VN/stars_vi.dart';
 
 // 可以在这里添加其他语言的导入
 
@@ -43,9 +110,77 @@ class IztroTranslationService extends Translations {
         ...heavenlyStemCNs,
         ...fileElementClassCN,
       },
-      // 在这里添加其他语言
+      // 英文
       'en_US': {
-        // 添加英文翻译...
+        ...commonEN,
+        ...genderEN,
+        ...palaceLocalsEN,
+        ...starsLocalsEN,
+        ...mutagenENs,
+        ...brightnessEN,
+        ...earthlyBranchEN,
+        ...heavenlyStemENs,
+        ...fileElementClassEN,
+      },
+      // 日文
+      'ja_JP': {
+        ...commonJA,
+        ...genderJA,
+        ...palaceLocalsJA,
+        ...starsLocalsJA,
+        ...mutagenJAs,
+        ...brightnessJA,
+        ...earthlyBranchJA,
+        ...heavenlyStemJAs,
+        ...fileElementClassJA,
+      },
+      // 韩文
+      'ko_KR': {
+        ...commonKO,
+        ...genderKO,
+        ...palaceLocalsKO,
+        ...starsLocalsKO,
+        ...mutagenKOs,
+        ...brightnessKO,
+        ...earthlyBranchKO,
+        ...heavenlyStemKOs,
+        ...fileElementClassKO,
+      },
+      // 繁体中文
+      'zh_TW': {
+        ...commonTW,
+        ...genderTW,
+        ...palaceLocalsTW,
+        ...starsTW,
+        ...mutagenTWs,
+        ...brightnessTW,
+        ...earthlyBranchTW,
+        ...heavenlyStemTWs,
+        ...fileElementClassTW,
+      },
+      // 泰语
+      'th_TH': {
+        ...commonTH,
+        ...genderTH,
+        ...palaceLocalsTH,
+        ...starsLocalsTH,
+        ...mutagenTH,
+        ...brightnessTH,
+        ...earthlyBranchTH,
+        ...heavenlyStemTH,
+        ...fileElementClassTH,
+      },
+      // 越南语
+      'vi_VN': {
+        ...commonVI,
+        ...genderVI,
+        ...palaceLocalsVI,
+        ...starsLocalsVI,
+        ...mutagenVIs,
+        ...brightnessVI,
+        ...earthlyBranchVI,
+        ...heavenlyStemVIs,
+        ...fileElementClassVI,
       },
     };
 
@@ -149,7 +284,11 @@ class IztroTranslationService extends Translations {
   /// 支持的语言列表
   static final List<Map<String, dynamic>> supportedLocales = [
     {'name': '简体中文', 'locale': 'zh_CN'},
-    // 添加其他支持的语言
-    // {'name': 'English', 'locale': 'en_US'},
+    {'name': '繁體中文', 'locale': 'zh_TW'},
+    {'name': 'English', 'locale': 'en_US'},
+    {'name': '日本語', 'locale': 'ja_JP'},
+    {'name': '한국어', 'locale': 'ko_KR'},
+    {'name': 'ภาษาไทย', 'locale': 'th_TH'},
+    {'name': 'Tiếng Việt', 'locale': 'vi_VN'},
   ];
 }
