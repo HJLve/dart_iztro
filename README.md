@@ -47,6 +47,7 @@ final birthData = await iztro.calculateBaZi(
   hour: 12, 
   minute: 0,
   isLunar: false, // 是否农历
+  isLeap: true,   // 如果是农历，是否调整闰月（默认为true）
   gender: Gender.male,
 );
 
@@ -58,12 +59,22 @@ final chart = await iztro.calculateChart(
   hour: 12, 
   minute: 0,
   isLunar: false, // 是否农历
+  isLeap: true,   // 如果是农历，是否调整闰月（默认为true）
   gender: Gender.male,
 );
 
 // 打印宫位信息
 print(chart.palaces);
 ```
+
+### 参数说明
+
+- `year`、`month`、`day`、`hour`、`minute`: 出生的年、月、日、时、分
+- `isLunar`: 是否为农历日期，默认为阳历（`false`）
+- `isLeap`: 当`isLunar`为`true`时有效，用于处理闰月情况
+  - 当设置为`true`时（默认值），闰月的前半个月算上个月，后半个月算下个月
+  - 当设置为`false`时，不调整闰月
+- `gender`: 性别，使用枚举类型，可选值为`Gender.male`（男）或`Gender.female`（女）
 
 ## 更多示例
 
