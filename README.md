@@ -14,17 +14,9 @@
 
 ## 安装
 
-将以下内容添加到您的 pubspec.yaml 文件中：
-
 ```yaml
 dependencies:
-  dart_iztro: ^0.0.1
-```
-
-然后运行：
-
-```bash
-flutter pub get
+  dart_iztro: ^0.0.3+3
 ```
 
 ## 备选安装方式
@@ -35,8 +27,8 @@ flutter pub get
 dependencies:
   dart_iztro:
     git:
-      url: https://github.com/yourusername/dart_iztro.git
-      ref: v0.0.2
+      url: https://github.com/EdwinXiang/dart_iztro.git
+      ref: v0.0.3
 ```
 
 ## 使用方法

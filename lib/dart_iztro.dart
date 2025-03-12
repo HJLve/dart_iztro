@@ -71,6 +71,7 @@ class DartIztro {
   /// [hour] 小时
   /// [minute] 分钟
   /// [isLunar] 是否农历日期
+  ///  [isLeap] 如果是农历的话，要考虑闰月的情况，默认调整为闰月
   /// [gender] 性别
   Future<Map<String, dynamic>> calculateBaZi({
     required int year,
@@ -79,6 +80,7 @@ class DartIztro {
     required int hour,
     required int minute,
     bool isLunar = false,
+    bool isLeap = true,
     required String gender,
   }) async {
     // 计算时辰索引
@@ -96,7 +98,7 @@ class DartIztro {
           getHeavenlyStemAndEarthlyBranchLunarDate(
             dateStr,
             timeIndex,
-            false,
+            isLeap,
             DivideType.exact,
           ).toJson();
     } else {
@@ -131,6 +133,7 @@ class DartIztro {
     required int hour,
     required int minute,
     bool isLunar = false,
+    bool isLeap = true,
     required String gender,
   }) async {
     // 计算时辰索引
@@ -149,9 +152,8 @@ class DartIztro {
       // 如果是农历，先转换为阳历
       final solarDate = lunar2Solar(dateStr, false);
       final solarDateStr = solarDate.toString();
-
-      // 使用阳历创建星盘
-      final astrolabe = bySolar(solarDateStr, timeIndex, genderName, true);
+      // 计算星盘
+      final astrolabe = byLunar(dateStr, timeIndex, genderName, isLeap);
       final horoscope = astrolabe.horoscope(
         date: solarDateStr,
         timeIndex: timeIndex,
@@ -170,7 +172,7 @@ class DartIztro {
       };
     } else {
       // 直接使用阳历创建星盘
-      final astrolabe = bySolar(dateStr, timeIndex, genderName, false);
+      final astrolabe = bySolar(dateStr, timeIndex, genderName, isLeap);
       final horoscope = astrolabe.horoscope(
         date: dateStr,
         timeIndex: timeIndex,
