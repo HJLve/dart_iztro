@@ -56,6 +56,11 @@ import 'crape_myrtle/translations/types/gender.dart';
 import 'lunar_lite/utils/ganzhi.dart';
 import 'lunar_lite/utils/convertor.dart';
 
+// 新增功能：真太阳时计算
+export 'solar_time_calculator.dart';
+// 城市数据模型和服务
+export 'models/city_model.dart';
+
 /// 紫微斗数计算插件
 class DartIztro {
   /// 获取平台版本

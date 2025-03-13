@@ -9,6 +9,9 @@ import 'package:dart_iztro/dart_iztro.dart';
 import 'package:dart_iztro/crape_myrtle/astro/astro.dart';
 import 'package:get/get.dart';
 
+// 导入真太阳时工具示例页面
+import 'solar_time_util_example.dart';
+
 void main() {
   // 初始化翻译服务
   IztroTranslationService.init(initialLocale: 'zh_CN');
@@ -330,6 +333,43 @@ class _MyAppState extends State<MyApp> {
                     child: Text('calculate_chart'.tr),
                   ),
                 ],
+              ),
+
+              const SizedBox(height: 20),
+
+              // 添加真太阳时功能入口
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        '新增功能: 真太阳时',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      const Text(
+                        '基于观测地点的实际太阳位置计算真实太阳时间',
+                        style: TextStyle(fontSize: 14),
+                      ),
+                      const SizedBox(height: 12),
+                      Center(
+                        child: ElevatedButton.icon(
+                          icon: const Icon(Icons.watch_later_outlined),
+                          label: const Text('查看真太阳时'),
+                          onPressed: () {
+                            Get.to(() => const SolarTimeUtilExample());
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
 
               if (_isLoading)

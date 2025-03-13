@@ -1,8 +1,8 @@
 # dart_iztro
 
-[English](README.md) | [简体中文](README.zh_CN.md) | [繁體中文](README.zh_TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [ภาษาไทย](README.th.md) | [Tiếng Việt](README.vi.md)
-
 A cross-platform Flutter plugin for Purple Star Astrology (Zi Wei Dou Shu) and BaZi calculations. It provides functionality for calculating Purple Star astrology charts and BaZi, supports lunar and solar calendar conversion, and can be used for destiny analysis, divination, and astrological applications.
+
+![Banner](https://github.com/SylarLong/iztro/assets/6510425/b432e468-26d0-4d03-a0dd-469c228ef9a2)
 
 > **Disclaimer**: This project code is derived from [@SylarLong/iztro](https://github.com/SylarLong/iztro). Thanks to the original author for the open-source contribution.
 
@@ -255,26 +255,40 @@ void main() {
   
   runApp(MyApp());
 }
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      // Use translation service that has merged application translations
+      translations: IztroTranslationService.withAppTranslations(),
+      locale: IztroTranslationService.currentLocale,
+      fallbackLocale: const Locale('zh', 'CN'),
+      title: 'app_name'.tr, // Application-level translation
+      home: HomePage(),
+    );
+  }
+}
 ```
 
-In this way, you can use both the library's translations and your own translations in your application.
+This way you can use both the library's translations and your own translations in your application.
 
 ## Contribution Guidelines
 
-If you are interested in `dart_iztro` and want to join the contributor team, we greatly welcome your contribution in the following ways:
+If you are interested in `dart_iztro` and want to join the contribution team, you are very welcome to contribute in the following ways:
 
-* If you have suggestions about the functionality of the program, please create a `Feature Request` on GitHub
-* If you find bugs in the program, please create a `Bug Report` on GitHub
-* You can also `fork` this repository to your own repository for modification, then send a PR to this repository
-* If you have expertise in foreign languages, we welcome your contribution in translating the language translation files
+* If you have suggestions for program functionality, please create a `Feature Request` on GitHub.
+* If you find a bug in the program, please create a `Bug Report` on GitHub.
+* You can also `fork` this repository to your own repository for editing, and then submit a PR to this repository.
+* If you are proficient in foreign languages, we also welcome your contribution to the translation of internationalization files.
 
-> **Important note**: If you find the code useful, please hit ⭐ to support! Your ⭐ is my motivation to continue updating!
+> **Important Note**: If you find the code useful, please give it a ⭐ to show your support. Your stars are my motivation to keep updating!
 
-> **Note**: Please use this open-source code appropriately. Do not use it for illegal purposes.
+> **Note**: Please use this open-source code responsibly and refrain from using it for illegal purposes.
 
-## Support Through Donations
+## Sponsorship Support
 
-If you find this project helpful, you might consider supporting me with a cup of coffee ☕️
+If you find this project helpful, you can consider sponsoring me a cup of coffee ☕️
 
 <div style="display: flex; justify-content: space-around; margin: 20px 0;">
   <div style="text-align: center;">
@@ -285,5 +299,4 @@ If you find this project helpful, you might consider supporting me with a cup of
     <img src="./wechat_pay.jpg" width="300" alt="WeChat Pay QR Code" />
     <p>WeChat Pay</p>
   </div>
-</div>
-
+</div> 
