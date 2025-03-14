@@ -28,11 +28,9 @@ extension EarthlyBranchNameEx on EarthlyBranchName {
 
 /// 将字符串转为宫位四化
 EarthlyBranchName getMyEarthlyBranchNameFrom(String str) {
-  print('getMyEarthlyBranchNameFrom $str');
   var isContainStr = false;
   for (int i = 0; i < EarthlyBranchName.values.length; i++) {
     final value = EarthlyBranchName.values[i];
-    print('value.key ${value.key} value.title ${value.title}');
     if (value.key == str) {
       isContainStr = true;
       break;

@@ -269,22 +269,34 @@ enum OptionType {
   lunar,
 }
 
-enum DivideType {
-  normal,
-  exact,
+enum DivideType { normal, exact }
+
+enum AgeDivide {
+  normal, // normal 代表自然年分界
+  birthday, // birthday 代表生日分界
 }
 
 class Config {
+  /// 四化配置
   Map<HeavenlyStemName, List<StarName>>? mutagens;
-  Map<StarName, List<BrightnessEnum>>? brightness;
-  DivideType? yearDivide;
-  DivideType? horoscopeDivide;
 
-  Config(
-      {required this.mutagens,
-      required this.brightness,
-      required this.yearDivide,
-      required this.horoscopeDivide});
+  /// 星耀亮度配置
+  Map<StarName, List<BrightnessEnum>>? brightness;
+
+  /// 年分割点配置， normal 为正月初一分界， exact 代表立春分界
+  DivideType? yearDivide;
+
+  /// 运限分割点配置， normal 代表正月初一分界， exact 代表立春分界
+  DivideType? horoscopeDivide;
+  AgeDivide? ageDivide;
+
+  Config({
+    required this.mutagens,
+    required this.brightness,
+    required this.yearDivide,
+    required this.horoscopeDivide,
+    required this.ageDivide,
+  });
 }
 
 // Map<HeavenlyStemName, List<StarName>> _mutagens = {};
@@ -316,12 +328,13 @@ class Option {
   bool fixLeap;
   Config? config;
 
-  Option(
-      {required this.type,
-      required this.dateStr,
-      required this.timeIndex,
-      required this.gender,
-      required this.isLeapMonth,
-      required this.fixLeap,
-      this.config});
+  Option({
+    required this.type,
+    required this.dateStr,
+    required this.timeIndex,
+    required this.gender,
+    required this.isLeapMonth,
+    required this.fixLeap,
+    this.config,
+  });
 }

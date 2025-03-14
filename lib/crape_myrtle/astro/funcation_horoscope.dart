@@ -30,28 +30,40 @@ abstract class IFunctionalHoroscpoe implements Horoscope {
   /// scope 指定获取那个运限的宫位
   /// horoscopeStar 流耀
   bool hasHotoscopeStars(
-      PalaceName palaceName, Scope scope, List<StarName> horoscopeStar);
+    PalaceName palaceName,
+    Scope scope,
+    List<StarName> horoscopeStar,
+  );
 
   /// 判断指定运限宫位内是否不含流耀，需要全部不包含才返回true
   /// palaceName 宫位名称
   /// scope 指定获取那个运限的宫位
   /// horoscopeStar 流耀
   bool nothaveHoroscopeStars(
-      PalaceName palaceName, Scope scope, List<StarName> horoscope);
+    PalaceName palaceName,
+    Scope scope,
+    List<StarName> horoscope,
+  );
 
   /// 判断指定运限宫位内是否含有指定流耀，只要包含其中一颗酒返回true
   /// palaceName 宫位名称
   /// scope 指定获取那个运限的宫位
   /// horoscopeStar 流耀
   bool hasOneOfHoroscopeStars(
-      PalaceName palaceName, Scope scope, List<StarName> horoscopeStar);
+    PalaceName palaceName,
+    Scope scope,
+    List<StarName> horoscopeStar,
+  );
 
   /// 判断指定运限宫位内是否存在运限四化
   /// palaceName 宫位名称
   /// scope 指定获取哪个运限的宫位
   /// horoscopeMutagen 运限四化
   bool hasHoroscopeMutagen(
-      PalaceName palaceName, Scope scope, Mutagen horoscopeMutagen);
+    PalaceName palaceName,
+    Scope scope,
+    Mutagen horoscopeMutagen,
+  );
 }
 
 class FunctionalHoroscope implements IFunctionalHoroscpoe {
@@ -108,7 +120,10 @@ class FunctionalHoroscope implements IFunctionalHoroscpoe {
 
   @override
   bool hasHoroscopeMutagen(
-      PalaceName palaceName, Scope scope, Mutagen horoscopeMutagen) {
+    PalaceName palaceName,
+    Scope scope,
+    Mutagen horoscopeMutagen,
+  ) {
     // TODO: implement hasHoroscopeMutagen
     if (scope == Scope.origin) {
       return false;
@@ -118,7 +133,7 @@ class FunctionalHoroscope implements IFunctionalHoroscpoe {
     final minorStars = astrolabe.palace(palaceIndex)?.minorStars ?? [];
     final result = [
       [majorStars],
-      [minorStars]
+      [minorStars],
     ];
     final stars = mergeStars(result)[0].map((star) => star.name);
     final mutagenIndex = mutagenArray.indexOf(horoscopeMutagen.key);
@@ -140,7 +155,10 @@ class FunctionalHoroscope implements IFunctionalHoroscpoe {
 
   @override
   bool hasHotoscopeStars(
-      PalaceName palaceName, Scope scope, List<StarName> horoscopeStar) {
+    PalaceName palaceName,
+    Scope scope,
+    List<StarName> horoscopeStar,
+  ) {
     // TODO: implement hasHotoscopeStars
     if (decadal.stars == null || yearly.stars == null) {
       return false;
@@ -154,7 +172,10 @@ class FunctionalHoroscope implements IFunctionalHoroscpoe {
 
   @override
   bool hasOneOfHoroscopeStars(
-      PalaceName palaceName, Scope scope, List<StarName> horoscopeStar) {
+    PalaceName palaceName,
+    Scope scope,
+    List<StarName> horoscopeStar,
+  ) {
     // TODO: implement hasOneOfHoroscopeStars
     if (decadal.stars == null || yearly.stars == null) {
       return false;
@@ -168,16 +189,19 @@ class FunctionalHoroscope implements IFunctionalHoroscpoe {
 
   @override
   bool nothaveHoroscopeStars(
-      PalaceName palaceName, Scope scope, List<StarName> horoscope) {
+    PalaceName palaceName,
+    Scope scope,
+    List<StarName> horoscope,
+  ) {
     // TODO: implement nothaveHoroscopeStars
     if (decadal.stars == null || yearly.stars == null) {
-      return false;
+      return true;
     }
     int palaceIndex = _getHoroscopePalaceIndex(this, scope, palaceName);
     final stars =
         mergeStars([decadal.stars ?? [], yearly.stars ?? []])[palaceIndex];
     final starKeys = stars.map((item) => item.name);
-    return horoscope.every((item) => !starKeys.contains(item));
+    return !horoscope.every((item) => !starKeys.contains(item));
   }
 
   @override
@@ -229,7 +253,10 @@ class FunctionalHoroscope implements IFunctionalHoroscpoe {
   }
 
   int _getHoroscopePalaceIndex(
-      IFunctionalHoroscpoe horoscope, Scope scope, PalaceName palaceName) {
+    IFunctionalHoroscpoe horoscope,
+    Scope scope,
+    PalaceName palaceName,
+  ) {
     var palaceIndex = -1;
     if (scope == Scope.origin) {
       astrolabe.palaces.where((palace) {
@@ -247,7 +274,8 @@ class FunctionalHoroscope implements IFunctionalHoroscpoe {
         palaceIndex = monthly.palaceNames.indexOf(palaceName);
       } else if (scope == Scope.yearly) {
         palaceIndex = yearly.palaceNames.indexOf(
-            palaceName); // origin, decadal, yearly, monthly, daily, hourly
+          palaceName,
+        ); // origin, decadal, yearly, monthly, daily, hourly
       } else if (scope == Scope.decadal) {
         palaceIndex = decadal.palaceNames.indexOf(palaceName);
       } else if (scope == Scope.hourly) {

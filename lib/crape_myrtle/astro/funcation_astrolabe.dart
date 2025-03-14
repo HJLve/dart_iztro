@@ -151,13 +151,15 @@ class FunctionalAstrolabe implements IFunctionalAstrolabe {
     IFunctionalStar? target;
     for (int i = 0; i < palaces.length; i++) {
       final palace = palaces[i];
-      final stars = [
-        ...palace.majorStars,
-        ...palace.minorStars,
-        ...palace.adjectiveStars
-      ].toList();
+      final stars =
+          [
+            ...palace.majorStars,
+            ...palace.minorStars,
+            ...palace.adjectiveStars,
+          ].toList();
       print(
-          "functional star palaces ${palaces.length} , stars = $stars, starName $starName");
+        "functional star palaces ${palaces.length} , stars = $stars, starName $starName",
+      );
       for (int j = 0; j < stars.length; j++) {
         if (stars[j].name.starKey == starName.starKey) {
           target = stars[j];
@@ -218,7 +220,10 @@ class FunctionalAstrolabe implements IFunctionalAstrolabe {
   /// @param timeIndex 时辰序号【可选】，若不传会返回 `targetDate` 中时间所在的时辰
   /// @returns 运限数据
   IFunctionalHoroscpoe _getHoroscopeBySolarDate(
-      FunctionalAstrolabe astrolabe, String targetDate, int? timeIndex) {
+    FunctionalAstrolabe astrolabe,
+    String targetDate,
+    int? timeIndex,
+  ) {
     final birthday = solar2Lunar(astrolabe.solarDate);
     final date = solar2Lunar(targetDate);
 
@@ -226,24 +231,32 @@ class FunctionalAstrolabe implements IFunctionalAstrolabe {
       final convertTimeIndex = timeToIndex(DateTime.parse(targetDate).hour);
       timeIndex = convertTimeIndex;
     }
-    print(
-        '--- _getHoroscopeBySolarDate timeIndex $timeIndex targetDate $targetDate');
     final heavenlyStemAndEarthly = getHeavenlyStemAndEarthlyBranchSolarDate(
-        targetDate, timeIndex, getConfig().horoscopeDivide);
+      targetDate,
+      timeIndex,
+      getConfig().horoscopeDivide,
+    );
     final yearly = heavenlyStemAndEarthly.yearly;
     final monthly = heavenlyStemAndEarthly.monthly;
     final daily = heavenlyStemAndEarthly.daily;
     final hourly = heavenlyStemAndEarthly.hourly;
-    print('--- heavenlyStemAndEarthly $heavenlyStemAndEarthly');
 
     // 虚岁
     var nomialAge = date.lunarYear - birthday.lunarYear;
     // 是否童限
     var isChildHood = false;
-    if ((date.lunarYear == birthday.lunarYear &&
-            date.lunarMonth == birthday.lunarMonth &&
-            date.lunarDay > birthday.lunarDay) ||
-        date.lunarMonth > birthday.lunarMonth) {
+
+    if (getConfig().ageDivide == AgeDivide.birthday) {
+      // 假如目标日期已经过了生日，则需要加1岁
+      // 比如2022年九月初一 出生的人，在出生后虚岁为1岁
+      // 2022年九月初二 出生的人，在出生后虚岁为2岁
+      if ((date.lunarYear == birthday.lunarYear &&
+              date.lunarMonth == birthday.lunarMonth &&
+              date.lunarDay > birthday.lunarDay) ||
+          date.lunarMonth > birthday.lunarMonth) {
+        nomialAge += 1;
+      }
+    } else {
       nomialAge += 1;
     }
 
@@ -256,8 +269,9 @@ class FunctionalAstrolabe implements IFunctionalAstrolabe {
     // 小限索引
     var ageIndex = -1;
     // 流年索引
-    final yearlyIndex =
-        fixEarthlyBranchIndex(getMyEarthlyBranchNameFrom(yearly[1]));
+    final yearlyIndex = fixEarthlyBranchIndex(
+      getMyEarthlyBranchNameFrom(yearly[1]),
+    );
     // 流月索引
     var monthlyIndex = -1;
     // 流日索引
@@ -288,7 +302,7 @@ class FunctionalAstrolabe implements IFunctionalAstrolabe {
         PalaceName.healthPalace,
         PalaceName.spousePalace,
         PalaceName.spiritPalace,
-        PalaceName.careerPalace
+        PalaceName.careerPalace,
       ];
       if (nomialAge > 0) {
         final targetIndex = palaces[nomialAge - 1];
@@ -311,83 +325,113 @@ class FunctionalAstrolabe implements IFunctionalAstrolabe {
         break;
       }
     }
-    final earthlyBranchHourly =
-        getMyEarthlyBranchNameFrom(astrolabe.rawDates.chineseDate.hourly[1]);
-    monthlyIndex = fixIndex(yearlyIndex -
-        fixEarthlyBranchIndex(getMyEarthlyBranchNameFrom(
-            astrolabe.rawDates.chineseDate.monthly[1])) +
-        earthlyBranches.indexOf(earthlyBranchHourly.key) +
-        fixEarthlyBranchIndex(
-            getMyEarthlyBranchNameFrom(heavenlyStemAndEarthly.monthly[1])));
+    final earthlyBranchHourly = getMyEarthlyBranchNameFrom(
+      astrolabe.rawDates.chineseDate.hourly[1],
+    );
+    monthlyIndex = fixIndex(
+      yearlyIndex -
+          fixEarthlyBranchIndex(
+            getMyEarthlyBranchNameFrom(
+              astrolabe.rawDates.chineseDate.monthly[1],
+            ),
+          ) +
+          earthlyBranches.indexOf(earthlyBranchHourly.key) +
+          fixEarthlyBranchIndex(
+            getMyEarthlyBranchNameFrom(heavenlyStemAndEarthly.monthly[1]),
+          ),
+    );
     dailyIndex = fixIndex(monthlyIndex + date.lunarDay - 1);
-    final currentHourlyBranches =
-        getMyEarthlyBranchNameFrom(heavenlyStemAndEarthly.hourly[1]);
+    final currentHourlyBranches = getMyEarthlyBranchNameFrom(
+      heavenlyStemAndEarthly.hourly[1],
+    );
     hourlyIndex = fixIndex(
-        dailyIndex + earthlyBranches.indexOf(currentHourlyBranches.key));
-    print(
-        '_getHoroscopeBySolarDate monthlyIndex $monthlyIndex, dailyIndex $dailyIndex, hourlyIndex $hourlyIndex, yearlyIndex $yearlyIndex, decadalIndex $decadalIndex, ageIndex $ageIndex');
+      dailyIndex + earthlyBranches.indexOf(currentHourlyBranches.key),
+    );
 
     final scope = Horoscope(
       lunarDate: date.toChString(true),
       solarDate: normalDateFromStr(targetDate).getRange(0, 3).join('-'),
       decadal: HoroscopeItem(
-          index: decadalIndex,
-          name: isChildHood ? "childhood" : "decadal",
-          heavenlyStem: heavenlyStemOfDecade,
-          earthlyBranch: earthlyBranchOfDecade,
-          palaceNames: getPalaceNames(decadalIndex),
-          mutagen: getMutagensByHeavenlyStem(heavenlyStemOfDecade),
-          stars: getHoroscopeStar(
-              heavenlyStemOfDecade, earthlyBranchOfDecade, Scope.decadal)),
+        index: decadalIndex,
+        name: isChildHood ? "childhood" : "decadal",
+        heavenlyStem: heavenlyStemOfDecade,
+        earthlyBranch: earthlyBranchOfDecade,
+        palaceNames: getPalaceNames(decadalIndex),
+        mutagen: getMutagensByHeavenlyStem(heavenlyStemOfDecade),
+        stars: getHoroscopeStar(
+          heavenlyStemOfDecade,
+          earthlyBranchOfDecade,
+          Scope.decadal,
+        ),
+      ),
       age: AgeHoroscope(
-          heavenlyStem: heavenlyStenOfAge,
-          earthlyBranch: earthlyBranchOfAge,
-          palaceNames: getPalaceNames(ageIndex),
-          mutagen: getMutagensByHeavenlyStem(
-              getMyHeavenlyStemNameFrom(heavenlyStemAndEarthly.yearly[0])),
-          nominalAge: nomialAge,
-          index: ageIndex,
-          name: 'turn'),
+        heavenlyStem: heavenlyStenOfAge,
+        earthlyBranch: earthlyBranchOfAge,
+        palaceNames: getPalaceNames(ageIndex),
+        mutagen: getMutagensByHeavenlyStem(
+          getMyHeavenlyStemNameFrom(heavenlyStemAndEarthly.yearly[0]),
+        ),
+        nominalAge: nomialAge,
+        index: ageIndex,
+        name: 'turn',
+      ),
       yearly: YearlyHoroscope(
-          heavenlyStem: getMyHeavenlyStemNameFrom(yearly[0]),
-          earthlyBranch: getMyEarthlyBranchNameFrom(yearly[1]),
-          palaceNames: getPalaceNames(yearlyIndex),
-          mutagen:
-              getMutagensByHeavenlyStem(getMyHeavenlyStemNameFrom(yearly[0])),
-          stars: getHoroscopeStar(getMyHeavenlyStemNameFrom(yearly[0]),
-              getMyEarthlyBranchNameFrom(yearly[1]), Scope.yearly),
-          index: yearlyIndex,
-          name: "yearly"),
+        heavenlyStem: getMyHeavenlyStemNameFrom(yearly[0]),
+        earthlyBranch: getMyEarthlyBranchNameFrom(yearly[1]),
+        palaceNames: getPalaceNames(yearlyIndex),
+        mutagen: getMutagensByHeavenlyStem(
+          getMyHeavenlyStemNameFrom(yearly[0]),
+        ),
+        stars: getHoroscopeStar(
+          getMyHeavenlyStemNameFrom(yearly[0]),
+          getMyEarthlyBranchNameFrom(yearly[1]),
+          Scope.yearly,
+        ),
+        index: yearlyIndex,
+        name: "yearly",
+      ),
       monthly: HoroscopeItem(
-          index: monthlyIndex,
-          name: "monthly",
-          heavenlyStem: getMyHeavenlyStemNameFrom(monthly[0]),
-          earthlyBranch: getMyEarthlyBranchNameFrom(monthly[1]),
-          palaceNames: getPalaceNames(monthlyIndex),
-          mutagen:
-              getMutagensByHeavenlyStem(getMyHeavenlyStemNameFrom(monthly[0])),
-          stars: getHoroscopeStar(getMyHeavenlyStemNameFrom(monthly[0]),
-              getMyEarthlyBranchNameFrom(monthly[1]), Scope.monthly)),
+        index: monthlyIndex,
+        name: "monthly",
+        heavenlyStem: getMyHeavenlyStemNameFrom(monthly[0]),
+        earthlyBranch: getMyEarthlyBranchNameFrom(monthly[1]),
+        palaceNames: getPalaceNames(monthlyIndex),
+        mutagen: getMutagensByHeavenlyStem(
+          getMyHeavenlyStemNameFrom(monthly[0]),
+        ),
+        stars: getHoroscopeStar(
+          getMyHeavenlyStemNameFrom(monthly[0]),
+          getMyEarthlyBranchNameFrom(monthly[1]),
+          Scope.monthly,
+        ),
+      ),
       daily: HoroscopeItem(
-          index: dailyIndex,
-          name: "daily",
-          heavenlyStem: getMyHeavenlyStemNameFrom(daily[0]),
-          earthlyBranch: getMyEarthlyBranchNameFrom(daily[1]),
-          palaceNames: getPalaceNames(dailyIndex),
-          mutagen:
-              getMutagensByHeavenlyStem(getMyHeavenlyStemNameFrom(daily[0])),
-          stars: getHoroscopeStar(getMyHeavenlyStemNameFrom(daily[0]),
-              getMyEarthlyBranchNameFrom(daily[1]), Scope.daily)),
+        index: dailyIndex,
+        name: "daily",
+        heavenlyStem: getMyHeavenlyStemNameFrom(daily[0]),
+        earthlyBranch: getMyEarthlyBranchNameFrom(daily[1]),
+        palaceNames: getPalaceNames(dailyIndex),
+        mutagen: getMutagensByHeavenlyStem(getMyHeavenlyStemNameFrom(daily[0])),
+        stars: getHoroscopeStar(
+          getMyHeavenlyStemNameFrom(daily[0]),
+          getMyEarthlyBranchNameFrom(daily[1]),
+          Scope.daily,
+        ),
+      ),
       hourly: HoroscopeItem(
         index: hourlyIndex,
         name: "hourly",
         heavenlyStem: getMyHeavenlyStemNameFrom(hourly[0]),
         earthlyBranch: getMyEarthlyBranchNameFrom(hourly[1]),
         palaceNames: getPalaceNames(hourlyIndex),
-        mutagen:
-            getMutagensByHeavenlyStem(getMyHeavenlyStemNameFrom(hourly[0])),
-        stars: getHoroscopeStar(getMyHeavenlyStemNameFrom(hourly[0]),
-            getMyEarthlyBranchNameFrom(hourly[1]), Scope.hourly),
+        mutagen: getMutagensByHeavenlyStem(
+          getMyHeavenlyStemNameFrom(hourly[0]),
+        ),
+        stars: getHoroscopeStar(
+          getMyHeavenlyStemNameFrom(hourly[0]),
+          getMyEarthlyBranchNameFrom(hourly[1]),
+          Scope.hourly,
+        ),
       ),
     );
 
