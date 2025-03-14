@@ -8,14 +8,19 @@ Plugin Flutter đa nền tảng cho việc tính toán tử vi Trung Quốc (紫
 
 ## Tính năng
 
-- Tính ngày âm lịch từ ngày dương lịch
-- Tính thông tin Bát Tự
-- Tính thông tin lá số Tử Vi Đẩu Số
-- Cung cấp thông tin chi tiết cho từng cung trong lá số
-- Tính chính xác thời gian mặt trời thực (dựa trên thuật toán thiên văn học)
-- Truy vấn vị trí địa lý và thông tin kinh độ/vĩ độ
-- Hỗ trợ nhiều nền tảng: Android, iOS, macOS, Windows và Web
-- Hỗ trợ đa ngôn ngữ: Tiếng Trung giản thể, Tiếng Trung phồn thể, Tiếng Anh, Tiếng Nhật, Tiếng Hàn, Tiếng Thái, Tiếng Việt
+- Tính toán ngày âm lịch từ ngày dương lịch
+- Tính toán thông tin BaZi
+- Tính toán thông tin biểu đồ Tử Vi Đẩu Số
+- Cung cấp thông tin chi tiết cho mỗi cung trong biểu đồ
+- Tính toán chính xác thời gian mặt trời thực (dựa trên thuật toán thiên văn học)
+- Truy vấn vị trí địa lý với thông tin vĩ độ và kinh độ
+- Hỗ trợ nhiều nền tảng: Android, iOS, macOS, Windows, Linux và Web
+- Hỗ trợ đa ngôn ngữ: Tiếng Trung Giản thể, Tiếng Trung Phồn thể, Tiếng Anh, Tiếng Nhật, Tiếng Hàn, Tiếng Thái, Tiếng Việt
+
+## Lộ trình phát triển
+
+- 🔲 Hỗ trợ tính tuổi theo truyền thống Trung Quốc (tuổi danh nghĩa)
+- 🔲 Hỗ trợ truy xuất dữ liệu bản đồ Thiên, Nhân, Địa trong Tử Vi Đẩu Số
 
 ## Cài đặt
 

@@ -49,6 +49,8 @@ flutter:
         pluginClass: DartIztroPlugin
       ios:
         pluginClass: DartIztroPlugin
+      linux:
+        pluginClass: DartIztroPlugin
       macos:
         pluginClass: DartIztroPlugin
       windows:

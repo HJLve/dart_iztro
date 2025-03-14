@@ -6,6 +6,8 @@
 
 > **聲明**：本專案程式碼源自[@SylarLong/iztro](https://github.com/SylarLong/iztro)，感謝原作者的開源貢獻。
 
+> **文件**：完整文件請訪問 [https://iztro.com](https://iztro.com)（基於 [@SylarLong/iztro](https://github.com/SylarLong/iztro)）。
+
 ## 功能特點
 
 - 根據陽曆日期計算農曆日期
@@ -14,8 +16,24 @@
 - 提供星盤各宮位的詳細信息
 - 精確計算真太陽時（基於天文學算法）
 - 地理位置查詢與經緯度信息
-- 支持多平台：Android、iOS、macOS、Windows和Web
-- 多語言支持：簡體中文、繁體中文、英語、日語、韓語、泰語、越南語
+- 支援多平台：Android、iOS、macOS、Windows、Linux和Web
+- 多語言支援：簡體中文、繁體中文、英語、日語、韓語、泰語、越南語
+
+## 已完成功能
+
+- ✅ 基礎八字計算
+- ✅ 紫微斗數星盤計算
+- ✅ 農曆陽曆轉換
+- ✅ 多語言支援
+- ✅ 真太陽時計算
+- ✅ 地理位置信息查詢
+- ✅ 跨平台支援（Android、iOS、macOS、Windows、Linux、Web）
+- ✅ 宮位詳細信息
+
+## 未來規劃
+
+- 🔲 支持虛歲計算
+- 🔲 支持紫微斗數天盤、人盤、地盤數據獲取
 
 ## 安裝
 
