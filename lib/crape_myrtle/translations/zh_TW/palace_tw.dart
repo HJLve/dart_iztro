@@ -9,7 +9,7 @@ const Map<String, String> palaceLocalsTW = {
   wealthPalace: '財帛',
   healthPalace: '疾厄',
   surfacePalace: '遷移',
-  friendsPalace: '交友',
+  friendsPalace: '仆役',
   careerPalace: '官祿',
   propertyPalace: '田宅',
   spiritPalace: '福德',

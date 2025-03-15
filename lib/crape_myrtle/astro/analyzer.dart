@@ -23,19 +23,23 @@ List<StarName> _concatStars(List<List<Star>> stars) {
 bool _includeAll(List<StarName> allStarsInPalace, List<StarName> targetStars) {
   var keys = targetStars.map((name) => name.starKey);
   return keys.every(
-      (key) => allStarsInPalace.map((item) => item.starKey).contains(key));
+    (key) => allStarsInPalace.map((item) => item.starKey).contains(key),
+  );
 }
 
 /// 是否不包含目标宫位
 bool _excludeAll(List<StarName> allStarsInPalace, List<StarName> targetStars) {
   var keys = targetStars.map((name) => name.starKey);
   return keys.every(
-      (key) => !allStarsInPalace.map((item) => item.starKey).contains(key));
+    (key) => !allStarsInPalace.map((item) => item.starKey).contains(key),
+  );
 }
 
 /// 宫位数组中是否包含目标宫位中的任意一个
 bool _includeOneOf(
-    List<StarName> allStarsInPalace, List<StarName> targetStars) {
+  List<StarName> allStarsInPalace,
+  List<StarName> targetStars,
+) {
   var keys = targetStars.map((name) => name.starKey);
   print("_inclideOneOf keys $keys allStarsInPalace $allStarsInPalace");
   return targetStars.any((star) => allStarsInPalace.contains(star));
@@ -51,10 +55,13 @@ List<StarName> _getAllStarsInSurroundedPalaces(SurroundedPalaces surrounded) {
   List<List<Star>> stars = [];
   stars.add(surrounded.target.majorStars);
   stars.add(surrounded.target.minorStars);
+  stars.add(surrounded.target.adjectiveStars);
   stars.add(surrounded.opposite.majorStars);
   stars.add(surrounded.opposite.minorStars);
+  stars.add(surrounded.opposite.adjectiveStars);
   stars.add(surrounded.wealth.majorStars);
   stars.add(surrounded.wealth.minorStars);
+  stars.add(surrounded.wealth.adjectiveStars);
   stars.add(surrounded.career.majorStars);
   stars.add(surrounded.career.minorStars);
   stars.add(surrounded.career.adjectiveStars);
@@ -62,7 +69,9 @@ List<StarName> _getAllStarsInSurroundedPalaces(SurroundedPalaces surrounded) {
 }
 
 IFunctionlSurpalaces getSurroundedPalaces(
-    IFunctionalAstrolabe astrolabe, dynamic indexOfPalace) {
+  IFunctionalAstrolabe astrolabe,
+  dynamic indexOfPalace,
+) {
   final IFunctionalPalace? palace = getPalace(astrolabe, indexOfPalace);
   if (palace == null) {
     throw UnimplementedError('index or name is inccoreect');
@@ -79,7 +88,11 @@ IFunctionlSurpalaces getSurroundedPalaces(
     throw Exception("index or name is inccourrect");
   }
   var surroundPalace = SurroundedPalaces(
-      target: palace, opposite: palace6, wealth: palace8, career: palace4);
+    target: palace,
+    opposite: palace6,
+    wealth: palace8,
+    career: palace4,
+  );
   return FunctionalSurpalaces(surroundPalace);
 }
 
@@ -91,7 +104,9 @@ IFunctionlSurpalaces getSurroundedPalaces(
 /// @param indexOrName 宫位索引或者宫位名称
 /// @returns 宫位实例
 IFunctionalPalace? getPalace(
-    IFunctionalAstrolabe astrolabe, dynamic indexOfPalace) {
+  IFunctionalAstrolabe astrolabe,
+  dynamic indexOfPalace,
+) {
   IFunctionalPalace? palace;
   if (indexOfPalace is int) {
     if (indexOfPalace != null) {
@@ -173,7 +188,7 @@ bool notHaveStars(IFunctionalPalace palace, List<StarName> stars) {
   List<List<FunctionalStar>> allStars = [
     palace.majorStars,
     palace.minorStars,
-    palace.adjectiveStars
+    palace.adjectiveStars,
   ];
   final allStarsInPalace = _concatStars(allStars);
   return _excludeAll(allStarsInPalace, stars);
@@ -190,7 +205,7 @@ bool hasOneOfStars(IFunctionalPalace palace, List<StarName> stars) {
   List<List<FunctionalStar>> allStars = [
     palace.majorStars,
     palace.minorStars,
-    palace.adjectiveStars
+    palace.adjectiveStars,
   ];
 
   final allStarsInPalace = _concatStars(allStars);
@@ -204,6 +219,7 @@ bool hasOneOfStars(IFunctionalPalace palace, List<StarName> stars) {
 /// @returns true | false
 bool isSurroundedByStars(IFunctionlSurpalaces palace, List<StarName> stars) {
   final allStarsInPalace = _getAllStarsInSurroundedPalaces(palace);
+  print("isSurroundedByStars allStarsInPalace $allStarsInPalace, stars $stars");
   return _includeAll(allStarsInPalace, stars);
 }
 
@@ -213,7 +229,9 @@ bool isSurroundedByStars(IFunctionlSurpalaces palace, List<StarName> stars) {
 /// @param stars 星耀名称数组
 /// @returns true | false
 bool isSurroundedByOneOfStars(
-    IFunctionlSurpalaces palace, List<StarName> stars) {
+  IFunctionlSurpalaces palace,
+  List<StarName> stars,
+) {
   final allStarsInPalace = _getAllStarsInSurroundedPalaces(palace);
   return _includeOneOf(allStarsInPalace, stars);
 }
@@ -229,18 +247,17 @@ bool notSurroundedByStars(IFunctionlSurpalaces palace, List<StarName> stars) {
 }
 
 List<StarName> mutagensToStars(
-    HeavenlyStemName heavenlyStem, List<Mutagen> mutagens) {
+  HeavenlyStemName heavenlyStem,
+  List<Mutagen> mutagens,
+) {
   List<StarName> stars = [];
   List<StarName>? mutagenStars = getMutagensByHeavenlyStem(heavenlyStem);
 
   for (Mutagen withMutagen in mutagens) {
     int? mutagenIndex = mutagenArray.indexOf(withMutagen.key);
 
-    if (mutagenIndex != null &&
-        mutagenStars != null &&
-        mutagenIndex < mutagenStars.length &&
-        mutagenStars[mutagenIndex] != null) {
-      stars.add(mutagenStars[mutagenIndex]!);
+    if (mutagenIndex < mutagenStars.length) {
+      stars.add(mutagenStars[mutagenIndex]);
     }
   }
 

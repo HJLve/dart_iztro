@@ -33,11 +33,16 @@ import 'package:dart_iztro/lunar_lite/utils/utils.dart';
 /// @returns SoulAndBody
 SoulAndBody getSoulAndBody(String solarDate, int timeIndex, bool? fixLeap) {
   final heavenlyStemEarthlyBranch = getHeavenlyStemAndEarthlyBranchSolarDate(
-      solarDate, timeIndex, getConfig().yearDivide);
-  final earthlyBranchOfTime =
-      getMyEarthlyBranchNameFrom(heavenlyStemEarthlyBranch.hourly[1]);
-  final heavenlyStemOfYear =
-      getMyHeavenlyStemNameFrom(heavenlyStemEarthlyBranch.yearly[0]);
+    solarDate,
+    timeIndex,
+    getConfig().yearDivide,
+  );
+  final earthlyBranchOfTime = getMyEarthlyBranchNameFrom(
+    heavenlyStemEarthlyBranch.hourly[1],
+  );
+  final heavenlyStemOfYear = getMyHeavenlyStemNameFrom(
+    heavenlyStemEarthlyBranch.yearly[0],
+  );
 
   // 紫薇斗数以寅宫位第一个宫位
   final firstIndex = earthlyBranches.indexOf('yinEarthly');
@@ -45,31 +50,37 @@ SoulAndBody getSoulAndBody(String solarDate, int timeIndex, bool? fixLeap) {
 
   // 命宫索引，以寅宫为0，顺时针数到生月地支索引，再逆时针数到生时地支索引
   // 此处数到生月地支索引其实就是农历月份，所以不再计算生月地支索引
-  final soulIndex =
-      fixIndex(monthIndex - earthlyBranches.indexOf(earthlyBranchOfTime.key));
-// 身宫索引，以寅宫为0，顺时针数到生月地支索引，再顺时针数到生时地支索引
+  final soulIndex = fixIndex(
+    monthIndex - earthlyBranches.indexOf(earthlyBranchOfTime.key),
+  );
+  // 身宫索引，以寅宫为0，顺时针数到生月地支索引，再顺时针数到生时地支索引
   // 与命宫索引一样，不再赘述
-  final bodyIndex =
-      fixIndex(monthIndex + earthlyBranches.indexOf(earthlyBranchOfTime.key));
-
+  final bodyIndex = fixIndex(
+    monthIndex + earthlyBranches.indexOf(earthlyBranchOfTime.key),
+  );
   // 用五虎盾取得寅宫的天干
   final startHevenlyStem = tigerRules[heavenlyStemOfYear.key];
   // 获取命宫天干索引，起始天干索引加上命宫的索引即是
-  final heavenlyStemOfSoulIndex =
-      fixIndex(heavenlyStems.indexOf(startHevenlyStem!) + soulIndex, max: 10);
+  final heavenlyStemOfSoulIndex = fixIndex(
+    heavenlyStems.indexOf(startHevenlyStem!) + soulIndex,
+    max: 10,
+  );
   // 命宫的天干
-  final heavenlyStemOfSoul =
-      getMyHeavenlyStemNameFrom(heavenlyStems[heavenlyStemOfSoulIndex]);
+  final heavenlyStemOfSoul = getMyHeavenlyStemNameFrom(
+    heavenlyStems[heavenlyStemOfSoulIndex],
+  );
 
   // 命宫的地支
   final earthlyBranchOfSoul = getMyEarthlyBranchNameFrom(
-      earthlyBranches[fixIndex(soulIndex + firstIndex)]);
+    earthlyBranches[fixIndex(soulIndex + firstIndex)],
+  );
 
   return SoulAndBody(
-      soulIndex: soulIndex,
-      bodyIndex: bodyIndex,
-      heavenlyStenName: heavenlyStemOfSoul,
-      earthlyBranchName: earthlyBranchOfSoul);
+    soulIndex: soulIndex,
+    bodyIndex: bodyIndex,
+    heavenlyStenName: heavenlyStemOfSoul,
+    earthlyBranchName: earthlyBranchOfSoul,
+  );
 }
 
 /// 定五行局法（以命宫天干地支而定）
@@ -114,20 +125,22 @@ SoulAndBody getSoulAndBody(String solarDate, int timeIndex, bool? fixLeap) {
 /// @param earthlyBranchName 地支
 /// @returns 水二局 ｜ 木三局 ｜ 金四局 ｜ 土五局 ｜ 火六局
 FiveElementsFormat getFiveElementClass(
-    HeavenlyStemName heavenlyStemName, EarthlyBranchName earthlyBranchName) {
+  HeavenlyStemName heavenlyStemName,
+  EarthlyBranchName earthlyBranchName,
+) {
   const fiveElementsTable = [
     'wood3rd',
     'metal4th',
     'water2nd',
     'fire6th',
-    'earth5th'
+    'earth5th',
   ];
   final heavenlyStemNumber =
       (heavenlyStems.indexOf(heavenlyStemName.key) / 2).floor() + 1;
   final earthlyBranchNumber =
       (fixIndex(earthlyBranches.indexOf(earthlyBranchName.key), max: 6) / 2)
-              .floor() +
-          1;
+          .floor() +
+      1;
   var index = heavenlyStemNumber + earthlyBranchNumber;
   while (index > 5) {
     index -= 5;
@@ -160,25 +173,36 @@ List<PalaceName> getPalaceNames(int fromIndex) {
 /// @param fixLeap 是否修正闰月，若修正，则闰月前15天按上月算，后15天按下月算
 /// @returns 从寅宫开始的大限年龄段
 Map<String, dynamic>? getHoroscope(
-    String solarDateStr, int timeIndex, GenderName gender, bool fixLeap) {
+  String solarDateStr,
+  int timeIndex,
+  GenderName gender,
+  bool fixLeap,
+) {
   List<Decadal> decadals = List.filled(
-      12,
-      Decadal(
-          range: [0, 1],
-          heavenlyStem: HeavenlyStemName.jiaHeavenly,
-          earthlyBranch: EarthlyBranchName.ziEarthly));
+    12,
+    Decadal(
+      range: [0, 1],
+      heavenlyStem: HeavenlyStemName.jiaHeavenly,
+      earthlyBranch: EarthlyBranchName.ziEarthly,
+    ),
+  );
   final genderKey = gender.key;
   final heavenlyStemAndEarthlyBranch = getHeavenlyStemAndEarthlyBranchSolarDate(
-      solarDateStr, timeIndex, getConfig().yearDivide);
+    solarDateStr,
+    timeIndex,
+    getConfig().yearDivide,
+  );
   final heavenlyStem =
       getMyHeavenlyStemNameFrom(heavenlyStemAndEarthlyBranch.yearly[0]).key ??
-          "Heavenly";
+      "Heavenly";
   final earthlyBranch =
       getMyEarthlyBranchNameFrom(heavenlyStemAndEarthlyBranch.yearly[1]).key ??
-          "Earthly";
+      "Earthly";
   final soulAndBody = getSoulAndBody(solarDateStr, timeIndex, fixLeap);
   final fiveElementClass = getFiveElementClass(
-      soulAndBody.heavenlyStenName, soulAndBody.earthlyBranchName);
+    soulAndBody.heavenlyStenName,
+    soulAndBody.earthlyBranchName,
+  );
 
   /// 用五虎遁获取大限起始天干
   final startHeavenlyStem = tigerRules[heavenlyStem]!;
@@ -189,19 +213,26 @@ Map<String, dynamic>? getHoroscope(
             ? fixIndex(soulAndBody.soulIndex + i)
             : fixIndex(soulAndBody.soulIndex - i);
     final start = fiveElementClass.value + 10 * i;
-    final heavenlyStemIndex =
-        fixIndex(heavenlyStems.indexOf(startHeavenlyStem) + idx, max: 10);
-    final earthlyBranchIndex =
-        fixIndex(earthlyBranches.indexOf('yinEarthly') + idx);
+    final heavenlyStemIndex = fixIndex(
+      heavenlyStems.indexOf(startHeavenlyStem) + idx,
+      max: 10,
+    );
+    final earthlyBranchIndex = fixIndex(
+      earthlyBranches.indexOf('yinEarthly') + idx,
+    );
     decadals[idx] = Decadal(
-        range: [start, start + 9],
-        heavenlyStem:
-            getMyHeavenlyStemNameFrom(heavenlyStems[heavenlyStemIndex]),
-        earthlyBranch:
-            getMyEarthlyBranchNameFrom(earthlyBranches[earthlyBranchIndex]));
+      range: [start, start + 9],
+      heavenlyStem: getMyHeavenlyStemNameFrom(heavenlyStems[heavenlyStemIndex]),
+      earthlyBranch: getMyEarthlyBranchNameFrom(
+        earthlyBranches[earthlyBranchIndex],
+      ),
+    );
   }
-  final ageIdx = getAgeIndex(getMyEarthlyBranchNameFrom(
-      heavenlyStemAndEarthlyBranch.yearly[1] ?? "Earthly"));
+  final ageIdx = getAgeIndex(
+    getMyEarthlyBranchNameFrom(
+      heavenlyStemAndEarthlyBranch.yearly[1] ?? "Earthly",
+    ),
+  );
   List<List<int>> ages = List.filled(12, [0]);
   for (int i = 0; i < 12; i++) {
     List<int> innerAge = [];
@@ -228,20 +259,27 @@ Map<String, dynamic>? getHoroscope(
   }
   for (int i = birthYear; i < birthYear + 120; i++) {
     var solar = Solar.fromYmdHms(
-        i, birthMonth, birthDay, max(timeIndex * 2 - 1, 0), 30, 0);
+      i,
+      birthMonth,
+      birthDay,
+      max(timeIndex * 2 - 1, 0),
+      30,
+      0,
+    );
     var lunar = solar.getLunar();
-    var yearlyZhi = getConfig().yearDivide == DivideType.normal
-        ? lunar.getYearZhi()
-        : lunar.getYearZhiByLiChun();
+    var yearlyZhi =
+        getConfig().yearDivide == DivideType.normal
+            ? lunar.getYearZhi()
+            : lunar.getYearZhiByLiChun();
     final yearlyStemsBranch = yearlyStemsBranches.firstWhere(
-        (e) => e.earthlyBranchName == getMyEarthlyBranchNameFrom(yearlyZhi));
+      (e) => e.earthlyBranchName == getMyEarthlyBranchNameFrom(yearlyZhi),
+    );
     yearlyStemsBranch.ages.add(i - birthYear + 1);
   }
-  print("yearlyStemsBranches $yearlyStemsBranches");
   final result = {
     "decades": decadals,
     "ages": ages,
-    'yearlies': yearlyStemsBranches
+    'yearlies': yearlyStemsBranches,
   };
   return result;
 }

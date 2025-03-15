@@ -1,3 +1,7 @@
+import 'package:dart_iztro/crape_myrtle/data/types/star.dart';
+import 'package:dart_iztro/crape_myrtle/translations/types/brightness.dart';
+import 'package:dart_iztro/crape_myrtle/translations/types/mutagen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:dart_iztro/crape_myrtle/translations/translation_service.dart';
@@ -144,112 +148,147 @@ void main() {
       final result = getMajorStar('2023-03-06', 4, true);
       print("get major stars $result");
       // expect(
-      //     result,
-      //     equals([
-      //       [
-      //         FunctionalStar(Star(
-      //             name: StarName.qiShaMaj,
-      //             type: StarType.major,
-      //             brightness: BrightnessEnum.miao,
-      //             scope: Scope.origin,
-      //             mutagen: null))
-      //       ],
-      //       [
-      //         FunctionalStar(Star(
-      //             name: StarName.tianTongMaj,
-      //             type: StarType.major,
-      //             brightness: BrightnessEnum.ping,
-      //             scope: Scope.origin))
-      //       ],
-      //       [
-      //         FunctionalStar(Star(
-      //             name: StarName.wuQuMaj,
-      //             type: StarType.major,
-      //             brightness: BrightnessEnum.miao,
-      //             scope: Scope.origin))
-      //       ],
-      //       [
-      //         FunctionalStar(Star(
-      //             name: StarName.taiYangMaj,
-      //             type: StarType.major,
-      //             brightness: BrightnessEnum.wang,
-      //             scope: Scope.origin))
-      //       ],
-      //       [
-      //         FunctionalStar(Star(
-      //             name: StarName.poJunMaj,
-      //             type: StarType.major,
-      //             brightness: BrightnessEnum.miao,
-      //             scope: Scope.origin,
-      //             mutagen: Mutagen.siHuaLu))
-      //       ],
-      //       [
-      //         FunctionalStar(Star(
-      //             name: StarName.tianJiMaj,
-      //             type: StarType.major,
-      //             brightness: BrightnessEnum.xian,
-      //             scope: Scope.origin))
-      //       ],
-      //       [
-      //         FunctionalStar(Star(
-      //             name: StarName.ziWeiMaj,
-      //             type: StarType.major,
-      //             brightness: BrightnessEnum.wang,
-      //             scope: Scope.origin)),
-      //         FunctionalStar(Star(
-      //             name: StarName.tianFuMaj,
-      //             type: StarType.major,
-      //             brightness: BrightnessEnum.de,
-      //             scope: Scope.origin))
-      //       ],
-      //       [
-      //         FunctionalStar(
-      //           Star(
-      //               name: StarName.taiYinMaj,
-      //               type: StarType.major,
-      //               brightness: BrightnessEnum.bu,
-      //               scope: Scope.origin,
-      //               mutagen: Mutagen.siHuaKe),
+      //   result,
+      //   equals([
+      //     [
+      //       FunctionalStar(
+      //         Star(
+      //           name: StarName.qiShaMaj,
+      //           type: StarType.major,
+      //           brightness: BrightnessEnum.miao,
+      //           scope: Scope.origin,
+      //           mutagen: null,
       //         ),
-      //         FunctionalStar(
-      //           Star(
-      //               name: StarName.tanLangMaj,
-      //               type: StarType.major,
-      //               brightness: BrightnessEnum.miao,
-      //               scope: Scope.origin,
-      //               mutagen: Mutagen.siHuaJi),
+      //       ),
+      //     ],
+      //     [
+      //       FunctionalStar(
+      //         Star(
+      //           name: StarName.tianTongMaj,
+      //           type: StarType.major,
+      //           brightness: BrightnessEnum.ping,
+      //           scope: Scope.origin,
       //         ),
-      //         FunctionalStar(
-      //           Star(
-      //               name: StarName.juMenMaj,
-      //               type: StarType.major,
-      //               brightness: BrightnessEnum.wang,
-      //               scope: Scope.origin,
-      //               mutagen: Mutagen.siHuaQuan),
+      //       ),
+      //     ],
+      //     [
+      //       FunctionalStar(
+      //         Star(
+      //           name: StarName.wuQuMaj,
+      //           type: StarType.major,
+      //           brightness: BrightnessEnum.miao,
+      //           scope: Scope.origin,
       //         ),
-      //       ],
-      //       [
-      //         FunctionalStar(
-      //           Star(
-      //               name: StarName.lianZhenMaj,
-      //               type: StarType.major,
-      //               brightness: BrightnessEnum.ping,
-      //               scope: Scope.origin),
+      //       ),
+      //     ],
+      //     [
+      //       FunctionalStar(
+      //         Star(
+      //           name: StarName.taiYangMaj,
+      //           type: StarType.major,
+      //           brightness: BrightnessEnum.wang,
+      //           scope: Scope.origin,
       //         ),
-      //         FunctionalStar(Star(
-      //             name: StarName.tianXiangMaj,
-      //             type: StarType.major,
-      //             brightness: BrightnessEnum.miao,
-      //             scope: Scope.origin)),
-      //       ],
-      //       [
-      //         FunctionalStar(Star(
-      //             name: StarName.tianLiangMaj,
-      //             type: StarType.major,
-      //             brightness: BrightnessEnum.wang,
-      //             scope: Scope.origin)),
-      //       ]
-      //     ]));
+      //       ),
+      //     ],
+      //     [
+      //       FunctionalStar(
+      //         Star(
+      //           name: StarName.poJunMaj,
+      //           type: StarType.major,
+      //           brightness: BrightnessEnum.miao,
+      //           scope: Scope.origin,
+      //           mutagen: Mutagen.siHuaLu,
+      //         ),
+      //       ),
+      //     ],
+      //     [
+      //       FunctionalStar(
+      //         Star(
+      //           name: StarName.tianJiMaj,
+      //           type: StarType.major,
+      //           brightness: BrightnessEnum.xian,
+      //           scope: Scope.origin,
+      //         ),
+      //       ),
+      //     ],
+      //     [
+      //       FunctionalStar(
+      //         Star(
+      //           name: StarName.ziWeiMaj,
+      //           type: StarType.major,
+      //           brightness: BrightnessEnum.wang,
+      //           scope: Scope.origin,
+      //         ),
+      //       ),
+      //       FunctionalStar(
+      //         Star(
+      //           name: StarName.tianFuMaj,
+      //           type: StarType.major,
+      //           brightness: BrightnessEnum.de,
+      //           scope: Scope.origin,
+      //         ),
+      //       ),
+      //     ],
+      //     [
+      //       FunctionalStar(
+      //         Star(
+      //           name: StarName.taiYinMaj,
+      //           type: StarType.major,
+      //           brightness: BrightnessEnum.bu,
+      //           scope: Scope.origin,
+      //           mutagen: Mutagen.siHuaKe,
+      //         ),
+      //       ),
+      //       FunctionalStar(
+      //         Star(
+      //           name: StarName.tanLangMaj,
+      //           type: StarType.major,
+      //           brightness: BrightnessEnum.miao,
+      //           scope: Scope.origin,
+      //           mutagen: Mutagen.siHuaJi,
+      //         ),
+      //       ),
+      //       FunctionalStar(
+      //         Star(
+      //           name: StarName.juMenMaj,
+      //           type: StarType.major,
+      //           brightness: BrightnessEnum.wang,
+      //           scope: Scope.origin,
+      //           mutagen: Mutagen.siHuaQuan,
+      //         ),
+      //       ),
+      //     ],
+      //     [
+      //       FunctionalStar(
+      //         Star(
+      //           name: StarName.lianZhenMaj,
+      //           type: StarType.major,
+      //           brightness: BrightnessEnum.ping,
+      //           scope: Scope.origin,
+      //         ),
+      //       ),
+      //       FunctionalStar(
+      //         Star(
+      //           name: StarName.tianXiangMaj,
+      //           type: StarType.major,
+      //           brightness: BrightnessEnum.miao,
+      //           scope: Scope.origin,
+      //         ),
+      //       ),
+      //     ],
+      //     [
+      //       FunctionalStar(
+      //         Star(
+      //           name: StarName.tianLiangMaj,
+      //           type: StarType.major,
+      //           brightness: BrightnessEnum.wang,
+      //           scope: Scope.origin,
+      //         ),
+      //       ),
+      //     ],
+      //   ]),
+      // );
     });
 
     testWidgets('getMinorStar()', (WidgetTester tester) async {

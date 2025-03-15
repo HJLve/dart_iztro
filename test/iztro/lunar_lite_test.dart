@@ -1,11 +1,23 @@
+import 'package:dart_iztro/crape_myrtle/translations/translation_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dart_iztro/lunar_lite/utils/convertor.dart';
 import 'package:dart_iztro/lunar_lite/utils/ganzhi.dart';
 import 'package:dart_iztro/crape_myrtle/data/types/astro.dart';
+import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   group("Test lunar-lite test", () {
-    test("test solar2lunar functions", () {
+    testWidgets("test solar2lunar functions", (WidgetTester tester) async {
+      await tester.pumpWidget(
+        GetMaterialApp(
+          translations: IztroTranslationService(),
+          locale: const Locale('zh', 'CN'),
+          fallbackLocale: const Locale('zh', 'CN'),
+          home: const Scaffold(body: Center(child: Text('测试'))),
+        ),
+      );
+
       const Map<String, dynamic> dates = {
         "2023-7-29": {
           "date": "二〇二三年六月十二",

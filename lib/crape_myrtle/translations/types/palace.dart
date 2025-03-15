@@ -38,10 +38,14 @@ PalaceName getMyPalaceNameFrom(String str) {
     }
   }
   if (isContainStr) {
-    return PalaceName.values.firstWhere((e) => e.key == str,
-        orElse: () => throw ArgumentError('invalid palace name str'));
+    return PalaceName.values.firstWhere(
+      (e) => e.key == str,
+      orElse: () => throw ArgumentError('invalid palace name str'),
+    );
   } else {
-    return PalaceName.values.firstWhere((e) => e.title == str,
-        orElse: () => throw ArgumentError('invalid palace name string'));
+    return PalaceName.values.firstWhere(
+      (e) => e.title == str,
+      orElse: () => throw ArgumentError('invalid palace name string'),
+    );
   }
 }

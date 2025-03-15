@@ -29,7 +29,7 @@ List<List<FunctionalStar>> getMajorStar(
   int timeIndex, [
   bool? fixLeap,
 ]) {
-  var indexMaps = getStartIndex(solarDateStr, timeIndex);
+  var indexMaps = getStartIndex(solarDateStr, timeIndex, fixLeap);
   int ziweiIndex = indexMaps["ziweiIndex"] ?? -1;
   int tianFuIndex = indexMaps["tianfuIndex"] ?? -1;
 

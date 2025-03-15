@@ -6,6 +6,7 @@ import 'package:dart_iztro/crape_myrtle/data/types/star.dart';
 import 'package:dart_iztro/crape_myrtle/translations/types/brightness.dart';
 import 'package:dart_iztro/crape_myrtle/translations/types/mutagen.dart';
 import 'package:dart_iztro/crape_myrtle/translations/types/star_name.dart';
+import 'package:flutter/foundation.dart';
 
 abstract class IFunctionalStar implements Star {
   /// 获取星耀所在宫位
@@ -126,4 +127,16 @@ class FunctionalStar extends IFunctionalStar {
     // TODO: implement toString
     return "{name: ${name.title}, type: ${type.title}, brightness: ${brightness?.title}, scope: ${scope.title}, mutagen: ${mutagen?.title}}";
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is FunctionalStar &&
+        other.name == name &&
+        other.type == type &&
+        other.scope == scope;
+  }
+
+  @override
+  int get hashCode => name.hashCode ^ type.hashCode ^ scope.hashCode;
 }

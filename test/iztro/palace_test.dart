@@ -30,7 +30,15 @@ void main() {
       );
     });
 
-    test('getSoulAndBody function', () {
+    testWidgets('getSoulAndBody function', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        GetMaterialApp(
+          translations: IztroTranslationService(),
+          locale: const Locale('zh', 'CN'),
+          fallbackLocale: const Locale('zh', 'CN'),
+          home: const Scaffold(body: Center(child: Text('测试'))),
+        ),
+      );
       final data = [
         {
           'date': '2023-01-22',
@@ -68,20 +76,28 @@ void main() {
         final timeIndex = item['timeIndex'] as int;
         final result = item['result'] as Map<String, dynamic>;
         final result1 = getSoulAndBody(date, timeIndex, true);
-        expect(result1.soulIndex, result?['soulIndex'] as int);
-        expect(result1.bodyIndex, result?['bodyIndex'] as int);
+        expect(result1.soulIndex, result['soulIndex'] as int);
+        expect(result1.bodyIndex, result['bodyIndex'] as int);
         expect(
           result1.heavenlyStenName,
-          getMyHeavenlyStemNameFrom(result?['havenlyStemOfSoul'] as String),
+          getMyHeavenlyStemNameFrom(result['havenlyStemOfSoul'] as String),
         );
         expect(
           result1.earthlyBranchName,
-          getMyEarthlyBranchNameFrom(result?['earthlyBranchOfSoul'] as String),
+          getMyEarthlyBranchNameFrom(result['earthlyBranchOfSoul'] as String),
         );
       });
     });
 
-    test('getFiveElementCLass()', () {
+    testWidgets('getFiveElementCLass()', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        GetMaterialApp(
+          translations: IztroTranslationService(),
+          locale: const Locale('zh', 'CN'),
+          fallbackLocale: const Locale('zh', 'CN'),
+          home: const Scaffold(body: Center(child: Text('测试'))),
+        ),
+      );
       expect(
         getFiveElementClass(
           HeavenlyStemName.gengHeavenly,
@@ -168,7 +184,17 @@ void main() {
       );
     });
 
-    test('getPalaceNames() should return correct list', () {
+    testWidgets('getPalaceNames() should return correct list', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        GetMaterialApp(
+          translations: IztroTranslationService(),
+          locale: const Locale('zh', 'CN'),
+          fallbackLocale: const Locale('zh', 'CN'),
+          home: const Scaffold(body: Center(child: Text('测试'))),
+        ),
+      );
       final targetList = [
         PalaceName.siblingsPalace,
         PalaceName.soulPalace,
@@ -188,7 +214,15 @@ void main() {
       expect(getPalaceNames(-11), equals(targetList));
     });
 
-    test('getHoroscope() female', () {
+    testWidgets('getHoroscope() female', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        GetMaterialApp(
+          translations: IztroTranslationService(),
+          locale: const Locale('zh', 'CN'),
+          fallbackLocale: const Locale('zh', 'CN'),
+          home: const Scaffold(body: Center(child: Text('测试'))),
+        ),
+      );
       final result = getHoroscope('2023-11-15', 3, GenderName.female, true);
       final ages = result?['ages'] as List<List<int>>;
       print('getHoroscope $ages');
@@ -209,7 +243,15 @@ void main() {
       expect(result1, equals(ages));
     });
 
-    test('getHoroscope() male', () {
+    testWidgets('getHoroscope() male', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        GetMaterialApp(
+          translations: IztroTranslationService(),
+          locale: const Locale('zh', 'CN'),
+          fallbackLocale: const Locale('zh', 'CN'),
+          home: const Scaffold(body: Center(child: Text('测试'))),
+        ),
+      );
       final result = getHoroscope('2023-11-15', 3, GenderName.male, true);
       final ages = result?['ages'] as List<List<int>>;
       final result1 = [
@@ -229,7 +271,17 @@ void main() {
       expect(ages, equals(result1));
     });
 
-    test('fliesTo() notFlyTo() fliesOneOfTo()', () {
+    testWidgets('fliesTo() notFlyTo() fliesOneOfTo()', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        GetMaterialApp(
+          translations: IztroTranslationService(),
+          locale: const Locale('zh', 'CN'),
+          fallbackLocale: const Locale('zh', 'CN'),
+          home: const Scaffold(body: Center(child: Text('测试'))),
+        ),
+      );
       final astroble = bySolar('2017-12-04', 12, GenderName.male);
 
       final result = astroble.palace(PalaceName.soulPalace)?.fliesTo(
@@ -283,7 +335,7 @@ void main() {
           astroble.palace(PalaceName.soulPalace)?.mutagedPalaces() ?? [];
       expect(palaces[0].name.title, '命宫');
       expect(palaces[1].name.title, '迁移');
-      expect(palaces[2].name.title, '交友');
+      expect(palaces[2].name.title, '仆役');
       expect(palaces[3].name.title, '兄弟');
     });
   });

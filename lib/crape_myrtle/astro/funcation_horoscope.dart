@@ -94,7 +94,7 @@ class FunctionalHoroscope implements IFunctionalHoroscpoe {
   @override
   late YearlyHoroscope yearly;
 
-  FunctionalHoroscope(Horoscope data, IFunctionalAstrolabe astrolabe) {
+  FunctionalHoroscope(Horoscope data, this.astrolabe) {
     lunarDate = data.lunarDate;
     solarDate = data.solarDate;
     decadal = data.decadal;
@@ -103,7 +103,6 @@ class FunctionalHoroscope implements IFunctionalHoroscpoe {
     monthly = data.monthly;
     daily = data.daily;
     hourly = data.hourly;
-    astrolabe = astrolabe;
   }
 
   @override
@@ -201,7 +200,7 @@ class FunctionalHoroscope implements IFunctionalHoroscpoe {
     final stars =
         mergeStars([decadal.stars ?? [], yearly.stars ?? []])[palaceIndex];
     final starKeys = stars.map((item) => item.name);
-    return !horoscope.every((item) => !starKeys.contains(item));
+    return horoscope.every((item) => !starKeys.contains(item));
   }
 
   @override

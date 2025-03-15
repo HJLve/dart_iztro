@@ -299,7 +299,7 @@ class FunctionalPalace implements IFunctionalPalace {
           Mutagen.siHuaLu,
           Mutagen.siHuaQuan,
           Mutagen.siHuaKe,
-          Mutagen.siHuaJi
+          Mutagen.siHuaJi,
         ];
       } else {
         muts = mutagens;
@@ -328,7 +328,7 @@ class FunctionalPalace implements IFunctionalPalace {
         Mutagen.siHuaLu,
         Mutagen.siHuaQuan,
         Mutagen.siHuaKe,
-        Mutagen.siHuaJi
+        Mutagen.siHuaJi,
       ];
     } else {
       muts = mutagens;
@@ -347,8 +347,12 @@ class FunctionalPalace implements IFunctionalPalace {
     if (_astrolabe == null) {
       return [];
     }
-    final stars = mutagensToStars(heavenlySten,
-        [Mutagen.siHuaLu, Mutagen.siHuaQuan, Mutagen.siHuaKe, Mutagen.siHuaJi]);
+    final stars = mutagensToStars(heavenlySten, [
+      Mutagen.siHuaLu,
+      Mutagen.siHuaQuan,
+      Mutagen.siHuaKe,
+      Mutagen.siHuaJi,
+    ]);
     final result =
         stars.map((star) => _astrolabe?.star(star)?.palace()).toList();
 
@@ -365,6 +369,6 @@ class FunctionalPalace implements IFunctionalPalace {
   @override
   String toString() {
     // TODO: implement toString
-    return 'index = $index, palace name = ${name.title}, decadals $decadal, ages $ages';
+    return 'index = $index, palace name = ${name.title}, decadals $decadal, ages $ages, star names ${majorStars.map((e) => e.name).toList()}, ${minorStars.map((e) => e.name).toList()}, ${adjectiveStars.map((e) => e.name).toList()}';
   }
 }

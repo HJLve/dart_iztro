@@ -30,7 +30,7 @@ void main() {
       expect(find.text('首页'), findsOneWidget);
     });
 
-    test("getPalace()", () {
+    testWidgets("getPalace()", (WidgetTester tester) async {
       final result = bySolar('2023-08-15', 0, GenderName.female, true);
       List<String> palaceNames = [
         '疾厄',
@@ -48,6 +48,7 @@ void main() {
       ];
 
       palaceNames.asMap().forEach((index, element) {
+        print('index: $index, element: $element');
         var palaceName = getMyPalaceNameFrom(element);
         expect(result.palace(index)?.name.title, equals(element));
         expect(result.palace(palaceName)?.name.title, equals(element));
@@ -293,7 +294,7 @@ void main() {
           StarName.qingYangMin,
           StarName.tianXiangMaj,
           StarName.tianKuiMin,
-          StarName.tianYueMin,
+          StarName.tianYue,
           StarName.diKongMin,
           StarName.diJieMin,
         ]),
@@ -305,7 +306,7 @@ void main() {
           StarName.qingYangMin,
           StarName.tianXiangMaj,
           StarName.tianKuiMin,
-          StarName.tianYueMin,
+          StarName.tianYue,
           StarName.diKongMin,
           StarName.diJieMin,
           StarName.taiYinMaj,
@@ -362,7 +363,7 @@ void main() {
     test('getSurroundedPalaces() by palace index', () {
       final result = bySolar('2023-08-15', 0, GenderName.female, true);
       final palace = result.surroundedPalaces(0);
-      expect(palace.target.name.title, '疾恶');
+      expect(palace.target.name.title, '疾厄');
       expect(palace.opposite.name.title, '父母');
       expect(palace.wealth.name.title, '田宅');
       expect(palace.career.name.title, '兄弟');
@@ -394,57 +395,57 @@ void main() {
         true,
       );
       expect(
-        result.surroundedPalaces(PalaceName.soulPalace).notHave([
+        result.surroundedPalaces(PalaceName.soulPalace).haveOneOf([
           StarName.tianXi,
           StarName.tianYueMin,
         ]),
         true,
       );
       expect(
-        result.surroundedPalaces(PalaceName.soulPalace).notHave([
+        result.surroundedPalaces(PalaceName.soulPalace).haveOneOf([
           StarName.tianLiangMaj,
           StarName.luCunMin,
         ]),
-        false,
+        true,
       );
       expect(
-        result.surroundedPalaces(PalaceName.soulPalace).notHave([
+        result.surroundedPalaces(PalaceName.soulPalace).haveOneOf([
           StarName.zuoFuMin,
           StarName.youBiMin,
         ]),
-        false,
+        true,
       );
       expect(
-        result.surroundedPalaces(PalaceName.soulPalace).notHave([
+        result.surroundedPalaces(PalaceName.soulPalace).haveOneOf([
           StarName.diKongMin,
           StarName.diJieMin,
         ]),
-        true,
+        false,
       );
       expect(
-        result.surroundedPalaces(3).notHave([
+        result.surroundedPalaces(3).haveOneOf([
           StarName.wuQuMaj,
           StarName.tianMaMin,
         ]),
-        false,
+        true,
       );
       expect(
-        result.surroundedPalaces(3).notHave([
+        result.surroundedPalaces(3).haveOneOf([
           StarName.huoXingMin,
           StarName.tanLangMaj,
         ]),
-        false,
+        true,
       );
       expect(
-        result.surroundedPalaces(3).notHave([
+        result.surroundedPalaces(3).haveOneOf([
           StarName.tianKuiMin,
           StarName.tianGuan,
         ]),
-        true,
+        false,
       );
     });
 
-    test('nothaveMutagenInPalce', () {
+    test('nothave MutagenInPalce', () {
       final result = bySolar('2013-08-21', 4, GenderName.female, true);
       expect(
         result

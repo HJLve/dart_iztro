@@ -263,7 +263,7 @@ FunctionalAstrolabe byLunar(
   bool fixLeap = true,
 ]) {
   final solarDate = lunar2Solar(lunarDateStr, isLeapMonth);
-  return bySolar(solarDate.toString(), timeIndex, gender);
+  return bySolar(solarDate.toString(), timeIndex, gender, fixLeap);
 }
 
 /// 获取排盘信息。
@@ -335,8 +335,9 @@ String getMajorStarBySolarDate(
   int timeIndex, [
   bool fixLeap = true,
 ]) {
+  print('solarDateStr $solarDateStr timeIndex $timeIndex fixLeap $fixLeap');
   final bodyIndex = getSoulAndBody(solarDateStr, timeIndex, fixLeap).bodyIndex;
-  final majorStars = getMajorStar(solarDateStr, timeIndex);
+  final majorStars = getMajorStar(solarDateStr, timeIndex, fixLeap);
   final stars = majorStars[bodyIndex].where(
     (star) => star.type == StarType.major,
   );
@@ -363,8 +364,8 @@ String getMajorStarBySolarDate(
 String getMajorStarByLunarDate(
   String lunarDateStr,
   int timeIndex, [
-  bool fixLeap = true,
   bool isLeapMonth = false,
+  bool fixLeap = true,
 ]) {
   final solarDate = lunar2Solar(lunarDateStr, isLeapMonth);
   return getMajorStarBySolarDate(solarDate.toString(), timeIndex, fixLeap);

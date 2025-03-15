@@ -157,9 +157,6 @@ class FunctionalAstrolabe implements IFunctionalAstrolabe {
             ...palace.minorStars,
             ...palace.adjectiveStars,
           ].toList();
-      print(
-        "functional star palaces ${palaces.length} , stars = $stars, starName $starName",
-      );
       for (int j = 0; j < stars.length; j++) {
         if (stars[j].name.starKey == starName.starKey) {
           target = stars[j];
@@ -168,6 +165,9 @@ class FunctionalAstrolabe implements IFunctionalAstrolabe {
           break;
         }
       }
+    }
+    if (target == null) {
+      Exception('星耀名称错误，请检查星耀名称是否正确');
     }
     return target;
   }

@@ -8,6 +8,7 @@ import 'package:dart_iztro/crape_myrtle/translations/types/heavenly_stem.dart';
 import 'package:dart_iztro/crape_myrtle/translations/types/palace.dart';
 import 'package:dart_iztro/crape_myrtle/translations/types/star_name.dart';
 import 'package:dart_iztro/lunar_lite/utils/types.dart';
+import 'package:flutter/foundation.dart';
 
 /// 运限对象
 ///
@@ -83,6 +84,19 @@ class Decadal {
     // TODO: implement toString
     return 'range $range, heavelyStem = ${heavenlyStem.title}, earthlyBranch ${earthlyBranch.title}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is Decadal &&
+        listEquals(other.range, range) &&
+        other.heavenlyStem == heavenlyStem &&
+        other.earthlyBranch == earthlyBranch;
+  }
+
+  @override
+  int get hashCode =>
+      range.hashCode ^ heavenlyStem.hashCode ^ earthlyBranch.hashCode;
 }
 
 /// 运限
