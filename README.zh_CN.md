@@ -71,7 +71,7 @@
 
 ```yaml
 dependencies:
-  dart_iztro: ^2.4.6
+  dart_iztro: ^2.4.9
 ```
 
 ## 备选安装方式
@@ -83,7 +83,7 @@ dependencies:
   dart_iztro:
     git:
       url: https://github.com/EdwinXiang/dart_iztro.git
-      ref: v2.4.6
+      ref: v2.4.9
 ```
 
 ## 使用方法

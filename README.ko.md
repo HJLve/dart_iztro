@@ -39,7 +39,7 @@
 
 ```yaml
 dependencies:
-  dart_iztro: ^2.4.6
+  dart_iztro: ^2.4.9
 ```
 
 ## 대체 설치 방법
