@@ -8,7 +8,6 @@ import 'package:dart_iztro/crape_myrtle/tools/crape_util.dart';
 import 'package:dart_iztro/crape_myrtle/translations/types/earthly_branch.dart';
 import 'package:dart_iztro/crape_myrtle/translations/types/star_name.dart';
 import 'package:dart_iztro/lunar_lite/utils/ganzhi.dart';
-import 'package:web/helpers.dart';
 
 /// 安杂耀
 ///
