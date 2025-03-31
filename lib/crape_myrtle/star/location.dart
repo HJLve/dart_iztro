@@ -10,6 +10,7 @@ import 'package:dart_iztro/lunar_lite/utils/convertor.dart';
 import 'package:dart_iztro/lunar_lite/utils/ganzhi.dart';
 import 'package:dart_iztro/lunar_lite/utils/misc.dart';
 import 'package:dart_iztro/lunar_lite/utils/utils.dart';
+import 'package:lunar/lunar.dart';
 
 /// 起紫微星诀算法
 ///
@@ -276,7 +277,11 @@ Map<String, int> getChangQuIndex(int timeIndex) {
 /// @param solarDateStr 阳历日期
 /// @param timeIndex 时辰索引【0～12】
 /// @returns 三台，八座索引
-Map<String, int> getDailyStarIndex(String solarDateStr, int timeIndex) {
+Map<String, int> getDailyStarIndex(
+  String solarDateStr,
+  int timeIndex, [
+  bool? fixLeap,
+]) {
   final lunar = solar2Lunar(solarDateStr);
   final zuoYouIndex = getZuoYouIndex(lunar.lunarMonth);
   final changQuIndex = getChangQuIndex(timeIndex);
@@ -286,8 +291,17 @@ Map<String, int> getDailyStarIndex(String solarDateStr, int timeIndex) {
   final youIndex = zuoYouIndex["youIndex"] ?? -1;
   final quIndex = changQuIndex["quIndex"] ?? -1;
   final changIndex = changQuIndex["changIndex"] ?? -1;
-  final sanTaiIndex = fixIndex((zuoIndex + dayIndex) % 12);
-  final baZuoIndex = fixIndex((youIndex - dayIndex) % 12);
+  var extra = 0;
+  if (fixLeap == true) {
+    // 当lunarMonth 为闰月月份并且是后半月时，需要额外加1
+    final year = LunarYear(lunar.lunarYear);
+    final leapMonth = year.getLeapMonth();
+    if (leapMonth > 0 && lunar.lunarMonth == leapMonth && lunar.lunarDay > 15) {
+      extra = 1;
+    }
+  }
+  final sanTaiIndex = fixIndex(((zuoIndex + dayIndex) % 12) + extra);
+  final baZuoIndex = fixIndex(((youIndex - dayIndex) % 12) - extra);
   final tianGuiIndex = fixIndex((quIndex + dayIndex) % 12 - 1);
   final enguangIndex = fixIndex((changIndex + dayIndex) % 12 - 1);
   return {
@@ -706,6 +720,11 @@ Map<String, int> getYearlyStarIndex(
         heavenlyStems.indexOf(heavenlyStem.key) +
         1,
   );
+  // 判断命主出生年年支阴阳属性，如果结果为0则为阳，否则为阴
+  final yinyang = earthlyBranches.indexOf(earthlyBranchName.key) % 2;
+  if (yinyang != xunKongIndex % 2) {
+    xunKongIndex = fixIndex(xunKongIndex + 1);
+  }
 
   int tianShangIndex = fixIndex(
     palaces.indexOf("friendsPalace") + soulAndBody.soulIndex,

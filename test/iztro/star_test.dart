@@ -314,7 +314,7 @@ void main() {
           .map((element) => element.length)
           .reduce((prev, next) => prev + next);
       print("get minor stars sum $sum, result1.length = ${result1.length}");
-      expect(sum, 65);
+      expect(sum, 66);
       expect(result1.length, 12);
     });
 

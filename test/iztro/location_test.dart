@@ -1,3 +1,4 @@
+import 'package:dart_iztro/dart_iztro.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dart_iztro/crape_myrtle/translations/translation_service.dart';
 import 'package:dart_iztro/crape_myrtle/star/location.dart';
@@ -28,6 +29,52 @@ void main() {
   });
 
   group('test location funcation', () {
+    test('santai bazuo for lunar month', () {
+      final option = Option(
+        type: OptionType.solar,
+        dateStr: '1979-08-21',
+        timeIndex: 6,
+        gender: GenderName.male,
+        isLeapMonth: false,
+        fixLeap: true,
+      );
+      final result = withOptions(option);
+      final santaiIndex = result.star(StarName.sanTai)?.palace()?.index;
+      final bazuoIndex = result.star(StarName.baZuo)?.palace()?.index;
+      expect(santaiIndex, 0);
+      expect(bazuoIndex, 10);
+    });
+
+    test('xunkong for yin year', () {
+      final result = withOptions(
+        Option(
+          type: OptionType.solar,
+          dateStr: '1979-08-21',
+          timeIndex: 6,
+          gender: GenderName.male,
+          isLeapMonth: false,
+          fixLeap: true,
+        ),
+      );
+      final xunKongIndex = result.star(StarName.xunKong)?.palace()?.index;
+      expect(xunKongIndex, 11);
+    });
+
+    test('xunkong for yang year', () {
+      final result = withOptions(
+        Option(
+          type: OptionType.solar,
+          dateStr: '1980-08-21',
+          timeIndex: 6,
+          gender: GenderName.male,
+          isLeapMonth: false,
+          fixLeap: true,
+        ),
+      );
+      final xunKongIndex = result.star(StarName.xunKong)?.palace()?.index;
+      expect(xunKongIndex, 10);
+    });
+
     test('getLuYangTuoMaIndex', () {
       final data = [
         {
@@ -106,7 +153,7 @@ void main() {
           'result': {'luIndex': 3, 'maIndex': 6, 'yangIndex': 4, 'tuoIndex': 2},
         },
       ];
-      data.forEach((value) {
+      for (var value in data) {
         final heavenlyStem = value['heavenlyStem'] as String;
         final earthlyBranch = value['earthlyBranch'] as String;
         final result = value['result'] as Map<String, int>;
@@ -115,7 +162,7 @@ void main() {
           getMyEarthlyBranchNameFrom(earthlyBranch),
         );
         expect(result, equals(result1));
-      });
+      }
     });
 
     test('getKuiYueIndex()', () {
@@ -482,7 +529,7 @@ void main() {
           "tianKongIndex": 2,
           "jieLuIndex": 10,
           "kongWangIndex": 11,
-          "xunKongIndex": 2,
+          "xunKongIndex": 3,
           "tianShangIndex": 4,
           "tianShiIndex": 6,
         }),
@@ -514,7 +561,7 @@ void main() {
           "tianKongIndex": 4,
           "jieLuIndex": 2,
           "kongWangIndex": 3,
-          "xunKongIndex": 6,
+          "xunKongIndex": 7,
           "tianShangIndex": 8,
           "tianShiIndex": 10,
         }),
