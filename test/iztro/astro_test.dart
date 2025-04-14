@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:dart_iztro/crape_myrtle/translations/translation_service.dart';
@@ -992,6 +994,23 @@ void main() {
         horoscope3.decadal.index,
         equals(astrolable.palace(PalaceName.healthPalace)?.index),
       );
+    });
+
+    test('horoscope()', () {
+      final result = bySolar('1991-03-07', 6, GenderName.female);
+      final horoscope = result.horoscope(date: '2025-03-26');
+      expect(horoscope.solarDate, '2025-3-26');
+      expect(horoscope.decadal.heavenlyStem, HeavenlyStemName.wuHeavenly);
+      expect(horoscope.decadal.earthlyBranch, EarthlyBranchName.xuEarthly);
+      expect(horoscope.yearly.index, 3);
+      expect(horoscope.yearly.heavenlyStem, HeavenlyStemName.yiHeavenly);
+      expect(horoscope.yearly.earthlyBranch, EarthlyBranchName.siEarthly);
+      expect(horoscope.monthly.index, 10);
+      expect(horoscope.monthly.heavenlyStem, HeavenlyStemName.jiHeavenly);
+      expect(horoscope.monthly.earthlyBranch, EarthlyBranchName.maoEarthly);
+      expect(horoscope.daily.index, 0);
+      expect(horoscope.daily.heavenlyStem, HeavenlyStemName.jiaHeavenly);
+      expect(horoscope.daily.earthlyBranch, EarthlyBranchName.wuEarthly);
     });
   });
 }

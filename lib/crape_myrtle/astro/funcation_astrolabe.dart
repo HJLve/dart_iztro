@@ -330,15 +330,9 @@ class FunctionalAstrolabe implements IFunctionalAstrolabe {
     );
     monthlyIndex = fixIndex(
       yearlyIndex -
-          fixEarthlyBranchIndex(
-            getMyEarthlyBranchNameFrom(
-              astrolabe.rawDates.chineseDate.monthly[1],
-            ),
-          ) +
+          birthday.lunarMonth +
           earthlyBranches.indexOf(earthlyBranchHourly.key) +
-          fixEarthlyBranchIndex(
-            getMyEarthlyBranchNameFrom(heavenlyStemAndEarthly.monthly[1]),
-          ),
+          date.lunarMonth,
     );
     dailyIndex = fixIndex(monthlyIndex + date.lunarDay - 1);
     final currentHourlyBranches = getMyEarthlyBranchNameFrom(
