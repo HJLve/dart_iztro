@@ -290,6 +290,17 @@ enum AgeDivide {
   birthday, // birthday 代表生日分界
 }
 
+enum Algorithm {
+  normal, // 默认以紫微斗数全书为基础安星
+  zhongZhou, // 以中州派安星法为基础安星
+}
+
+enum AstroType {
+  heaven, // 天盘
+  earth, // 地盘
+  human, // 人盘
+}
+
 class Config {
   /// 四化配置
   Map<HeavenlyStemName, List<StarName>>? mutagens;
@@ -303,6 +314,7 @@ class Config {
   /// 运限分割点配置， normal 代表正月初一分界， exact 代表立春分界
   DivideType? horoscopeDivide;
   AgeDivide? ageDivide;
+  Algorithm? algorithm;
 
   Config({
     required this.mutagens,
@@ -310,6 +322,7 @@ class Config {
     required this.yearDivide,
     required this.horoscopeDivide,
     required this.ageDivide,
+    required this.algorithm,
   });
 }
 
@@ -334,13 +347,29 @@ class Config {
 typedef Plugin = ();
 
 class Option {
+  /// 日期类型 solar 为阳历， lūnār 为农历
   OptionType type;
+
+  /// 阳历日期 格式为 yyyy-mm-dd
   String dateStr;
+
+  /// 时辰索引，0为早子时，1为丑时，以此类推，12为晚子时
   int timeIndex;
+
+  /// 性别
   GenderName gender;
+
+  /// 是否为闰月 仅阴历类型可用
   bool isLeapMonth;
+
+  /// 是否修正闰月 当修正闰月时，以农历15为界，15之前算当月，之后算下月
   bool fixLeap;
+
+  /// 自定义配置
   Config? config;
+
+  /// 星盘类型
+  AstroType? astroType;
 
   Option({
     required this.type,
@@ -350,5 +379,35 @@ class Option {
     required this.isLeapMonth,
     required this.fixLeap,
     this.config,
+    this.astroType,
+  });
+}
+
+class ZhongZhouHeavenEarth {
+  HeavenlyStemName heavenlyStem;
+  EarthlyBranchName earthlyBranch;
+
+  ZhongZhouHeavenEarth({
+    required this.heavenlyStem,
+    required this.earthlyBranch,
+  });
+}
+
+class AstrolabeParams {
+  /// 阳历日期 格式为 yyyy-mm-dd
+  String solarDate;
+  int timeIndex;
+  bool fixLeap;
+  GenderName? gender;
+
+  /// 五行局起始干支， 用于中州派的地盘，人盘排法，不传该参数则即位天盘数据
+  ZhongZhouHeavenEarth? from;
+
+  AstrolabeParams({
+    required this.solarDate,
+    required this.timeIndex,
+    required this.fixLeap,
+    this.gender,
+    this.from,
   });
 }

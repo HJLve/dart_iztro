@@ -628,6 +628,7 @@ void main() {
           yearDivide: DivideType.exact,
           horoscopeDivide: null,
           ageDivide: AgeDivide.normal,
+          algorithm: null,
         ),
       );
       final result = byLunar('1999-12-29', 2, GenderName.female, true, true);
@@ -651,6 +652,7 @@ void main() {
           yearDivide: DivideType.normal,
           horoscopeDivide: null,
           ageDivide: AgeDivide.normal,
+          algorithm: null,
         ),
       );
       final result = byLunar('1999-12-29', 2, GenderName.female, true, true);
@@ -675,6 +677,7 @@ void main() {
           yearDivide: DivideType.normal,
           horoscopeDivide: null,
           ageDivide: AgeDivide.normal,
+          algorithm: null,
         ),
       );
       final result = bySolar('1980-02-14', 0, GenderName.male, true);
@@ -702,6 +705,7 @@ void main() {
           yearDivide: DivideType.normal,
           horoscopeDivide: null,
           ageDivide: AgeDivide.normal,
+          algorithm: null,
         ),
       );
       final result = bySolar('1995-03-30', 0, GenderName.male, true);
@@ -752,6 +756,7 @@ void main() {
             yearDivide: DivideType.exact,
             horoscopeDivide: null,
             ageDivide: AgeDivide.normal,
+            algorithm: null,
           ),
         ),
       );
@@ -782,6 +787,7 @@ void main() {
             yearDivide: DivideType.normal,
             horoscopeDivide: DivideType.normal,
             ageDivide: AgeDivide.normal,
+            algorithm: null,
           ),
         ),
       );
@@ -814,11 +820,77 @@ void main() {
             yearDivide: DivideType.normal,
             horoscopeDivide: DivideType.exact,
             ageDivide: AgeDivide.normal,
+            algorithm: null,
           ),
         ),
       );
       final horoscope2 = result2.horoscope(date: '1980-02-14');
       expect(horoscope2.yearly.earthlyBranch, EarthlyBranchName.shenEarthly);
+    });
+
+    test('with options with earth type', () {
+      final result = withOptions(
+        Option(
+          type: OptionType.solar,
+          dateStr: '1979-08-21',
+          timeIndex: 7,
+          gender: GenderName.male,
+          isLeapMonth: true,
+          fixLeap: true,
+          astroType: AstroType.earth,
+        ),
+      );
+      final soulPalace = result.palace(PalaceName.soulPalace);
+      print(soulPalace.toString());
+      expect(soulPalace?.index, 1);
+      expect(soulPalace?.heavenlySten, HeavenlyStemName.dingHeavenly);
+      expect(soulPalace?.earthlyBranch, EarthlyBranchName.maoEarthly);
+      expect(soulPalace?.majorStars[0].name.title, '天相');
+      expect(soulPalace?.minorStars[0].name.title, '文昌');
+      expect(result.fiveElementClass, FiveElementsFormat.fire6th);
+      expect(
+        soulPalace?.decadal,
+        equals(
+          Decadal(
+            range: [6, 15],
+            heavenlyStem: HeavenlyStemName.dingHeavenly,
+            earthlyBranch: EarthlyBranchName.maoEarthly,
+          ),
+        ),
+      );
+    });
+
+    test('with options with human type', () {
+      getConfig().algorithm = Algorithm.zhongZhou;
+      final result = withOptions(
+        Option(
+          type: OptionType.solar,
+          dateStr: '1979-08-21',
+          timeIndex: 8,
+          gender: GenderName.male,
+          isLeapMonth: true,
+          fixLeap: true,
+          astroType: AstroType.human,
+        ),
+      );
+      final soulPalace = result.palace(PalaceName.soulPalace);
+      print(soulPalace.toString());
+      expect(soulPalace?.index, 0);
+      expect(soulPalace?.heavenlySten, HeavenlyStemName.bingHeavenly);
+      expect(soulPalace?.earthlyBranch, EarthlyBranchName.yinEarthly);
+      expect(soulPalace?.majorStars[0].name.title, '太阳');
+      expect(soulPalace?.minorStars[0].name.title, '文昌');
+      expect(result.fiveElementClass, FiveElementsFormat.fire6th);
+      expect(
+        soulPalace?.decadal,
+        equals(
+          Decadal(
+            range: [6, 15],
+            heavenlyStem: HeavenlyStemName.bingHeavenly,
+            earthlyBranch: EarthlyBranchName.yinEarthly,
+          ),
+        ),
+      );
     });
 
     test('bosolar fix leap month', () {

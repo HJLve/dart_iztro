@@ -1,6 +1,8 @@
+import 'package:dart_iztro/crape_myrtle/data/types/astro.dart';
 import 'package:dart_iztro/crape_myrtle/data/types/star.dart';
 import 'package:dart_iztro/crape_myrtle/translations/types/brightness.dart';
 import 'package:dart_iztro/crape_myrtle/translations/types/mutagen.dart';
+import 'package:dart_iztro/dart_iztro.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
@@ -127,7 +129,12 @@ void main() {
         final solarDate = item['solarDate'];
         final timeIndex = item['timeIndex'];
         final result = item['result'];
-        final result1 = getStartIndex(solarDate, timeIndex);
+        final params = AstrolabeParams(
+          solarDate: solarDate,
+          timeIndex: timeIndex,
+          fixLeap: true,
+        );
+        final result1 = getStartIndex(params);
         print(
           "result $result, result1 = $result1, isEqual ${result == result1}",
         );
@@ -145,7 +152,12 @@ void main() {
         ),
       );
 
-      final result = getMajorStar('2023-03-06', 4, true);
+      final params = AstrolabeParams(
+        solarDate: '2023-03-06',
+        timeIndex: 4,
+        fixLeap: true,
+      );
+      final result = getMajorStar(params);
       print("get major stars $result");
       // expect(
       //   result,
@@ -302,9 +314,14 @@ void main() {
         ),
       );
 
-      final primaryStars = getMajorStar('2023-03-06', 2, true);
+      final params = AstrolabeParams(
+        solarDate: '2023-03-06',
+        timeIndex: 2,
+        fixLeap: true,
+      );
+      final primaryStars = getMajorStar(params);
       final secondaryStars = getMinorStar('2023-03-06', 2, true);
-      final otherStars = getAdjectiveStar('2023-03-06', 2, true);
+      final otherStars = getAdjectiveStar(params);
       List<List<List<FunctionalStar>>> result = [];
       result.add(primaryStars);
       result.add(secondaryStars);
@@ -329,7 +346,13 @@ void main() {
         ),
       );
 
-      final result = getChangSheng12('2023-08-15', 0, GenderName.female, true);
+      final params = AstrolabeParams(
+        solarDate: '2023-08-15',
+        timeIndex: 0,
+        fixLeap: true,
+        gender: GenderName.female,
+      );
+      final result = getChangSheng12(params);
       final names = result.map((star) => star.title).toList();
       expect(names, [
         '长生',
@@ -530,6 +553,126 @@ void main() {
         print("getJangQian12StartIndex key $key, value $value, result $result");
         expect(result, value);
       });
+    });
+
+    test('getAdjectiveStar()', () {
+      final data = getAdjectiveStar(
+        AstrolabeParams(
+          solarDate: '2001-08-16',
+          timeIndex: 2,
+          fixLeap: true,
+          gender: GenderName.male,
+        ),
+      );
+      print('getAdjectiveStar result ${data.expand((item) => item)}');
+      final expandeData = data.expand((item) => item).toList();
+      FunctionalStar? jiekongStar;
+      FunctionalStar? jieshaStar;
+      FunctionalStar? nianjieStar;
+      FunctionalStar? dahaoStar;
+      FunctionalStar? jieluStar;
+      for (var item in expandeData) {
+        if (item.name == StarName.jieKong) {
+          jiekongStar = item;
+        }
+        if (item.name == StarName.jieSha) {
+          jieshaStar = item;
+        }
+        if (item.name == StarName.nianJie) {
+          nianjieStar = item;
+        }
+        if (item.name == StarName.daHao) {
+          dahaoStar = item;
+        }
+        if (item.name == StarName.jieLu) {
+          jieluStar = item;
+        }
+      }
+      print(
+        'jiekongStar $jiekongStar, jieshaStar $jieshaStar, nianjieStar $nianjieStar, dahaoStart $dahaoStar, jieluStar $jieluStar',
+      );
+      expect(jiekongStar, isNull);
+      expect(jieshaStar, isNull);
+      expect(dahaoStar, isNull);
+      expect(jieluStar, isNotNull);
+      expect(nianjieStar, isNotNull);
+      for (var int = 0; int < data.length; int++) {
+        for (var star in data[int]) {
+          if (star.name == StarName.tianShi) {
+            expect(int, 10);
+          }
+          if (star.name == StarName.tianShang) {
+            print('tianshang index = $int');
+            expect(int, 8);
+          }
+        }
+      }
+    });
+
+    test('getAdjectvieStar() with 中州', () {
+      final defaultConfig = getConfig();
+      config(
+        Config(
+          mutagens: defaultConfig.mutagens,
+          brightness: defaultConfig.brightness,
+          yearDivide: defaultConfig.yearDivide,
+          horoscopeDivide: defaultConfig.horoscopeDivide,
+          ageDivide: defaultConfig.ageDivide,
+          algorithm: Algorithm.zhongZhou,
+        ),
+      );
+
+      final data = getAdjectiveStar(
+        AstrolabeParams(
+          solarDate: '2001-08-16',
+          timeIndex: 2,
+          fixLeap: true,
+          gender: GenderName.male,
+        ),
+      );
+      print('getAdjectiveStar result ${data.expand((item) => item)}');
+      final expandeData = data.expand((item) => item).toList();
+      FunctionalStar? jiekongStar;
+      FunctionalStar? jieshaStar;
+      FunctionalStar? nianjieStar;
+      FunctionalStar? dahaoStar;
+      FunctionalStar? jieluStar;
+      for (var item in expandeData) {
+        if (item.name == StarName.jieKong) {
+          jiekongStar = item;
+        }
+        if (item.name == StarName.jieSha) {
+          jieshaStar = item;
+        }
+        if (item.name == StarName.nianJie) {
+          nianjieStar = item;
+        }
+        if (item.name == StarName.daHao) {
+          dahaoStar = item;
+        }
+        if (item.name == StarName.jieLu) {
+          jieluStar = item;
+        }
+      }
+      print(
+        'jiekongStar $jiekongStar, jieshaStar $jieshaStar, nianjieStar $nianjieStar, dahaoStart $dahaoStar, jieluStar $jieluStar',
+      );
+      expect(jiekongStar, isNotNull);
+      expect(jieshaStar, isNotNull);
+      expect(dahaoStar, isNotNull);
+      expect(jieluStar, isNull);
+      expect(nianjieStar, isNotNull);
+      for (var int = 0; int < data.length; int++) {
+        for (var star in data[int]) {
+          if (star.name == StarName.tianShi) {
+            expect(int, 8);
+          }
+          if (star.name == StarName.tianShang) {
+            print('tianshang index = $int');
+            expect(int, 10);
+          }
+        }
+      }
     });
   });
 }

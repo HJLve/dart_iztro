@@ -1,3 +1,4 @@
+import 'package:dart_iztro/crape_myrtle/translations/types/palace.dart';
 import 'package:get/get.dart';
 import 'package:dart_iztro/crape_myrtle/astro/funcation_astrolabe.dart';
 import 'package:dart_iztro/crape_myrtle/astro/funcation_palace.dart';
@@ -45,6 +46,11 @@ DivideType _horoscopeDivide = DivideType.exact;
 /// birthday：生日分界
 AgeDivide _ageDivide = AgeDivide.normal; // 默认以自然年分割
 
+/// 算法类型，默认为紫微斗数全书安星
+/// @version v2.5.0
+/// normal：紫微斗数全书安星
+Algorithm _algorithm = Algorithm.normal; // 默认使用紫微斗数全书安星
+
 /// 批量加载插件
 ///
 /// @version v2.3.0
@@ -90,6 +96,9 @@ void config(Config config) {
   if (config.ageDivide != null) {
     _ageDivide = config.ageDivide!;
   }
+  if (config.algorithm != null) {
+    _algorithm = config.algorithm!;
+  }
 }
 
 Config getConfig() {
@@ -99,6 +108,7 @@ Config getConfig() {
     yearDivide: _yearDivide,
     horoscopeDivide: _horoscopeDivide,
     ageDivide: _ageDivide,
+    algorithm: _algorithm,
   );
 }
 
@@ -111,14 +121,14 @@ Config getConfig() {
 /// @param language 输出语言
 /// @returns 星盘信息
 FunctionalAstrolabe bySolar(
-  String solarDateStr,
+  String solarDate,
   int timeIndex,
   GenderName gender, [
   bool fixLeap = true,
 ]) {
   List<IFunctionalPalace> palaces = [];
   var heavenlyEarthlyBranch = getHeavenlyStemAndEarthlyBranchSolarDate(
-    solarDateStr,
+    solarDate,
     timeIndex,
     getConfig().yearDivide,
   );
@@ -128,24 +138,25 @@ FunctionalAstrolabe bySolar(
   var heavenlyStemOfYear = getMyHeavenlyStemNameFrom(
     heavenlyEarthlyBranch.yearly[0],
   );
-  var soulAndBody = getSoulAndBody(solarDateStr, timeIndex, fixLeap);
-  final palaceNames = getPalaceNames(soulAndBody.soulIndex);
-  final majorStars = getMajorStar(solarDateStr, timeIndex, fixLeap);
-  final minorStars = getMinorStar(solarDateStr, timeIndex, fixLeap);
-  final adjectiveStars = getAdjectiveStar(solarDateStr, timeIndex, fixLeap);
-  final changSheng12 = getChangSheng12(
-    solarDateStr,
-    timeIndex,
-    gender,
-    fixLeap,
+  final params = AstrolabeParams(
+    solarDate: solarDate,
+    timeIndex: timeIndex,
+    fixLeap: fixLeap,
+    gender: gender,
   );
-  final boshi12 = getBoShi12(solarDateStr, gender);
+  var soulAndBody = getSoulAndBody(params);
+  final palaceNames = getPalaceNames(soulAndBody.soulIndex);
+  final majorStars = getMajorStar(params);
+  final minorStars = getMinorStar(solarDate, timeIndex, fixLeap);
+  final adjectiveStars = getAdjectiveStar(params);
+  final changSheng12 = getChangSheng12(params);
+  final boshi12 = getBoShi12(solarDate, gender);
   final yearly12Maps = getYearly12(
-    solarDateStr,
+    solarDate,
   ); // {"jiangqian12": jiangqian12, "suiqian12": suiqian12};
   final jiangqian12 = yearly12Maps["jiangqian12"] ?? [];
   final suiqian12 = yearly12Maps["suiqian12"] ?? [];
-  final horoscope = getHoroscope(solarDateStr, timeIndex, gender, fixLeap);
+  final horoscope = getHoroscope(params);
   final decadals = horoscope?["decades"];
   final ages = horoscope?["ages"];
   List<YearlyStemsBranches> yearlyStemsBranches = horoscope?["yearlies"];
@@ -161,11 +172,11 @@ FunctionalAstrolabe bySolar(
     bool isOriginalPalace =
         !["ziEarthly", "chouEarthly"].contains(earthlyBranchOfPalace) &&
         heavenlyStemOfPalace == heavenlyStemOfYear.key;
-    final filerMajorStars =
-        majorStars[i] +
-        minorStars[i]
-            .where((e) => ['luCun', 'tianMa'].contains(e.type.key))
-            .toList();
+    // final filerMajorStars =
+    //     majorStars[i] +
+    //     minorStars[i]
+    //         .where((e) => ['luCun', 'tianMa'].contains(e.type.key))
+    //         .toList();
     final yealyAges =
         yearlyStemsBranches
             .firstWhere((e) => e.earthlyBranchName.key == earthlyBranchOfPalace)
@@ -179,11 +190,8 @@ FunctionalAstrolabe bySolar(
           isOriginalPalace: isOriginalPalace,
           heavenlySten: getMyHeavenlyStemNameFrom(heavenlyStemOfPalace),
           earthlyBranch: getMyEarthlyBranchNameFrom(earthlyBranchOfPalace),
-          majorStars: filerMajorStars,
-          minorStars:
-              minorStars[i]
-                  .where((star) => !['luCun', 'tianMa'].contains(star.type.key))
-                  .toList(),
+          majorStars: majorStars[i],
+          minorStars: minorStars[i],
           adjectiveStars: adjectiveStars[i],
           changShen12: changSheng12[i],
           boShi12: boshi12[i],
@@ -206,22 +214,22 @@ FunctionalAstrolabe bySolar(
     earthlyBranchesMap[earthlyBranchOfSoulPalace]?["soul"],
   );
   final chineseDate = getHeavenlyStemAndEarthlyBranchSolarDate(
-    solarDateStr,
+    solarDate,
     timeIndex,
     getConfig().yearDivide,
   );
-  final lunarDate = solar2Lunar(solarDateStr);
+  final lunarDate = solar2Lunar(solarDate);
   final result = FunctionalAstrolabe(
     Astrolabe(
       gender: gender.title,
-      solarDate: solarDateStr,
+      solarDate: solarDate,
       lunarDate: lunarDate.toChString(true),
       chineseDate: chineseDate.toString(),
       rawDates: LunarDateObj(lunarDate: lunarDate, chineseDate: chineseDate),
       time: chineseTimes[timeIndex].tr,
       timeRage: timeRanges[timeIndex],
-      sign: getSignBySolarDate(solarDateStr),
-      zodiac: getZodiacBySolarDate(solarDateStr).tr,
+      sign: getSignBySolarDate(solarDate),
+      zodiac: getZodiacBySolarDate(solarDate).tr,
       earthlyBranchOfSoulPalace: getMyEarthlyBranchNameFrom(
         earthlyBranchOfSoulPalace,
       ),
@@ -266,6 +274,45 @@ FunctionalAstrolabe byLunar(
   return bySolar(solarDate.toString(), timeIndex, gender, fixLeap);
 }
 
+T rearrangeAstrolabe<T extends FunctionalAstrolabe>(
+  ZhongZhouHeavenEarth from,
+  T astrolabe,
+  Option option,
+) {
+  final timeIndex = option.timeIndex;
+  final fixLeap = option.fixLeap;
+
+  // 以传入地支为命宫
+  final params = AstrolabeParams(
+    solarDate: astrolabe.solarDate,
+    timeIndex: timeIndex,
+    fixLeap: fixLeap,
+    gender: getMyGenderFrom(astrolabe.gender),
+    from: from,
+  );
+  final soulAndBody = getSoulAndBody(params);
+  final fiveElementClass = getFiveElementClass(
+    from.heavenlyStem,
+    from.earthlyBranch,
+  );
+  final palaceNames = getPalaceNames(soulAndBody.soulIndex);
+  final majorStars = getMajorStar(params);
+  final changSheng12 = getChangSheng12(params);
+  final horoscope = getHoroscope(params);
+  astrolabe.fiveElementClass = fiveElementClass;
+  for (int i = 0; i < astrolabe.palaces.length; i++) {
+    final palace = astrolabe.palaces[i];
+    palace.name = palaceNames[i];
+    palace.majorStars = majorStars[i];
+    palace.changShen12 = changSheng12[i];
+    palace.decadal = horoscope?["decades"][i];
+    palace.ages = horoscope?["ages"][i];
+    palace.yearlies = horoscope?["yearlies"][i].ages;
+    palace.isBodyPalace = soulAndBody.bodyIndex == i;
+  }
+  return astrolabe;
+}
+
 /// 获取排盘信息。
 ///
 /// @param param0 排盘参数
@@ -274,22 +321,51 @@ FunctionalAstrolabe withOptions(Option option) {
   if (option.config != null) {
     config(option.config!);
   }
+  FunctionalAstrolabe result;
   if (option.type == OptionType.solar) {
-    return bySolar(
+    result = bySolar(
       option.dateStr,
       option.timeIndex,
       option.gender,
       option.fixLeap,
     );
+  } else {
+    result = byLunar(
+      option.dateStr,
+      option.timeIndex,
+      option.gender,
+      option.isLeapMonth,
+      option.fixLeap,
+    );
   }
 
-  return byLunar(
-    option.dateStr,
-    option.timeIndex,
-    option.gender,
-    option.isLeapMonth,
-    option.fixLeap,
-  );
+  if (option.astroType != null) {
+    switch (option.astroType) {
+      case AstroType.earth:
+        final bodyPalace = result.palace(PalaceName.bodyPalace);
+        return rearrangeAstrolabe(
+          ZhongZhouHeavenEarth(
+            heavenlyStem: bodyPalace!.heavenlySten,
+            earthlyBranch: bodyPalace.earthlyBranch,
+          ),
+          result,
+          option,
+        );
+      case AstroType.human:
+        final bodyPalace = result.palace(PalaceName.spiritPalace);
+        return rearrangeAstrolabe(
+          ZhongZhouHeavenEarth(
+            heavenlyStem: bodyPalace!.heavenlySten,
+            earthlyBranch: bodyPalace.earthlyBranch,
+          ),
+          result,
+          option,
+        );
+      default:
+        return result;
+    }
+  }
+  return result;
 }
 
 /// 通过公历获取十二生肖
@@ -336,8 +412,14 @@ String getMajorStarBySolarDate(
   bool fixLeap = true,
 ]) {
   print('solarDateStr $solarDateStr timeIndex $timeIndex fixLeap $fixLeap');
-  final bodyIndex = getSoulAndBody(solarDateStr, timeIndex, fixLeap).bodyIndex;
-  final majorStars = getMajorStar(solarDateStr, timeIndex, fixLeap);
+  final params = AstrolabeParams(
+    solarDate: solarDateStr,
+    timeIndex: timeIndex,
+    fixLeap: fixLeap,
+    gender: GenderName.male,
+  );
+  final bodyIndex = getSoulAndBody(params).bodyIndex;
+  final majorStars = getMajorStar(params);
   final stars = majorStars[bodyIndex].where(
     (star) => star.type == StarType.major,
   );

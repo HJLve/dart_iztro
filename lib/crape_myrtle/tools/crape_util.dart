@@ -19,9 +19,11 @@ List<StarName> getTargetMutagens(HeavenlyStemName heavenlySten) {
   if (mutagens != null && mutagens?[heavenlySten] != null) {
     result = mutagens?[heavenlySten] ?? [];
   } else {
-    final stems = List<StarName>.from(heavenlyStemsMap[heavenlySten.key]
-            ?["mutagen"]
-        .map((e) => getStarNameFrom(e)));
+    final stems = List<StarName>.from(
+      heavenlyStemsMap[heavenlySten.key]?["mutagen"].map(
+        (e) => getStarNameFrom(e),
+      ),
+    );
     result = stems;
   }
 
@@ -90,6 +92,7 @@ void config(Config config) {
   if (config.horoscopeDivide != null) {
     horoscopeDivide = config.horoscopeDivide!;
   }
+  if (config.algorithm != null) {}
 }
 
 /// 因为宫位是从寅宫开始的排列的，所以需要将目标地支的序号减去寅的序号才能得到宫位的序号
@@ -100,7 +103,8 @@ int earthlyBranchIndexToPalaceIndex(EarthlyBranchName earthlyBranchName) {
   final earthlyBranch = earthlyBranchName.key;
   final yin = EarthlyBranchName.yinEarthly.key;
   return fixIndex(
-      earthlyBranches.indexOf(earthlyBranch) - earthlyBranches.indexOf(yin));
+    earthlyBranches.indexOf(earthlyBranch) - earthlyBranches.indexOf(yin),
+  );
 }
 
 /// 处理地支相对于十二宫的索引，因为十二宫是以寅宫开始，所以下标需要减去地支寅的索引
@@ -108,8 +112,10 @@ int earthlyBranchIndexToPalaceIndex(EarthlyBranchName earthlyBranchName) {
 /// @param {EarthlyBranchName} earthlyBranch 地支
 /// @returns {number} Number(0~11)
 int fixEarthlyBranchIndex(EarthlyBranchName earthlyBranchName) {
-  return fixIndex(earthlyBranches.indexOf(earthlyBranchName.key) -
-      earthlyBranches.indexOf(yinEarthly));
+  return fixIndex(
+    earthlyBranches.indexOf(earthlyBranchName.key) -
+        earthlyBranches.indexOf(yinEarthly),
+  );
 }
 
 /// 调整农历月份的索引
@@ -160,20 +166,7 @@ List<List<FunctionalStar>> mergeStars(List<List<List<FunctionalStar>>> stars) {
 
 /// 初始化一个星耀数组
 List<List<FunctionalStar>> initStars() {
-  return [
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-  ];
+  return [[], [], [], [], [], [], [], [], [], [], [], []];
 }
 
 /// 将时间的小时转化为时辰的索引
@@ -204,17 +197,29 @@ int timeToIndex(int hour) {
 /// @returns {number} 小限开始的宫位索引
 int getAgeIndex(EarthlyBranchName earthlyBranchName) {
   var ageIndex = -1;
-  if (["yinEarthly", "wuEarthly", "xuEarthly"]
-      .contains(earthlyBranchName.key)) {
+  if ([
+    "yinEarthly",
+    "wuEarthly",
+    "xuEarthly",
+  ].contains(earthlyBranchName.key)) {
     ageIndex = fixEarthlyBranchIndex(EarthlyBranchName.chenEarthly);
-  } else if (["shenEarthly", "ziEarthly", "chenEarthly"]
-      .contains(earthlyBranchName.key)) {
+  } else if ([
+    "shenEarthly",
+    "ziEarthly",
+    "chenEarthly",
+  ].contains(earthlyBranchName.key)) {
     ageIndex = fixEarthlyBranchIndex(EarthlyBranchName.xuEarthly);
-  } else if (["siEarthly", "youEarthly", "chouEarthly"]
-      .contains(earthlyBranchName.key)) {
+  } else if ([
+    "siEarthly",
+    "youEarthly",
+    "chouEarthly",
+  ].contains(earthlyBranchName.key)) {
     ageIndex = fixEarthlyBranchIndex(EarthlyBranchName.weiEarthly);
-  } else if (["haiEarthly", "maoEarthly", "weiEarthly"]
-      .contains(earthlyBranchName.key)) {
+  } else if ([
+    "haiEarthly",
+    "maoEarthly",
+    "weiEarthly",
+  ].contains(earthlyBranchName.key)) {
     ageIndex = fixIndex(fixEarthlyBranchIndex(EarthlyBranchName.chouEarthly));
   }
   return ageIndex;

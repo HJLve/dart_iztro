@@ -161,4 +161,6 @@ const Map<String, String> starsTW = {
   shiYang: '時羊',
   shiTuo: '時陀',
   shiMa: '時馬',
+  jieShaAdj: '劫殺',
+  suiPo: '歲破',
 };

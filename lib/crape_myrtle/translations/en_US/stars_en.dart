@@ -161,4 +161,6 @@ const Map<String, String> starsLocalsEN = {
   shiYang: 'Shi Yang',
   shiTuo: 'Shi Tuo',
   shiMa: 'Shi Ma',
+  suiPo: 'Year Break',
+  jieShaAdj: 'Robbery Kill',
 };

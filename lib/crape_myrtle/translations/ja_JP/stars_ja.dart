@@ -60,7 +60,6 @@ const Map<String, String> starsLocalsJA = {
   xunZhong: 'じゅんちゅう',
   xunKong: 'じゅんくう',
   kongWang: 'くうぼう',
-  jieLu: 'せつろ',
   yueDe: 'げつとく',
   tianShang: 'てんしょう',
   tianShi: 'てんし',
@@ -161,4 +160,7 @@ const Map<String, String> starsLocalsJA = {
   shiYang: 'じよう',
   shiTuo: 'じだ',
   shiMa: 'じば',
+  suiPo: 'さいは',
+  jieShaAdj: 'きゃくさつ',
+  jieLu: 'しゃだん',
 };

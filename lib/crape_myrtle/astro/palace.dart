@@ -31,10 +31,10 @@ import 'package:dart_iztro/lunar_lite/utils/utils.dart';
 /// @param timeIndex 出生时索引
 /// @param fixLeap 是否修正闰月，若修正，则闰月前15天按上月算，后15天按下月算
 /// @returns SoulAndBody
-SoulAndBody getSoulAndBody(String solarDate, int timeIndex, bool? fixLeap) {
+SoulAndBody getSoulAndBody(AstrolabeParams params) {
   final heavenlyStemEarthlyBranch = getHeavenlyStemAndEarthlyBranchSolarDate(
-    solarDate,
-    timeIndex,
+    params.solarDate,
+    params.timeIndex,
     getConfig().yearDivide,
   );
   final earthlyBranchOfTime = getMyEarthlyBranchNameFrom(
@@ -46,18 +46,27 @@ SoulAndBody getSoulAndBody(String solarDate, int timeIndex, bool? fixLeap) {
 
   // 紫薇斗数以寅宫位第一个宫位
   final firstIndex = earthlyBranches.indexOf('yinEarthly');
-  final monthIndex = fixLunarMonthIndex(solarDate, timeIndex, fixLeap);
+  final monthIndex = fixLunarMonthIndex(
+    params.solarDate,
+    params.timeIndex,
+    params.fixLeap,
+  );
 
   // 命宫索引，以寅宫为0，顺时针数到生月地支索引，再逆时针数到生时地支索引
   // 此处数到生月地支索引其实就是农历月份，所以不再计算生月地支索引
-  final soulIndex = fixIndex(
+  var soulIndex = fixIndex(
     monthIndex - earthlyBranches.indexOf(earthlyBranchOfTime.key),
   );
   // 身宫索引，以寅宫为0，顺时针数到生月地支索引，再顺时针数到生时地支索引
   // 与命宫索引一样，不再赘述
-  final bodyIndex = fixIndex(
+  var bodyIndex = fixIndex(
     monthIndex + earthlyBranches.indexOf(earthlyBranchOfTime.key),
   );
+  if (params.from?.heavenlyStem != null && params.from?.earthlyBranch != null) {
+    soulIndex = fixEarthlyBranchIndex(params.from!.earthlyBranch);
+    final bodyOffset = [0, 2, 4, 6, 8, 10, 0, 2, 4, 6, 8, 10, 0];
+    bodyIndex = fixIndex(bodyOffset[params.timeIndex] + soulIndex);
+  }
   // 用五虎盾取得寅宫的天干
   final startHevenlyStem = tigerRules[heavenlyStemOfYear.key];
   // 获取命宫天干索引，起始天干索引加上命宫的索引即是
@@ -172,12 +181,7 @@ List<PalaceName> getPalaceNames(int fromIndex) {
 /// @param gender 性别
 /// @param fixLeap 是否修正闰月，若修正，则闰月前15天按上月算，后15天按下月算
 /// @returns 从寅宫开始的大限年龄段
-Map<String, dynamic>? getHoroscope(
-  String solarDateStr,
-  int timeIndex,
-  GenderName gender,
-  bool fixLeap,
-) {
+Map<String, dynamic>? getHoroscope(AstrolabeParams params) {
   List<Decadal> decadals = List.filled(
     12,
     Decadal(
@@ -186,10 +190,10 @@ Map<String, dynamic>? getHoroscope(
       earthlyBranch: EarthlyBranchName.ziEarthly,
     ),
   );
-  final genderKey = gender.key;
+  final genderKey = params.gender?.key;
   final heavenlyStemAndEarthlyBranch = getHeavenlyStemAndEarthlyBranchSolarDate(
-    solarDateStr,
-    timeIndex,
+    params.solarDate,
+    params.timeIndex,
     getConfig().yearDivide,
   );
   final heavenlyStem =
@@ -198,10 +202,10 @@ Map<String, dynamic>? getHoroscope(
   final earthlyBranch =
       getMyEarthlyBranchNameFrom(heavenlyStemAndEarthlyBranch.yearly[1]).key ??
       "Earthly";
-  final soulAndBody = getSoulAndBody(solarDateStr, timeIndex, fixLeap);
+  final soulAndBody = getSoulAndBody(params);
   final fiveElementClass = getFiveElementClass(
-    soulAndBody.heavenlyStenName,
-    soulAndBody.earthlyBranchName,
+    params.from?.heavenlyStem ?? soulAndBody.heavenlyStenName,
+    params.from?.earthlyBranch ?? soulAndBody.earthlyBranchName,
   );
 
   /// 用五虎遁获取大限起始天干
@@ -244,9 +248,9 @@ Map<String, dynamic>? getHoroscope(
     ages[idx] = innerAge;
   }
   // for 循环120次获取他的流年, 从出生日期的年份开始，一次递增一年，然后将年转为干支纪年法，
-  final birthYear = int.parse(solarDateStr.split('-')[0]);
-  final birthMonth = int.parse(solarDateStr.split('-')[1]);
-  final birthDay = int.parse(solarDateStr.split('-')[2]);
+  final birthYear = int.parse(params.solarDate.split('-')[0]);
+  final birthMonth = int.parse(params.solarDate.split('-')[1]);
+  final birthDay = int.parse(params.solarDate.split('-')[2]);
   List<YearlyStemsBranches> yearlyStemsBranches = [];
   for (int i = 0; i < EarthlyBranchName.values.length; i++) {
     final idx =
@@ -262,7 +266,7 @@ Map<String, dynamic>? getHoroscope(
       i,
       birthMonth,
       birthDay,
-      max(timeIndex * 2 - 1, 0),
+      max(params.timeIndex * 2 - 1, 0),
       30,
       0,
     );

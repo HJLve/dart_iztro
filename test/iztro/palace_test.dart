@@ -1,3 +1,4 @@
+import 'package:dart_iztro/crape_myrtle/data/types/astro.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:dart_iztro/crape_myrtle/translations/translation_service.dart';
@@ -75,7 +76,12 @@ void main() {
         final date = item['date'] as String;
         final timeIndex = item['timeIndex'] as int;
         final result = item['result'] as Map<String, dynamic>;
-        final result1 = getSoulAndBody(date, timeIndex, true);
+        final params = AstrolabeParams(
+          solarDate: date,
+          timeIndex: timeIndex,
+          fixLeap: true,
+        );
+        final result1 = getSoulAndBody(params);
         expect(result1.soulIndex, result['soulIndex'] as int);
         expect(result1.bodyIndex, result['bodyIndex'] as int);
         expect(
@@ -223,7 +229,13 @@ void main() {
           home: const Scaffold(body: Center(child: Text('测试'))),
         ),
       );
-      final result = getHoroscope('2023-11-15', 3, GenderName.female, true);
+      final params = AstrolabeParams(
+        solarDate: '2023-11-15',
+        timeIndex: 3,
+        fixLeap: true,
+        gender: GenderName.female,
+      );
+      final result = getHoroscope(params);
       final ages = result?['ages'] as List<List<int>>;
       print('getHoroscope $ages');
       final result1 = [
@@ -252,7 +264,13 @@ void main() {
           home: const Scaffold(body: Center(child: Text('测试'))),
         ),
       );
-      final result = getHoroscope('2023-11-15', 3, GenderName.male, true);
+      final params = AstrolabeParams(
+        solarDate: '2023-11-15',
+        timeIndex: 3,
+        fixLeap: true,
+        gender: GenderName.male,
+      );
+      final result = getHoroscope(params);
       final ages = result?['ages'] as List<List<int>>;
       final result1 = [
         [2, 14, 26, 38, 50, 62, 74, 86, 98, 110],

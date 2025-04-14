@@ -60,7 +60,6 @@ const Map<String, String> starsLocalsCN = {
   xunZhong: '旬中',
   xunKong: '旬空',
   kongWang: '空亡',
-  jieLu: '截空',
   yueDe: '月德',
   tianShang: '天伤',
   tianShi: '天使',
@@ -161,4 +160,7 @@ const Map<String, String> starsLocalsCN = {
   shiYang: '时羊',
   shiTuo: '时陀',
   shiMa: '时马',
+  suiPo: '岁破',
+  jieShaAdj: '劫杀',
+  jieLu: '截路',
 };

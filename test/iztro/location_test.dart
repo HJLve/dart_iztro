@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dart_iztro/dart_iztro.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dart_iztro/crape_myrtle/translations/translation_service.dart';
@@ -505,7 +507,14 @@ void main() {
     });
 
     test('getYearlyStarIndex() 2023-03-06', () {
-      final result = getYearlyStarIndex('2023-03-06', 2, true);
+      final params = AstrolabeParams(
+        solarDate: '2023-03-06',
+        timeIndex: 2,
+        fixLeap: true,
+        gender: GenderName.female,
+      );
+      final result = getYearlyStarIndex(params);
+      print(result);
       expect(
         result,
         equals({
@@ -532,12 +541,28 @@ void main() {
           "xunKongIndex": 3,
           "tianShangIndex": 4,
           "tianShiIndex": 6,
+          'jieKongIndex': 11,
+          'jieShaAdjIndex': 6,
+          'nianJieIndex': 5,
+          'daHaoAdjIndex': 6,
         }),
       );
     });
 
+    test('get dahao index', () {
+      final index = getDaHaoIndex(EarthlyBranchName.siEarthly);
+      expect(index, 8);
+    });
+
     test('getYearlyStarIndex(2001-08-16)', () {
-      final result = getYearlyStarIndex('2001-08-16', 2, true);
+      final params = AstrolabeParams(
+        solarDate: '2001-08-16',
+        timeIndex: 2,
+        fixLeap: true,
+        gender: GenderName.female,
+      );
+      final result = getYearlyStarIndex(params);
+      print(result);
       expect(
         result,
         equals({
@@ -564,6 +589,10 @@ void main() {
           "xunKongIndex": 7,
           "tianShangIndex": 8,
           "tianShiIndex": 10,
+          'jieKongIndex': 3,
+          'jieShaAdjIndex': 0,
+          'nianJieIndex': 3,
+          'daHaoAdjIndex': 8,
         }),
       );
     });

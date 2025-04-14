@@ -1,4 +1,5 @@
 import 'package:dart_iztro/crape_myrtle/astro/astro.dart';
+import 'package:dart_iztro/crape_myrtle/data/types/astro.dart';
 import 'package:dart_iztro/crape_myrtle/data/types/general.dart';
 import 'package:dart_iztro/crape_myrtle/data/types/star.dart';
 import 'package:dart_iztro/crape_myrtle/star/funcational_star.dart';
@@ -20,22 +21,16 @@ import 'package:dart_iztro/lunar_lite/utils/utils.dart';
 /// - 天府顺行有太阴，贪狼而后巨门临，
 /// - 随来天相天梁继，七杀空三是破军。
 ///
-/// @param solarDateStr 公历日期 YYYY-MM-DD
-/// @param timeIndex 时辰索引【0～12】
-/// @param fixLeap 是否调整农历闰月（若该月不是闰月则不会生效）
-/// @returns {Array&lt;Star[]&gt;} 从寅宫开始每一个宫的星耀
-List<List<FunctionalStar>> getMajorStar(
-  String solarDateStr,
-  int timeIndex, [
-  bool? fixLeap,
-]) {
-  var indexMaps = getStartIndex(solarDateStr, timeIndex, fixLeap);
+/// @param params 通用排盘参数
+/// @return 从寅宫开始每一个宫的星耀
+List<List<FunctionalStar>> getMajorStar(AstrolabeParams params) {
+  var indexMaps = getStartIndex(params);
   int ziweiIndex = indexMaps["ziweiIndex"] ?? -1;
   int tianFuIndex = indexMaps["tianfuIndex"] ?? -1;
 
   final heavenlyStemBranch = getHeavenlyStemAndEarthlyBranchSolarDate(
-    solarDateStr,
-    timeIndex,
+    params.solarDate,
+    params.timeIndex,
     getConfig().yearDivide,
   );
   final stars = initStars();

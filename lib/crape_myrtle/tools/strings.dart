@@ -265,3 +265,7 @@ const String sagittarius = "sagittarius";
 const String capricorn = "capricorn";
 const String aquarius = "aquarius";
 const String pisces = "pisces";
+
+/// 2.5.0 新增中州派星耀
+const String suiPo = 'suiPo';
+const jieShaAdj = 'jieShaAdj';

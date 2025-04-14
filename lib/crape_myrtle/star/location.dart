@@ -1,11 +1,14 @@
 import 'package:dart_iztro/crape_myrtle/astro/astro.dart';
 import 'package:dart_iztro/crape_myrtle/astro/palace.dart';
 import 'package:dart_iztro/crape_myrtle/data/constants.dart';
+import 'package:dart_iztro/crape_myrtle/data/types/astro.dart';
 import 'package:dart_iztro/crape_myrtle/tools/crape_util.dart';
 import 'package:dart_iztro/crape_myrtle/tools/strings.dart';
 import 'package:dart_iztro/crape_myrtle/translations/types/earthly_branch.dart';
 import 'package:dart_iztro/crape_myrtle/translations/types/five_element_class.dart';
+import 'package:dart_iztro/crape_myrtle/translations/types/gender.dart';
 import 'package:dart_iztro/crape_myrtle/translations/types/heavenly_stem.dart';
+import 'package:dart_iztro/crape_myrtle/translations/types/palace.dart';
 import 'package:dart_iztro/lunar_lite/utils/convertor.dart';
 import 'package:dart_iztro/lunar_lite/utils/ganzhi.dart';
 import 'package:dart_iztro/lunar_lite/utils/misc.dart';
@@ -28,18 +31,19 @@ import 'package:lunar/lunar.dart';
 /// @param timeIndex 时辰索引【0～12】
 /// @param fixLeap 是否调整农历闰月（若该月不是闰月则不会生效）
 /// @returns 紫微和天府星所在宫位索引
-Map<String, int> getStartIndex(
-  String solarDateStr,
-  int timeIndex, [
-  bool? fixLeap,
-]) {
-  var soulAndBody = getSoulAndBody(solarDateStr, timeIndex, fixLeap);
+Map<String, int> getStartIndex(AstrolabeParams params) {
+  var soulAndBody = getSoulAndBody(params);
   HeavenlyStemName heavenlyStemOfSoul = soulAndBody.heavenlyStenName;
   EarthlyBranchName earthlyBranchOfSoul = soulAndBody.earthlyBranchName;
-  int lunarDay = solar2Lunar(solarDateStr).lunarDay;
+  int lunarDay = solar2Lunar(params.solarDate).lunarDay;
+
+  /// 如果已传入干支，则用传入干支起五行局
+  /// 确定用于起五行局的地盘干支
+  final baseHeavenlyStem = params.from?.heavenlyStem ?? heavenlyStemOfSoul;
+  final baseEarthlyBranch = params.from?.earthlyBranch ?? earthlyBranchOfSoul;
   FiveElementsFormat fiveElements = getFiveElementClass(
-    heavenlyStemOfSoul,
-    earthlyBranchOfSoul,
+    baseHeavenlyStem,
+    baseEarthlyBranch,
   );
 
   int remainder = -1; // 余数
@@ -47,9 +51,9 @@ Map<String, int> getStartIndex(
   int offset = -1; // 循环次数
 
   // 获取当月最大天数
-  int maxDays = getTotalDaysOfLunarMonth(solarDateStr);
+  int maxDays = getTotalDaysOfLunarMonth(params.solarDate);
   // 如果timeIndex等于12说明是晚子时，需要加一天
-  int day = timeIndex == 12 ? lunarDay + 1 : lunarDay;
+  int day = params.timeIndex == 12 ? lunarDay + 1 : lunarDay;
 
   if (day > maxDays) {
     // 假如日期超过当月最大天数，说明跨月了，需要处理为合法日期
@@ -283,27 +287,28 @@ Map<String, int> getDailyStarIndex(
   bool? fixLeap,
 ]) {
   final lunar = solar2Lunar(solarDateStr);
-  final zuoYouIndex = getZuoYouIndex(lunar.lunarMonth);
   final changQuIndex = getChangQuIndex(timeIndex);
   final dayIndex = fixeLunarDayIndex(lunar.lunarDay, timeIndex);
-
+  final monthIndex = fixLunarMonthIndex(solarDateStr, timeIndex, fixLeap);
+  final zuoYouIndex = getZuoYouIndex(monthIndex + 1);
   final zuoIndex = zuoYouIndex["zuoIndex"] ?? -1;
   final youIndex = zuoYouIndex["youIndex"] ?? -1;
   final quIndex = changQuIndex["quIndex"] ?? -1;
   final changIndex = changQuIndex["changIndex"] ?? -1;
-  var extra = 0;
-  if (fixLeap == true) {
-    // 当lunarMonth 为闰月月份并且是后半月时，需要额外加1
-    final year = LunarYear(lunar.lunarYear);
-    final leapMonth = year.getLeapMonth();
-    if (leapMonth > 0 && lunar.lunarMonth == leapMonth && lunar.lunarDay > 15) {
-      extra = 1;
-    }
-  }
-  final sanTaiIndex = fixIndex(((zuoIndex + dayIndex) % 12) + extra);
-  final baZuoIndex = fixIndex(((youIndex - dayIndex) % 12) - extra);
-  final tianGuiIndex = fixIndex((quIndex + dayIndex) % 12 - 1);
+  // var extra = 0;
+  // if (fixLeap == true) {
+  //   // 当lunarMonth 为闰月月份并且是后半月时，需要额外加1
+  //   final year = LunarYear(lunar.lunarYear);
+  //   final leapMonth = year.getLeapMonth();
+  //   if (leapMonth > 0 && lunar.lunarMonth == leapMonth && lunar.lunarDay > 15) {
+  //     extra = 1;
+  //   }
+  // }
+  final sanTaiIndex = fixIndex(((zuoIndex + dayIndex) % 12));
+  final baZuoIndex = fixIndex(((youIndex - dayIndex) % 12));
   final enguangIndex = fixIndex((changIndex + dayIndex) % 12 - 1);
+  final tianGuiIndex = fixIndex((quIndex + dayIndex) % 12 - 1);
+
   return {
     "sanTaiIndex": sanTaiIndex,
     "baZuoIndex": baZuoIndex,
@@ -507,6 +512,60 @@ Map<String, int> getGuGuaIndex(EarthlyBranchName earthlyBranchName) {
   return {"guChenIndex": fixIndex(guIdx), "guaSuIndex": fixIndex(guaIdx)};
 }
 
+/// 安劫杀诀 （年支）
+/// 申子辰人蛇开口、亥卯未人猴速走
+/// 寅午戌人猪面黑、巳酉丑人虎咆哮
+/// @version 2.5.0
+/// @param earthlyBranchName 地支
+/// @returns 劫杀、诀索引
+int getJieShaAdjIndex(EarthlyBranchName earthlyBranchName) {
+  switch (earthlyBranchName) {
+    case EarthlyBranchName.shenEarthly:
+    case EarthlyBranchName.ziEarthly:
+    case EarthlyBranchName.chenEarthly:
+      return 3;
+    case EarthlyBranchName.haiEarthly:
+    case EarthlyBranchName.maoEarthly:
+    case EarthlyBranchName.weiEarthly:
+      return 6;
+    case EarthlyBranchName.yinEarthly:
+    case EarthlyBranchName.wuEarthly:
+    case EarthlyBranchName.xuEarthly:
+      return 9;
+    case EarthlyBranchName.siEarthly:
+    case EarthlyBranchName.youEarthly:
+    case EarthlyBranchName.chouEarthly:
+      return 0;
+  }
+}
+
+/// 安大耗诀 年支
+///  但用年支去对冲、阴阳移位过一宫
+///   阳顺阴逆移其位、大耗原来不可逢
+///   大耗安法，是在年支之对宫，前一位或后一位安星。阳支顺行前一位，阴支逆行后一位。
+///   @version 2.5.0
+///    @param earthlyBranchName 地支
+///    @returns 大耗、诀索引
+int getDaHaoIndex(EarthlyBranchName earthlyBranchName) {
+  final index = earthlyBranches.indexOf(earthlyBranchName.key);
+  final matchedEarhlyBranchName =
+      [
+        EarthlyBranchName.weiEarthly,
+        EarthlyBranchName.wuEarthly,
+        EarthlyBranchName.youEarthly,
+        EarthlyBranchName.shenEarthly,
+        EarthlyBranchName.haiEarthly,
+        EarthlyBranchName.xuEarthly,
+        EarthlyBranchName.chouEarthly,
+        EarthlyBranchName.ziEarthly,
+        EarthlyBranchName.maoEarthly,
+        EarthlyBranchName.yinEarthly,
+        EarthlyBranchName.siEarthly,
+        EarthlyBranchName.chenEarthly,
+      ][earthlyBranches.indexOf(earthlyBranchName.key)];
+  return fixIndex(earthlyBranches.indexOf(matchedEarhlyBranchName.key) - 2);
+}
+
 /// 获取年系星的索引，包括
 /// 咸池，华盖，孤辰，寡宿, 天厨，破碎，天才，天寿，蜚蠊, 龙池，凤阁，天哭，天虚，
 /// 天官，天福
@@ -543,17 +602,14 @@ Map<String, int> getGuGuaIndex(EarthlyBranchName earthlyBranchName) {
 /// @param solarDate 阳历日期
 /// @param timeIndex 时辰序号
 /// @param fixLeap 是否修复闰月，假如当月不是闰月则不生效
-Map<String, int> getYearlyStarIndex(
-  String solarDateStr,
-  int timeIndex, [
-  bool? fixLeap,
-]) {
+Map<String, int> getYearlyStarIndex(AstrolabeParams params) {
+  final config = getConfig();
   final heavenlyStemEarthlyBranch = getHeavenlyStemAndEarthlyBranchSolarDate(
-    solarDateStr,
-    timeIndex,
-    getConfig().horoscopeDivide,
+    params.solarDate,
+    params.timeIndex,
+    config.horoscopeDivide,
   );
-  final soulAndBody = getSoulAndBody(solarDateStr, timeIndex, fixLeap);
+  final soulAndBody = getSoulAndBody(params);
   HeavenlyStemName heavenlyStem = getMyHeavenlyStemNameFrom(
     heavenlyStemEarthlyBranch.yearly[0] ?? "Heavenly",
   );
@@ -726,12 +782,40 @@ Map<String, int> getYearlyStarIndex(
     xunKongIndex = fixIndex(xunKongIndex + 1);
   }
 
+  // int tianShangIndex = fixIndex(
+  //   palaces.indexOf("friendsPalace") + soulAndBody.soulIndex,
+  // );
+  // int tianShiIndex = fixIndex(
+  //   palaces.indexOf("healthPalace") + soulAndBody.soulIndex,
+  // );
+  /// 中州派没有截路空亡，只有一颗截空星
+  /// 生年阳干在阳宫，阴干在阴宫
+  final jiekongIndex = yinyang == 0 ? jieLuIndex : kongWangIndex;
+  final jieshaAdjIndex = getJieShaAdjIndex(earthlyBranchName);
+  final nianjieIndex =
+      getNianJieIndex(
+        getMyEarthlyBranchNameFrom(heavenlyStemEarthlyBranch.yearly[1]),
+      )['nianJieIndex'] ??
+      -1;
+  final daHaoIndex = getDaHaoIndex(earthlyBranchName);
+  final genderYinYang = [GenderName.male, GenderName.female];
+  final sameYinYang =
+      yinyang == genderYinYang.indexOf(params.gender ?? GenderName.male);
   int tianShangIndex = fixIndex(
-    palaces.indexOf("friendsPalace") + soulAndBody.soulIndex,
+    palaces.indexOf(PalaceName.friendsPalace.key) + soulAndBody.soulIndex,
   );
   int tianShiIndex = fixIndex(
-    palaces.indexOf("healthPalace") + soulAndBody.soulIndex,
+    palaces.indexOf(PalaceName.healthPalace.key) + soulAndBody.soulIndex,
   );
+  if (config.algorithm == Algorithm.zhongZhou && !sameYinYang) {
+    // 中州派的天使天伤与通行版本不一样
+    // 天伤奴仆、天使疾厄、夹迁移宫最易寻得
+    // 凡阳男阴女，皆依此诀，但若为阴男阳女，则改为天伤居疾厄、天使居奴仆。
+    var temp = tianShiIndex;
+    tianShiIndex = tianShangIndex;
+    tianShangIndex = temp;
+  }
+
   return {
     "xianChiIndex": xianChiIndex,
     "huaGaiIndex": huaGaiIndex,
@@ -756,6 +840,10 @@ Map<String, int> getYearlyStarIndex(
     "xunKongIndex": xunKongIndex,
     "tianShangIndex": tianShangIndex,
     "tianShiIndex": tianShiIndex,
+    'jieKongIndex': jiekongIndex,
+    'jieShaAdjIndex': jieshaAdjIndex,
+    'nianJieIndex': nianjieIndex,
+    'daHaoAdjIndex': daHaoIndex,
   };
 }
 

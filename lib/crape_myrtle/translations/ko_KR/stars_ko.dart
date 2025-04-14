@@ -60,7 +60,6 @@ const Map<String, String> starsLocalsKO = {
   xunZhong: '순중',
   xunKong: '순공',
   kongWang: '공망',
-  jieLu: '절로',
   yueDe: '월덕',
   tianShang: '천상',
   tianShi: '천사',
@@ -161,4 +160,7 @@ const Map<String, String> starsLocalsKO = {
   shiYang: '시양',
   shiTuo: '시타',
   shiMa: '시마',
+  suiPo: '세파',
+  jieShaAdj: '겁살',
+  jieLu: 'C차단',
 };

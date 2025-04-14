@@ -1,4 +1,5 @@
 import 'package:dart_iztro/crape_myrtle/astro/astro.dart';
+import 'package:dart_iztro/crape_myrtle/data/types/astro.dart';
 import 'package:dart_iztro/crape_myrtle/data/types/general.dart';
 import 'package:dart_iztro/crape_myrtle/data/types/star.dart';
 import 'package:dart_iztro/crape_myrtle/star/decorative_star.dart';
@@ -15,29 +16,29 @@ import 'package:dart_iztro/lunar_lite/utils/ganzhi.dart';
 /// @param timeIndex 时辰索引【0～12】
 /// @param fixLeap 是否修复闰月，假如当月不是闰月则不生效
 /// @returns 38杂耀
-List<List<FunctionalStar>> getAdjectiveStar(
-  String solarDateStr,
-  int timeIndex, [
-  bool? fixLeap,
-]) {
+List<List<FunctionalStar>> getAdjectiveStar(AstrolabeParams params) {
+  final config = getConfig();
   final stars = initStars();
   final yearly =
       getHeavenlyStemAndEarthlyBranchSolarDate(
-        solarDateStr,
-        timeIndex,
+        params.solarDate,
+        params.timeIndex,
         getConfig().yearDivide,
       ).yearly;
-  final yearlyIndex = getYearlyStarIndex(solarDateStr, timeIndex, fixLeap);
-  final monthlyIndex = getMonthlyStarIndex(solarDateStr, timeIndex, fixLeap);
-  final dailyIndex = getDailyStarIndex(solarDateStr, timeIndex, fixLeap);
-  final timelyIndex = getTimelyStarIndex(timeIndex);
 
-  /// 'yueJieIndex': jieShenIndex,
-  //     'tianYaoIndex': tianYaoIndex,
-  //     'tianXingIndex': tianXingIndex,
-  //     'yinShaIndex': yinShaIndex,
-  //     'tianYueIndex': tianYueIndex,
-  //     'tianWuIndex': tianWuIndex,
+  final yearlyIndex = getYearlyStarIndex(params);
+  final monthlyIndex = getMonthlyStarIndex(
+    params.solarDate,
+    params.timeIndex,
+    params.fixLeap,
+  );
+  final dailyIndex = getDailyStarIndex(
+    params.solarDate,
+    params.timeIndex,
+    params.fixLeap,
+  );
+  final timelyIndex = getTimelyStarIndex(params.timeIndex);
+
   int tianYaoIndex = monthlyIndex["tianYaoIndex"] ?? 0;
   int yueJieIndex = monthlyIndex["yueJieIndex"] ?? 0;
   int tianXingIndex = monthlyIndex["tianXingIndex"] ?? 0;
@@ -45,29 +46,6 @@ List<List<FunctionalStar>> getAdjectiveStar(
   int tianYueIndex = monthlyIndex["tianYueIndex"] ?? 0;
   int tianWuIndex = monthlyIndex["tianWuIndex"] ?? 0;
 
-  //  "xianChiIndex": xianChiIndex,
-  //     "huaGaiIndex": huaGaiIndex,
-  //     "guChenIndex": guChenIndex,
-  //     "guaSuIndex": guasuIndex,
-  //     "tianCaiIndex": tianCaiIndex,
-  //     "tianShouIndex": tianShouIndex,
-  //     "tianChuIndex": tianChuIndex,
-  //     "poSuiIndex": posuiIndex,
-  //     "feiLianIndex": feiLianIndex,
-  //     "longChiIndex": longChinIndex,
-  //     "fenGeIndex": fenGeIndex,
-  //     "tianKuIndex": tianKuIndex,
-  //     "tianXuIndex": tianXuIndex,
-  //     "tianGuanIndex": tianGuanIndex,
-  //     "tianFuIndex": tianFuIndex,
-  //     "tianDeIndex": tianDeIndex,
-  //     "yueDeIndex": yueDeIndex,
-  //     "tianKongIndex": tianKongIndex,
-  //     "jieLuIndex": jieLuIndex,
-  //     "kongWangIndex": kongWangIndex,
-  //     "xunKongIndex": xunKongIndex,
-  //     "tianShangIndex": tianShangIndex,
-  //     "tianShiIndex": tianShiIndex,
   int xianChiIndex = yearlyIndex["xianChiIndex"] ?? 0;
   int huaGaiIndex = yearlyIndex["huaGaiIndex"] ?? 0;
   int guChenIndex = yearlyIndex["guChenIndex"] ?? 0;
@@ -92,18 +70,11 @@ List<List<FunctionalStar>> getAdjectiveStar(
   int tianShangIndex = yearlyIndex["tianShangIndex"] ?? 0;
   int tianShiIndex = yearlyIndex["tianShiIndex"] ?? 0;
 
-  // final dailyIndex = getDailyStarIndex(solarDateStr, timeIndex);
-  //"sanTaiIndex": sanTaiIndex,
-  //     "baZuoIndex": baZuoIndex,
-  //     "tianGuiIndex": tianGuiIndex,
-  //     "enguangIndex": enguangIndex
   int sanTaiIndex = dailyIndex["sanTaiIndex"] ?? 0;
   int baZuoIndex = dailyIndex["baZuoIndex"] ?? 0;
   int tianGuiIndex = dailyIndex["tianGuiIndex"] ?? 0;
   int enguangIndex = dailyIndex["enguangIndex"] ?? 0;
 
-  // final timelyIndex = getTimelyStarIndex(timeIndex);
-  // "taiFuIndex": taiFuIndex, "fenggaoIndex": fenggaoIndex
   int taiFuIndex = timelyIndex["taiFuIndex"] ?? 0;
   int fenggaoIndex = timelyIndex["fenggaoIndex"] ?? 0;
 
@@ -111,8 +82,12 @@ List<List<FunctionalStar>> getAdjectiveStar(
   int hongLuanIndex = luanXinMaps["hongLuanIndex"] ?? 0;
   int tianXiIndex = luanXinMaps["tianXiIndex"] ?? 0;
 
-  final suiqian12 = getYearly12(solarDateStr)['suiqian12'] ?? [];
+  final suiqian12 = getYearly12(params.solarDate)['suiqian12'] ?? [];
   final longdeIndex = suiqian12.indexOf(StarName.longDe);
+  final jieKongIndex = yearlyIndex['jieKongIndex'] ?? -1;
+  final jieShaAdjIndex = yearlyIndex['jieShaAdjIndex'] ?? -1;
+  final nianjieIndex = yearlyIndex['nianJieIndex'] ?? -1;
+  final daHaoIndex = yearlyIndex['daHaoIndex'] ?? -1;
 
   stars[hongLuanIndex].add(
     FunctionalStar(
@@ -339,24 +314,64 @@ List<List<FunctionalStar>> getAdjectiveStar(
       ),
     ),
   );
-  stars[jieLuIndex].add(
-    FunctionalStar(
-      Star(
-        name: getStarNameFrom('jieLu'),
-        type: StarType.adjective,
-        scope: Scope.origin,
+  if (config.algorithm == Algorithm.zhongZhou) {
+    // 中州派特有的星耀
+    stars[longdeIndex].add(
+      FunctionalStar(
+        Star(
+          name: getStarNameFrom('longDe'),
+          type: StarType.adjective,
+          scope: Scope.origin,
+        ),
       ),
-    ),
-  );
-  stars[kongWangIndex].add(
-    FunctionalStar(
-      Star(
-        name: getStarNameFrom('kongWang'),
-        type: StarType.adjective,
-        scope: Scope.origin,
+    );
+    stars[jieKongIndex].add(
+      FunctionalStar(
+        Star(
+          name: getStarNameFrom('jieKong'),
+          type: StarType.adjective,
+          scope: Scope.origin,
+        ),
       ),
-    ),
-  );
+    );
+    stars[jieShaAdjIndex].add(
+      FunctionalStar(
+        Star(
+          name: getStarNameFrom('jieSha'),
+          type: StarType.adjective,
+          scope: Scope.origin,
+        ),
+      ),
+    );
+    stars[daHaoIndex].add(
+      FunctionalStar(
+        Star(
+          name: StarName.daHao,
+          type: StarType.adjective,
+          scope: Scope.origin,
+        ),
+      ),
+    );
+  } else {
+    stars[jieLuIndex].add(
+      FunctionalStar(
+        Star(
+          name: getStarNameFrom('jieLu'),
+          type: StarType.adjective,
+          scope: Scope.origin,
+        ),
+      ),
+    );
+    stars[kongWangIndex].add(
+      FunctionalStar(
+        Star(
+          name: getStarNameFrom('kongWang'),
+          type: StarType.adjective,
+          scope: Scope.origin,
+        ),
+      ),
+    );
+  }
   stars[guChenIndex].add(
     FunctionalStar(
       Star(
@@ -447,13 +462,9 @@ List<List<FunctionalStar>> getAdjectiveStar(
       ),
     ),
   );
-  stars[longdeIndex].add(
+  stars[nianjieIndex].add(
     FunctionalStar(
-      Star(
-        name: getStarNameFrom('longDe'),
-        type: StarType.adjective,
-        scope: Scope.origin,
-      ),
+      Star(name: StarName.nianJie, type: StarType.helper, scope: Scope.origin),
     ),
   );
   return stars;
