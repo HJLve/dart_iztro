@@ -75,26 +75,6 @@ DivideType horoscopeDivide = DivideType.exact;
 //       horoscopeDivide: horoscopeDivide);
 // }
 
-/// 全局配置四化和亮度
-/// * 由于key和value都有可能是不同语言传进来的，
-///  * 所以需会将key和value转化为对应的i18n key。
-void config(Config config) {
-  if (config.mutagens != null) {
-    mutagens = config.mutagens;
-  }
-  if (config.brightness != null) {
-    brightness = config.brightness;
-  }
-
-  if (config.yearDivide != null) {
-    yearDivide = config.yearDivide!;
-  }
-  if (config.horoscopeDivide != null) {
-    horoscopeDivide = config.horoscopeDivide!;
-  }
-  if (config.algorithm != null) {}
-}
-
 /// 因为宫位是从寅宫开始的排列的，所以需要将目标地支的序号减去寅的序号才能得到宫位的序号
 ///
 /// @param {EarthlyBranchName} earthlyBranch 地支

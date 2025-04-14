@@ -161,6 +161,8 @@ enum StarName {
   shiYang,
   shiTuo,
   shiMa,
+  suiPo,
+  jieShaAdj,
 }
 
 extension StartNameEx on StarName {
@@ -183,10 +185,14 @@ StarName getStarNameFrom(String str) {
     }
   }
   if (isContainStr) {
-    return StarName.values.firstWhere((e) => e.starKey == str,
-        orElse: () => throw ArgumentError('invalid palace name str'));
+    return StarName.values.firstWhere(
+      (e) => e.starKey == str,
+      orElse: () => throw ArgumentError('invalid palace name str'),
+    );
   } else {
-    return StarName.values.firstWhere((e) => e.title == str,
-        orElse: () => throw ArgumentError('invalid palace name string'));
+    return StarName.values.firstWhere(
+      (e) => e.title == str,
+      orElse: () => throw ArgumentError('invalid palace name string'),
+    );
   }
 }

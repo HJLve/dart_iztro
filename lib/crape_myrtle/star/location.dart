@@ -798,6 +798,7 @@ Map<String, int> getYearlyStarIndex(AstrolabeParams params) {
       )['nianJieIndex'] ??
       -1;
   final daHaoIndex = getDaHaoIndex(earthlyBranchName);
+  print('dahaoindex $daHaoIndex');
   final genderYinYang = [GenderName.male, GenderName.female];
   final sameYinYang =
       yinyang == genderYinYang.indexOf(params.gender ?? GenderName.male);
@@ -843,7 +844,7 @@ Map<String, int> getYearlyStarIndex(AstrolabeParams params) {
     'jieKongIndex': jiekongIndex,
     'jieShaAdjIndex': jieshaAdjIndex,
     'nianJieIndex': nianjieIndex,
-    'daHaoAdjIndex': daHaoIndex,
+    'daHaoIndex': daHaoIndex,
   };
 }
 

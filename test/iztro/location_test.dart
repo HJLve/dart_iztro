@@ -544,7 +544,7 @@ void main() {
           'jieKongIndex': 11,
           'jieShaAdjIndex': 6,
           'nianJieIndex': 5,
-          'daHaoAdjIndex': 6,
+          'daHaoIndex': 6,
         }),
       );
     });
@@ -592,7 +592,7 @@ void main() {
           'jieKongIndex': 3,
           'jieShaAdjIndex': 0,
           'nianJieIndex': 3,
-          'daHaoAdjIndex': 8,
+          'daHaoIndex': 8,
         }),
       );
     });
