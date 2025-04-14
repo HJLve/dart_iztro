@@ -16,17 +16,14 @@ Plugin Flutter đa nền tảng cho việc tính toán tử vi Trung Quốc (紫
 - Truy vấn vị trí địa lý với thông tin vĩ độ và kinh độ
 - Hỗ trợ nhiều nền tảng: Android, iOS, macOS, Windows, Linux và Web
 - Hỗ trợ đa ngôn ngữ: Tiếng Trung Giản thể, Tiếng Trung Phồn thể, Tiếng Anh, Tiếng Nhật, Tiếng Hàn, Tiếng Thái, Tiếng Việt
-
-## Lộ trình phát triển
-
-- 🔲 Hỗ trợ tính tuổi theo truyền thống Trung Quốc (tuổi danh nghĩa)
-- 🔲 Hỗ trợ truy xuất dữ liệu bản đồ Thiên, Nhân, Địa trong Tử Vi Đẩu Số
+- Hỗ trợ tính tuổi theo truyền thống Trung Quốc (tuổi danh nghĩa)
+- Hỗ trợ truy xuất dữ liệu bản đồ Thiên, Nhân, Địa trong Tử Vi Đẩu Số
 
 ## Cài đặt
 
 ```yaml
 dependencies:
-  dart_iztro: ^2.4.9
+  dart_iztro: ^2.5.0
 ```
 
 ## Phương pháp cài đặt thay thế
@@ -38,7 +35,7 @@ dependencies:
   dart_iztro:
     git:
       url: https://github.com/EdwinXiang/dart_iztro.git
-      ref: v2.4.9
+      ref: v2.5.0
 ```
 
 ## Cách sử dụng

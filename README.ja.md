@@ -29,17 +29,14 @@
 - ✅ 地理位置情報の照会
 - ✅ クロスプラットフォームサポート（Android、iOS、macOS、Windows、Linux、ウェブ）
 - ✅ 宮位の詳細情報
-
-## ロードマップ
-
-- 🔲 虚歳（数え年）計算のサポート
-- 🔲 紫微斗数の天盤、人盤、地盤データ取得のサポート
+- ✅ 虚歳（数え年）計算のサポート
+- ✅ 紫微斗数の天盤、人盤、地盤データ取得のサポート
 
 ## インストール
 
 ```yaml
 dependencies:
-  dart_iztro: ^2.4.9
+  dart_iztro: ^2.5.0
 ```
 
 ## 代替インストール方法
@@ -51,7 +48,7 @@ dependencies:
   dart_iztro:
     git:
       url: https://github.com/EdwinXiang/dart_iztro.git
-      ref: v2.4.9
+      ref: v2.5.0
 ```
 
 ## 使用方法
