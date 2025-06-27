@@ -16,14 +16,17 @@ HeavenlyStemAndEarthlyBranchDate getHeavenlyStemAndEarthlyBranchLunarDate(
   int timeIndex,
   bool isLeap,
   DivideType? option,
+  DivideType? monthOption,
 ) {
   option ??= DivideType.normal;
+  monthOption ??= DivideType.exact;
   var solarDate = lunar2Solar(dateStr, isLeap);
 
   return getHeavenlyStemAndEarthlyBranchSolarDate(
     solarDate.toString(),
     timeIndex,
     option,
+    monthOption: monthOption,
   );
 }
 
@@ -35,8 +38,9 @@ HeavenlyStemAndEarthlyBranchDate getHeavenlyStemAndEarthlyBranchLunarDate(
 HeavenlyStemAndEarthlyBranchDate getHeavenlyStemAndEarthlyBranchSolarDate(
   String dateStr,
   int timeIndex,
-  DivideType? option,
-) {
+  DivideType? option, {
+  DivideType? monthOption = DivideType.normal,
+}) {
   option ??= DivideType.exact;
   final dates = parseDate(dateStr);
   final year = dates[0];
@@ -61,7 +65,14 @@ HeavenlyStemAndEarthlyBranchDate getHeavenlyStemAndEarthlyBranchSolarDate(
           : lunar.getYearZhiByLiChun();
 
   var yearly = [yearlyGan, yearlyZhi];
-  var monthly = [lunar.getMonthGanExact(), lunar.getMonthZhiExact()];
+  var monthly = [
+    monthOption == DivideType.normal
+        ? lunar.getMonthGan()
+        : lunar.getMonthGanExact(),
+    monthOption == DivideType.normal
+        ? lunar.getMonthZhi()
+        : lunar.getMonthZhiExact(),
+  ];
   var daily = [lunar.getDayGanExact(), lunar.getDayZhiExact()];
   var hourly = [lunar.getTimeGan(), lunar.getTimeZhi()];
   return HeavenlyStemAndEarthlyBranchDate(

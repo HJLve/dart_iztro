@@ -36,6 +36,7 @@ SoulAndBody getSoulAndBody(AstrolabeParams params) {
     params.solarDate,
     params.timeIndex,
     getConfig().yearDivide,
+    monthOption: getConfig().horoscopeDivide,
   );
   final earthlyBranchOfTime = getMyEarthlyBranchNameFrom(
     heavenlyStemEarthlyBranch.hourly[1],

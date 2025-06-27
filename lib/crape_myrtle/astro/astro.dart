@@ -46,6 +46,8 @@ DivideType _horoscopeDivide = DivideType.exact;
 /// birthday：生日分界
 AgeDivide _ageDivide = AgeDivide.normal; // 默认以自然年分割
 
+DayDivide _dayDivide = DayDivide.forward; // 默认以自然日分割
+
 /// 算法类型，默认为紫微斗数全书安星
 /// @version v2.5.0
 /// normal：紫微斗数全书安星
@@ -96,6 +98,9 @@ void config(Config config) {
   if (config.ageDivide != null) {
     _ageDivide = config.ageDivide!;
   }
+  if (config.dayDivide != null) {
+    _dayDivide = config.dayDivide!;
+  }
   if (config.algorithm != null) {
     _algorithm = config.algorithm!;
   }
@@ -109,6 +114,7 @@ Config getConfig() {
     horoscopeDivide: _horoscopeDivide,
     ageDivide: _ageDivide,
     algorithm: _algorithm,
+    dayDivide: _dayDivide,
   );
 }
 
@@ -127,9 +133,15 @@ FunctionalAstrolabe bySolar(
   bool fixLeap = true,
 ]) {
   List<IFunctionalPalace> palaces = [];
+  final dayDivde = getConfig().dayDivide;
+  var tIndex = timeIndex;
+  if (dayDivde == DayDivide.current && tIndex >= 12) {
+    // 如果当前时辰为晚子时并且晚子时算当天时，将时辰调整为当日子时
+    tIndex = 0;
+  }
   var heavenlyEarthlyBranch = getHeavenlyStemAndEarthlyBranchSolarDate(
     solarDate,
-    timeIndex,
+    tIndex,
     getConfig().yearDivide,
   );
   var earthlyBranchOfYear = getMyEarthlyBranchNameFrom(
@@ -140,14 +152,14 @@ FunctionalAstrolabe bySolar(
   );
   final params = AstrolabeParams(
     solarDate: solarDate,
-    timeIndex: timeIndex,
+    timeIndex: tIndex,
     fixLeap: fixLeap,
     gender: gender,
   );
   var soulAndBody = getSoulAndBody(params);
   final palaceNames = getPalaceNames(soulAndBody.soulIndex);
   final majorStars = getMajorStar(params);
-  final minorStars = getMinorStar(solarDate, timeIndex, fixLeap);
+  final minorStars = getMinorStar(solarDate, tIndex, fixLeap);
   final adjectiveStars = getAdjectiveStar(params);
   final changSheng12 = getChangSheng12(params);
   final boshi12 = getBoShi12(solarDate, gender);
@@ -217,6 +229,7 @@ FunctionalAstrolabe bySolar(
     solarDate,
     timeIndex,
     getConfig().yearDivide,
+    monthOption: getConfig().horoscopeDivide,
   );
   final lunarDate = solar2Lunar(solarDate);
   final result = FunctionalAstrolabe(
@@ -310,6 +323,8 @@ T rearrangeAstrolabe<T extends FunctionalAstrolabe>(
     palace.yearlies = horoscope?["yearlies"][i].ages;
     palace.isBodyPalace = soulAndBody.bodyIndex == i;
   }
+  astrolabe.earthlyBranchOfSoulPalace =
+      astrolabe.palace(PalaceName.soulPalace)!.earthlyBranch;
   return astrolabe;
 }
 

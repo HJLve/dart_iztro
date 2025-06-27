@@ -285,6 +285,13 @@ enum OptionType {
 
 enum DivideType { normal, exact }
 
+class Options {
+  DivideType yearDivide;
+  DivideType horoscopeDivide;
+
+  Options({required this.yearDivide, required this.horoscopeDivide});
+}
+
 enum AgeDivide {
   normal, // normal 代表自然年分界
   birthday, // birthday 代表生日分界
@@ -293,6 +300,11 @@ enum AgeDivide {
 enum Algorithm {
   normal, // 默认以紫微斗数全书为基础安星
   zhongZhou, // 以中州派安星法为基础安星
+}
+
+enum DayDivide {
+  current, // 当前日期
+  forward, // 未来日期
 }
 
 enum AstroType {
@@ -315,14 +327,17 @@ class Config {
   DivideType? horoscopeDivide;
   AgeDivide? ageDivide;
   Algorithm? algorithm;
+  // 晚子时配置 current 为当日， forward 为来日
+  DayDivide? dayDivide;
 
   Config({
-    required this.mutagens,
-    required this.brightness,
-    required this.yearDivide,
-    required this.horoscopeDivide,
-    required this.ageDivide,
-    required this.algorithm,
+    this.mutagens,
+    this.brightness,
+    this.yearDivide,
+    this.horoscopeDivide,
+    this.ageDivide,
+    this.algorithm,
+    this.dayDivide,
   });
 }
 

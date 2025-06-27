@@ -616,6 +616,7 @@ void main() {
           horoscopeDivide: defaultConfig.horoscopeDivide,
           ageDivide: defaultConfig.ageDivide,
           algorithm: Algorithm.zhongZhou,
+          dayDivide: DayDivide.forward,
         ),
       );
 

@@ -631,6 +631,7 @@ void main() {
           horoscopeDivide: null,
           ageDivide: AgeDivide.normal,
           algorithm: null,
+          dayDivide: DayDivide.forward,
         ),
       );
       final result = byLunar('1999-12-29', 2, GenderName.female, true, true);
@@ -655,6 +656,7 @@ void main() {
           horoscopeDivide: null,
           ageDivide: AgeDivide.normal,
           algorithm: null,
+          dayDivide: DayDivide.forward,
         ),
       );
       final result = byLunar('1999-12-29', 2, GenderName.female, true, true);
@@ -680,6 +682,7 @@ void main() {
           horoscopeDivide: null,
           ageDivide: AgeDivide.normal,
           algorithm: null,
+          dayDivide: DayDivide.forward,
         ),
       );
       final result = bySolar('1980-02-14', 0, GenderName.male, true);
@@ -708,6 +711,7 @@ void main() {
           horoscopeDivide: null,
           ageDivide: AgeDivide.normal,
           algorithm: null,
+          dayDivide: DayDivide.forward,
         ),
       );
       final result = bySolar('1995-03-30', 0, GenderName.male, true);
@@ -759,6 +763,7 @@ void main() {
             horoscopeDivide: null,
             ageDivide: AgeDivide.normal,
             algorithm: null,
+            dayDivide: DayDivide.forward,
           ),
         ),
       );
@@ -790,6 +795,7 @@ void main() {
             horoscopeDivide: DivideType.normal,
             ageDivide: AgeDivide.normal,
             algorithm: null,
+            dayDivide: DayDivide.forward,
           ),
         ),
       );
@@ -823,6 +829,7 @@ void main() {
             horoscopeDivide: DivideType.exact,
             ageDivide: AgeDivide.normal,
             algorithm: null,
+            dayDivide: DayDivide.forward,
           ),
         ),
       );
@@ -844,6 +851,7 @@ void main() {
       );
       final soulPalace = result.palace(PalaceName.soulPalace);
       print(soulPalace.toString());
+      expect(result.earthlyBranchOfSoulPalace, EarthlyBranchName.maoEarthly);
       expect(soulPalace?.index, 1);
       expect(soulPalace?.heavenlySten, HeavenlyStemName.dingHeavenly);
       expect(soulPalace?.earthlyBranch, EarthlyBranchName.maoEarthly);
@@ -859,6 +867,54 @@ void main() {
             earthlyBranch: EarthlyBranchName.maoEarthly,
           ),
         ),
+      );
+    });
+
+    test('with options with day divide current', () {
+      final result = withOptions(
+        Option(
+          type: OptionType.solar,
+          dateStr: '1987-09-23',
+          timeIndex: 12,
+          gender: GenderName.female,
+          fixLeap: true,
+          config: Config(
+            yearDivide: DivideType.normal,
+            dayDivide: DayDivide.current,
+          ),
+          isLeapMonth: true,
+        ),
+      );
+      expect(result.solarDate, '1987-09-23');
+      expect(result.lunarDate, '一九八七年八月初一');
+      expect(result.chineseDate, '丁卯 己酉 丙子 戊子');
+      expect(result.time, '晚子时');
+      expect(result.zodiac, '兔');
+      expect(result.earthlyBranchOfSoulPalace, EarthlyBranchName.youEarthly);
+      expect(result.earthlyBranchOfBodyPalace, EarthlyBranchName.youEarthly);
+      expect(result.soul, StarName.wenQuMin);
+      expect(result.body, StarName.tianTongMaj);
+      expect(result.fiveElementClass, FiveElementsFormat.earth5th);
+
+      expect(result.palace(PalaceName.soulPalace)?.index, 7);
+      expect(
+        result.palace(PalaceName.soulPalace)?.has([
+          StarName.huoXingMin,
+          StarName.tianYueMin,
+        ]),
+        true,
+      );
+      expect(
+        result.palace(PalaceName.surfacePalace)?.has([
+          StarName.taiYangMaj,
+          StarName.tianLiangMaj,
+          StarName.youBiMin,
+          StarName.baZuo,
+          StarName.tianGui,
+          StarName.kongWang,
+          StarName.tianKu,
+        ]),
+        true,
       );
     });
 
@@ -878,6 +934,7 @@ void main() {
       final soulPalace = result.palace(PalaceName.soulPalace);
       print(soulPalace.toString());
       expect(soulPalace?.index, 0);
+      expect(result.earthlyBranchOfSoulPalace, EarthlyBranchName.yinEarthly);
       expect(soulPalace?.heavenlySten, HeavenlyStemName.bingHeavenly);
       expect(soulPalace?.earthlyBranch, EarthlyBranchName.yinEarthly);
       expect(soulPalace?.majorStars[0].name.title, '太阳');
@@ -1011,6 +1068,22 @@ void main() {
       expect(horoscope.daily.index, 0);
       expect(horoscope.daily.heavenlyStem, HeavenlyStemName.jiaHeavenly);
       expect(horoscope.daily.earthlyBranch, EarthlyBranchName.wuEarthly);
+    });
+
+    test('with options to fix leap month', () {
+      final astrolable = withOptions(
+        Option(
+          type: OptionType.solar,
+          dateStr: '1979-08-21',
+          timeIndex: 6,
+          gender: GenderName.male,
+          isLeapMonth: true,
+          fixLeap: true,
+        ),
+      );
+      final horoscope = astrolable.horoscope(date: '2025-06-10 12:00');
+      expect(horoscope.monthly.index, 7);
+      expect(horoscope.daily.index, 9);
     });
   });
 }

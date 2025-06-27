@@ -105,6 +105,7 @@ class DartIztro {
             timeIndex,
             isLeap,
             DivideType.exact,
+            DivideType.exact,
           ).toJson();
     } else {
       // 阳历直接计算
@@ -113,6 +114,7 @@ class DartIztro {
             dateStr,
             timeIndex,
             DivideType.exact,
+            monthOption: DivideType.exact,
           ).toJson();
     }
 

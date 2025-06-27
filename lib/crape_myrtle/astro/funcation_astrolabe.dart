@@ -235,6 +235,7 @@ class FunctionalAstrolabe implements IFunctionalAstrolabe {
       targetDate,
       timeIndex,
       getConfig().horoscopeDivide,
+      monthOption: getConfig().horoscopeDivide,
     );
     final yearly = heavenlyStemAndEarthly.yearly;
     final monthly = heavenlyStemAndEarthly.monthly;
@@ -328,11 +329,15 @@ class FunctionalAstrolabe implements IFunctionalAstrolabe {
     final earthlyBranchHourly = getMyEarthlyBranchNameFrom(
       astrolabe.rawDates.chineseDate.hourly[1],
     );
+    // 计算流月时需要考虑生月闰月情况，如果是后15天则计算时需要加1月
+    final leapAddtion = birthday.isLeap && birthday.lunarDay > 15 ? 1 : 0;
+    final dateLeapAddtion = date.isLeap && date.lunarDay > 15 ? 1 : 0;
     monthlyIndex = fixIndex(
       yearlyIndex -
-          birthday.lunarMonth +
+          (birthday.lunarMonth + leapAddtion) +
           earthlyBranches.indexOf(earthlyBranchHourly.key) +
-          date.lunarMonth,
+          date.lunarMonth +
+          dateLeapAddtion,
     );
     dailyIndex = fixIndex(monthlyIndex + date.lunarDay - 1);
     final currentHourlyBranches = getMyEarthlyBranchNameFrom(

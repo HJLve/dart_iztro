@@ -232,6 +232,7 @@ void main() {
               timeIndex,
               isLeap,
               DivideType.exact,
+              DivideType.exact,
             ).toString();
         expect(result, equals(expectedResult));
 
@@ -240,6 +241,7 @@ void main() {
               date,
               timeIndex,
               isLeap,
+              DivideType.normal,
               DivideType.normal,
             ).toString();
         expect(result2, equals(expectedResult2 ?? expectedResult));
@@ -268,6 +270,7 @@ void main() {
               date,
               timeIndex,
               DivideType.exact,
+              monthOption: DivideType.exact,
             ).toString();
         expect(result, equals(expectedResult));
       }
