@@ -286,6 +286,14 @@ If you are interested in `dart_iztro` and want to join the contribution team, yo
 
 > **Note**: Please use this open-source code responsibly and refrain from using it for illegal purposes.
 
+
+## Contact me
+<div style="display: flex; justify-content: space-around; margin: 20px 0;">
+  <div style="text-align: center;">
+    <img src="./contact.png" width="300" alt="wechat" />
+  </div>
+</div> 
+
 ## Sponsorship Support
 
 If you find this project helpful, you can consider sponsoring me a cup of coffee ☕️

@@ -308,6 +308,14 @@ void main() {
 
 > **注意**: 请合理使用本开源代码，禁止用于非法目的。
 
+
+## 联系我
+<div style="display: flex; justify-content: space-around; margin: 20px 0;">
+  <div style="text-align: center;">
+    <img src="./contact.png" width="300" alt="wechat" />
+  </div>
+</div> 
+
 ## 赞助支持
 
 如果你觉得本项目对你有所帮助，可以考虑赞助我一杯咖啡 ☕️

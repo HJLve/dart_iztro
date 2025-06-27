@@ -288,6 +288,14 @@ Nếu bạn quan tâm đến `dart_iztro` và muốn tham gia vào nhóm đóng 
 
 > **Lưu ý**: Vui lòng sử dụng mã nguồn mở này một cách phù hợp. Không sử dụng cho mục đích bất hợp pháp.
 
+
+## Contact me
+<div style="display: flex; justify-content: space-around; margin: 20px 0;">
+  <div style="text-align: center;">
+    <img src="./contact.png" width="300" alt="wechat" />
+  </div>
+</div> 
+
 ## Hỗ trợ thông qua quyên góp
 
 Nếu bạn thấy dự án này hữu ích, bạn có thể cân nhắc hỗ trợ tôi với một ly cà phê ☕️

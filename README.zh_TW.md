@@ -301,6 +301,14 @@ class MyApp extends StatelessWidget {
 
 > **注意**: 請合理使用本開源代碼，禁止用於非法目的。
 
+
+## 联系我
+<div style="display: flex; justify-content: space-around; margin: 20px 0;">
+  <div style="text-align: center;">
+    <img src="./contact.png" width="300" alt="wechat" />
+  </div>
+</div> 
+
 ## 贊助支持
 
 如果你覺得本項目對你有所幫助，可以考慮贊助我一杯咖啡 ☕️
