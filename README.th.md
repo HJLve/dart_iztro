@@ -37,7 +37,7 @@
 
 ```yaml
 dependencies:
-  dart_iztro: ^2.5.0
+  dart_iztro: ^2.5.3
 ```
 
 ## วิธีการติดตั้งทางเลือก

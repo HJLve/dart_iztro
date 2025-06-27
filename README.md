@@ -68,7 +68,7 @@ A cross-platform Flutter plugin for Purple Star Astrology (Zi Wei Dou Shu) and B
 
 ```yaml
 dependencies:
-  dart_iztro: ^2.5.0
+  dart_iztro: ^2.5.3
 ```
 
 ## Alternative Installation

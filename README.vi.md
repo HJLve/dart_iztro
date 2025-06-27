@@ -23,7 +23,7 @@ Plugin Flutter đa nền tảng cho việc tính toán tử vi Trung Quốc (紫
 
 ```yaml
 dependencies:
-  dart_iztro: ^2.5.0
+  dart_iztro: ^2.5.3
 ```
 
 ## Phương pháp cài đặt thay thế
