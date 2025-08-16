@@ -54,7 +54,7 @@ enum ChineseTime {
 
 extension ChineseTimeEx on ChineseTime {
   String? get timeRange {
-    timeRanges[index];
+    return timeRanges[index];
   }
 }
 

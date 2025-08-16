@@ -13,7 +13,7 @@ import 'package:dart_iztro/lunar_lite/utils/convertor.dart';
 import 'package:dart_iztro/lunar_lite/utils/ganzhi.dart';
 import 'package:dart_iztro/lunar_lite/utils/misc.dart';
 import 'package:dart_iztro/lunar_lite/utils/utils.dart';
-import 'package:lunar/lunar.dart';
+// import 'package:lunar/lunar.dart';
 
 /// 起紫微星诀算法
 ///
@@ -547,7 +547,7 @@ int getJieShaAdjIndex(EarthlyBranchName earthlyBranchName) {
 ///    @param earthlyBranchName 地支
 ///    @returns 大耗、诀索引
 int getDaHaoIndex(EarthlyBranchName earthlyBranchName) {
-  final index = earthlyBranches.indexOf(earthlyBranchName.key);
+  // final index = earthlyBranches.indexOf(earthlyBranchName.key);
   final matchedEarhlyBranchName =
       [
         EarthlyBranchName.weiEarthly,
@@ -611,10 +611,12 @@ Map<String, int> getYearlyStarIndex(AstrolabeParams params) {
   );
   final soulAndBody = getSoulAndBody(params);
   HeavenlyStemName heavenlyStem = getMyHeavenlyStemNameFrom(
-    heavenlyStemEarthlyBranch.yearly[0] ?? "Heavenly",
+    heavenlyStemEarthlyBranch.yearly[0],
+    // ?? "Heavenly",
   );
   EarthlyBranchName earthlyBranchName = getMyEarthlyBranchNameFrom(
-    heavenlyStemEarthlyBranch.yearly[1] ?? "Earthly",
+    heavenlyStemEarthlyBranch.yearly[1],
+    // ?? "Earthly",
   );
   Map<String, int> huaXuanMaps = getHuaGaiXianChiIndex(earthlyBranchName);
   Map<String, int> guGuaMaps = getGuGuaIndex(earthlyBranchName);

@@ -294,16 +294,16 @@ class FunctionalPalace implements IFunctionalPalace {
   bool notSelfMutaged(mutagens) {
     dynamic muts;
     if (mutagens is Mutagen) {
-      if (mutagens == null) {
-        muts = [
-          Mutagen.siHuaLu,
-          Mutagen.siHuaQuan,
-          Mutagen.siHuaKe,
-          Mutagen.siHuaJi,
-        ];
-      } else {
+      // if (mutagens == null) {
+      //   muts = [
+      //     Mutagen.siHuaLu,
+      //     Mutagen.siHuaQuan,
+      //     Mutagen.siHuaKe,
+      //     Mutagen.siHuaJi,
+      //   ];
+      // } else {
         muts = mutagens;
-      }
+      // }
     }
     final stars = mutagensToStars(heavenlySten, muts);
     return notHave(stars);
@@ -360,7 +360,7 @@ class FunctionalPalace implements IFunctionalPalace {
     List<IFunctionalPalace> list = [];
     for (var item in result) {
       if (item != null) {
-        list.add(item!);
+        list.add(item);
       }
     }
     return list;

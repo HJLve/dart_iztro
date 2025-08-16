@@ -1,4 +1,4 @@
-import 'dart:ffi';
+// import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -385,7 +385,7 @@ class _MyAppState extends State<MyApp> {
                 const SizedBox(height: 20),
                 Text(
                   'bazi_result'.tr,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
                 Card(

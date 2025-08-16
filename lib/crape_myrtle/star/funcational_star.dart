@@ -6,7 +6,7 @@ import 'package:dart_iztro/crape_myrtle/data/types/star.dart';
 import 'package:dart_iztro/crape_myrtle/translations/types/brightness.dart';
 import 'package:dart_iztro/crape_myrtle/translations/types/mutagen.dart';
 import 'package:dart_iztro/crape_myrtle/translations/types/star_name.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 
 abstract class IFunctionalStar implements Star {
   /// 获取星耀所在宫位

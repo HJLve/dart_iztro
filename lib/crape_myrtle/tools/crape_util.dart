@@ -14,7 +14,7 @@ import 'package:dart_iztro/lunar_lite/utils/convertor.dart';
 import 'package:dart_iztro/lunar_lite/utils/utils.dart';
 
 List<StarName> getTargetMutagens(HeavenlyStemName heavenlySten) {
-  final config = getConfig();
+  // final config = getConfig();
   List<StarName> result = [];
   if (mutagens != null && mutagens?[heavenlySten] != null) {
     result = mutagens?[heavenlySten] ?? [];
@@ -45,6 +45,7 @@ BrightnessEnum? getBrightness(StarName starName, int index) {
       return getMyBrightnessNameFrom(targetBrightness[fixIndex(index)]);
     }
   }
+  return null;
 }
 
 /// 获取四化
@@ -54,6 +55,7 @@ Mutagen? getMutagen(StarName starName, HeavenlyStemName heavenlyStemName) {
   if (index < mutagenArray.length && index != -1) {
     return getMyMutagenFrom(mutagenArray[index]);
   }
+  return null;
 }
 
 List<StarName> getMutagensByHeavenlyStem(HeavenlyStemName heavenlyStemName) {
@@ -114,7 +116,7 @@ int fixLunarMonthIndex(String solarDateStr, int timeIndex, bool? fixLeap) {
   final firstIndex = earthlyBranches.indexOf('yinEarthly');
   if (fixLeap != null) {
     final needToAdd =
-        lunar.isLeap && fixLeap! && lunar.lunarDay > 15 && timeIndex != 12;
+        lunar.isLeap && fixLeap && lunar.lunarDay > 15 && timeIndex != 12;
     return fixIndex(lunar.lunarMonth + 1 - firstIndex + (needToAdd ? 1 : 0));
   }
   return fixIndex(lunar.lunarMonth + 1 - firstIndex);

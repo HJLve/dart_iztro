@@ -198,11 +198,11 @@ Map<String, dynamic>? getHoroscope(AstrolabeParams params) {
     getConfig().yearDivide,
   );
   final heavenlyStem =
-      getMyHeavenlyStemNameFrom(heavenlyStemAndEarthlyBranch.yearly[0]).key ??
-      "Heavenly";
+      getMyHeavenlyStemNameFrom(heavenlyStemAndEarthlyBranch.yearly[0]).key; 
+      // ?? "Heavenly";
   final earthlyBranch =
-      getMyEarthlyBranchNameFrom(heavenlyStemAndEarthlyBranch.yearly[1]).key ??
-      "Earthly";
+      getMyEarthlyBranchNameFrom(heavenlyStemAndEarthlyBranch.yearly[1]).key;
+      // ?? "Earthly";
   final soulAndBody = getSoulAndBody(params);
   final fiveElementClass = getFiveElementClass(
     params.from?.heavenlyStem ?? soulAndBody.heavenlyStenName,
@@ -235,7 +235,8 @@ Map<String, dynamic>? getHoroscope(AstrolabeParams params) {
   }
   final ageIdx = getAgeIndex(
     getMyEarthlyBranchNameFrom(
-      heavenlyStemAndEarthlyBranch.yearly[1] ?? "Earthly",
+      heavenlyStemAndEarthlyBranch.yearly[1],
+      // ?? "Earthly",
     ),
   );
   List<List<int>> ages = List.filled(12, [0]);

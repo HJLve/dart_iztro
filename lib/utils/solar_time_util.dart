@@ -136,7 +136,7 @@ class SolarTimeUtil {
   final double _j = 120.0;
 
   /// 默认纬度(角度表示,北纬为正南纬为负),这里是中国标准时间发出地(陕西省渭南市蒲城县)
-  final double _w = 35.0;
+  // final double _w = 35.0;
 
   /// 统一东经为正
   final double lng;

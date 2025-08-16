@@ -225,6 +225,7 @@ FunctionalAstrolabe bySolar(
   var soulStar = getStarNameFrom(
     earthlyBranchesMap[earthlyBranchOfSoulPalace]?["soul"],
   );
+  print('soulStar: $soulStar');
   final chineseDate = getHeavenlyStemAndEarthlyBranchSolarDate(
     solarDate,
     timeIndex,

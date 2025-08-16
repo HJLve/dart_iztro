@@ -109,18 +109,16 @@ IFunctionalPalace? getPalace(
 ) {
   IFunctionalPalace? palace;
   if (indexOfPalace is int) {
-    if (indexOfPalace != null) {
-      if (indexOfPalace < 0 || indexOfPalace > 11) {
-        throw Exception("invalid palace index");
-      }
-      palace = astrolabe.palaces.elementAt(indexOfPalace);
+    if (indexOfPalace < 0 || indexOfPalace > 11) {
+      throw Exception("invalid palace index");
     }
+    palace = astrolabe.palaces.elementAt(indexOfPalace);
   } else if (indexOfPalace is PalaceName) {
     palace = astrolabe.palaces.firstWhere((item) {
-      if (item!.isOriginalPalace && indexOfPalace?.key == "originalPalace") {
+      if (item.isOriginalPalace && indexOfPalace.key == "originalPalace") {
         return true;
       }
-      if (item!.isBodyPalace && indexOfPalace?.key == "bodyPalace") {
+      if (item.isBodyPalace && indexOfPalace.key == "bodyPalace") {
         return true;
       }
       if (item.name.key == indexOfPalace.key) {
