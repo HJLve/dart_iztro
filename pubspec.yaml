@@ -62,4 +62,5 @@ flutter:
   # 添加地理位置数据文件
   assets:
     - assets/data/city.json
-    - assets/data/city_lat.json
+    - assets/data/city_lat.json 
+
