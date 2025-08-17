@@ -6,7 +6,7 @@ repository: https://github.com/EdwinXiang/dart_iztro
 issue_tracker: https://github.com/EdwinXiang/dart_iztro/issues
 
 environment:
-  sdk: ^3.4.0
+  sdk: ">=3.4.0 <4.0.0"
   flutter: '>=3.3.0'
 
 dependencies:
@@ -44,6 +44,7 @@ flutter:
       web:
         pluginClass: DartIztroWeb
         fileName: dart_iztro_web.dart
+
   assets:
     - assets/data/city.json
     - assets/data/city_lat.json
