@@ -46,4 +46,5 @@ flutter:
         fileName: dart_iztro_web.dart
   assets:
     - assets/data/city.json
-    - assets/data/city_lat.json 
+    - assets/data/city_lat.json
+
