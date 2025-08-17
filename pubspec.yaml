@@ -59,17 +59,6 @@ flutter:
         pluginClass: DartIztroWeb
         fileName: dart_iztro_web.dart
 
-  # To add assets to your plugin package, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
-  #
-  # For details regarding assets in packages, see
-  # https://flutter.dev/to/asset-from-package
-  #
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/to/resolution-aware-images
-
   # 添加地理位置数据文件
   assets:
     - assets/data/city.json
