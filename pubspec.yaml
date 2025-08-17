@@ -44,8 +44,6 @@ flutter:
       web:
         pluginClass: DartIztroWeb
         fileName: dart_iztro_web.dart
-  assets: []
-
-
-
-
+  assets:
+    - assets/data/city.json
+    - assets/data/city_lat.json
