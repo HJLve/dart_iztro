@@ -45,5 +45,3 @@ flutter:
         pluginClass: DartIztroWeb
         fileName: dart_iztro_web.dart
   assets: []
-
-# 末尾空行
