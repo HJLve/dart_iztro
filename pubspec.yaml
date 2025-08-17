@@ -44,4 +44,3 @@ flutter:
       web:
         pluginClass: DartIztroWeb
         fileName: dart_iztro_web.dart
-        
