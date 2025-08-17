@@ -47,4 +47,3 @@ flutter:
   assets:
     - assets/data/city.json
     - assets/data/city_lat.json
-
